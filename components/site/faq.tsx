@@ -4,24 +4,24 @@ import { useState } from "react";
 
 const FAQS = [
   {
-    q: "How can AI photos look as good as a real shoot?",
-    a: "We use the latest generative models and refine every visual by hand to match your brand. The result is studio-quality imagery — without the studio, models, or crew.",
+    q: "What does Vaelo actually do?",
+    a: "We're a growth agency. Creative strategy, content, performance marketing, web, social, and AI-powered production — working as one system so every asset has a job and every rupee of ad spend works harder.",
   },
   {
-    q: "How fast will I get my visuals?",
-    a: "Most projects are delivered in days, not weeks. Need something urgent? Tell us and we'll work to your timeline.",
+    q: "Who do you work with?",
+    a: "Brands that are serious about scaling. Whether you're launching or already running ads, we build the strategy and creative to grow profitably.",
   },
   {
-    q: "How much does it cost?",
-    a: "A fraction of a traditional photoshoot. Pricing is tailored to your brand and goals, so we send a custom quote — along with a free sample so you can see the quality first.",
+    q: "How is pricing structured?",
+    a: "Every plan is tailored to your brand and goals, so we send a custom proposal after a quick chat about where you want to grow.",
   },
   {
-    q: "Do you also manage my Instagram and ads?",
-    a: "Yes. We can take the visuals all the way through — content calendar, posting, reels, and paid ads — and report on what's working.",
+    q: "Do you handle both creative and ads?",
+    a: "Yes — that's the point. We build the creative and run the paid media, so strategy, content, and performance stay aligned.",
   },
   {
-    q: "What do you need from me to start?",
-    a: "Just your brand details and what you want to achieve. We learn your colours, audience, and voice, then get to work.",
+    q: "How do we get started?",
+    a: "Tell us about your brand and where you want to grow. We'll come back with how we'd get you there.",
   },
 ];
 

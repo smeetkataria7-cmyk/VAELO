@@ -60,26 +60,11 @@ export const gallery = [
   "/images/work/6.png",
 ];
 
-// TODO: add real case-study summaries, results, and images.
+// Real portfolio projects + images pulled from vaelocreative.com.
 export const caseStudies = [
-  {
-    slug: "zerolys",
-    brand: "Zerolys",
-    industry: "Brand build + growth",
-    summary:
-      "Full-funnel brand and performance build — creative strategy, content, and paid media working as one system.",
-    result: "Replace with real result",
-    image: "",
-  },
-  {
-    slug: "twenty2",
-    brand: "Twenty2",
-    industry: "Creative + paid media",
-    summary:
-      "Scroll-stopping creative paired with data-driven ad scaling to grow reach and conversions.",
-    result: "Replace with real result",
-    image: "",
-  },
+  { slug: "zerolys", brand: "Zerolys", category: "Brand build", image: "/images/work/zerolys.jpg" },
+  { slug: "twenty2", brand: "Twenty2", category: "Eyewear", image: "/images/work/twenty2.jpg" },
+  { slug: "simplicare", brand: "Simplicare", category: "Brand build", image: "/images/work/simplicare.jpg" },
 ];
 
 export const steps = [

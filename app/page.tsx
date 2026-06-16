@@ -6,16 +6,8 @@ import { ServiceIcon } from "@/components/site/icons";
 import { Reveal } from "@/components/site/reveal";
 import { Marquee } from "@/components/site/marquee";
 import { ImageMarquee } from "@/components/site/image-marquee";
-import { Stats } from "@/components/site/stats";
 import { Faq } from "@/components/site/faq";
 import { LeadForm } from "@/components/site/lead-form";
-
-// TODO: replace with real client testimonials.
-const testimonials = [
-  { quote: "They don't just run ads — they actually built our brand. Every asset has a job.", name: "Founder", brand: "Zerolys" },
-  { quote: "Sharp strategy, fast creative, and ad spend that finally works harder. A real growth partner.", name: "Marketing Lead", brand: "Twenty2" },
-  { quote: "The AI-powered production gives us more creative, faster, at a fraction of the cost.", name: "Owner", brand: "D2C brand" },
-];
 
 export default function Home() {
   return (
@@ -61,9 +53,9 @@ export default function Home() {
       {/* Keyword ticker */}
       <Marquee items={["Performance Marketing", "Creative Strategy", "Content", "Web", "Social", "AI Production"]} />
 
-      {/* Trust + stats */}
-      <section className="container-vaelo py-12">
-        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      {/* Trust */}
+      <section className="container-vaelo border-y border-line py-7">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <span className="eyebrow">Brands we&apos;ve grown</span>
           <div className="flex flex-wrap gap-x-10 gap-y-2">
             {caseStudies.map((c) => (
@@ -71,7 +63,6 @@ export default function Home() {
             ))}
           </div>
         </div>
-        <Stats />
       </section>
 
       {/* About */}
@@ -128,16 +119,15 @@ export default function Home() {
               <Link href="/work" className="link-underline hidden text-sm font-medium sm:inline">View all →</Link>
             </div>
           </Reveal>
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {caseStudies.map((c, i) => (
               <Reveal key={c.slug} delay={i * 90}>
                 <Link href="/work" className="group block">
-                  <Media src={c.image || undefined} alt={`${c.brand} — ${c.industry}`} label={c.brand} className="aspect-[16/10] w-full transition-transform duration-500 group-hover:scale-[1.01]" />
-                  <div className="mt-5 flex items-baseline justify-between">
-                    <h3 className="font-display text-2xl">{c.brand}</h3>
-                    <span className="eyebrow">{c.industry}</span>
+                  <Media src={c.image || undefined} alt={`${c.brand} — ${c.category}`} label={c.brand} className="aspect-[4/5] w-full transition-transform duration-500 group-hover:scale-[1.01]" />
+                  <div className="mt-4 flex items-baseline justify-between">
+                    <h3 className="font-display text-xl">{c.brand}</h3>
+                    <span className="eyebrow">{c.category}</span>
                   </div>
-                  <p className="mt-2 text-ink-soft">{c.summary}</p>
                 </Link>
               </Reveal>
             ))}
@@ -155,30 +145,6 @@ export default function Home() {
         </div>
         <div className="mt-10">
           <ImageMarquee images={gallery} />
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="border-t border-line">
-        <div className="container-vaelo py-16 sm:py-24">
-          <Reveal>
-            <p className="eyebrow">What clients say</p>
-            <h2 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">Growth partners, not vendors.</h2>
-          </Reveal>
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
-            {testimonials.map((t, i) => (
-              <Reveal key={t.brand} delay={i * 80}>
-                <figure className="glass flex h-full flex-col justify-between rounded-xl p-7">
-                  <span className="font-display text-4xl text-accent">&ldquo;</span>
-                  <blockquote className="mt-2 text-lg leading-relaxed text-ink">{t.quote}</blockquote>
-                  <figcaption className="mt-6 border-t border-line pt-4 text-sm">
-                    <span className="font-medium">{t.name}</span>
-                    <span className="text-muted"> · {t.brand}</span>
-                  </figcaption>
-                </figure>
-              </Reveal>
-            ))}
-          </div>
         </div>
       </section>
 
