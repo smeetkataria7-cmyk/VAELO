@@ -1,9 +1,9 @@
 import Link from "next/link";
 
 const links = [
-  { href: "/work", label: "Work" },
+  { href: "/work", label: "Portfolio" },
   { href: "/services", label: "Services" },
-  { href: "/about", label: "About" },
+  { href: "/about", label: "Studio" },
 ];
 
 export function SiteNav() {
@@ -29,7 +29,7 @@ export function SiteNav() {
             href="/contact"
             className="group inline-flex items-center gap-2 text-sm font-medium"
           >
-            <span className="link-underline">Free AI sample</span>
+            <span className="link-underline">Let&apos;s talk growth</span>
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </Link>
         </div>

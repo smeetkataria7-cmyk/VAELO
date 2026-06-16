@@ -1,14 +1,56 @@
 // Central content for the public site.
-//
-// IMAGES: drop files into /public/images and set the `image` paths below
-// (e.g. image: "/images/hero.jpg"). Until then, elegant placeholders render.
-// TODO: replace placeholder case studies with real client names + results.
+// IMAGES: drop files in /public/images and set paths below. Until then,
+// placeholders render. Case-study visuals/results are TODO (need real assets).
 
-export const hero = {
-  image: "/images/work/1.png", // Vaelo "Culture Remix" cover
+export const brand = {
+  email: "hello@vaelocreative.com",
+  phone: "+91 72080 46927",
+  location: "Vile Parle East, Mumbai",
 };
 
-// Real AI creatives (Instagram "Culture Remix" carousel). Portrait 4:5.
+export const about =
+  "Vaelo Creative is a Mumbai-based growth agency built for brands serious about scaling. We combine sharp creative strategy with data-driven performance marketing — so every piece of content has a job to do, and every rupee of ad spend works harder. We're not a vendor. We're your growth partner.";
+
+export const services = [
+  {
+    slug: "performance",
+    icon: "target",
+    title: "Performance Marketing",
+    desc: "Meta, Google & LinkedIn ads built to convert. We scale your budget profitably.",
+  },
+  {
+    slug: "creative",
+    icon: "spark",
+    title: "Creative Strategy",
+    desc: "Hooks, scripts and ad creatives that stop the scroll and drive action.",
+  },
+  {
+    slug: "content",
+    icon: "play",
+    title: "Content Creation",
+    desc: "Reels, UGC-style videos and short-form content built for performance.",
+  },
+  {
+    slug: "web",
+    icon: "code",
+    title: "Website Development",
+    desc: "Landing pages and brand sites on Wix Studio and Shopify, designed to convert.",
+  },
+  {
+    slug: "social",
+    icon: "chat",
+    title: "Social Media Management",
+    desc: "Consistent, on-brand presence built around your audience and goals.",
+  },
+  {
+    slug: "ai",
+    icon: "sparkles",
+    title: "AI-Powered Creative Production",
+    desc: "AI-generated visuals, ad creatives and avatar videos — faster output, higher volume, lower cost.",
+  },
+];
+
+// Real AI creatives ("Culture Remix" carousel). Portrait 4:5.
 export const gallery = [
   "/images/work/1.png",
   "/images/work/2.png",
@@ -18,71 +60,24 @@ export const gallery = [
   "/images/work/6.png",
 ];
 
-export const services = [
-  {
-    slug: "ai-photoshoots",
-    title: "AI Photoshoots",
-    tagline: "Studio-quality product & brand imagery — crafted, not shot.",
-    includes: [
-      "Product & lifestyle visuals",
-      "On-brand styling",
-      "Unlimited concepts",
-      "Days, not weeks",
-    ],
-    image: "", // e.g. "/images/service-photoshoots.jpg"
-  },
-  {
-    slug: "instagram",
-    title: "Instagram Management",
-    tagline: "We turn those visuals into a feed that grows.",
-    includes: [
-      "Content calendar & posting",
-      "Reels, posts & stories",
-      "Caption & hashtag strategy",
-      "Monthly reporting",
-    ],
-    image: "",
-  },
-  {
-    slug: "ads",
-    title: "Paid Advertising",
-    tagline: "The best creatives, behind spend that converts.",
-    includes: [
-      "Meta (Instagram & Facebook) ads",
-      "Audience & creative testing",
-      "Budget management",
-      "Transparent results",
-    ],
-    image: "",
-  },
-];
-
+// TODO: add real case-study summaries, results, and images.
 export const caseStudies = [
   {
-    slug: "sample-real-estate",
-    brand: "Marigold Miraaya",
-    industry: "Real Estate",
+    slug: "zerolys",
+    brand: "Zerolys",
+    industry: "Brand build + growth",
     summary:
-      "A premium residential launch in Mulund West. AI-generated lifestyle visuals positioned the project for families across 2/3/4 BHK inventory.",
-    result: "Replace with real metric",
-    image: "", // e.g. "/images/work-marigold.jpg"
-  },
-  {
-    slug: "sample-fashion",
-    brand: "Brand B",
-    industry: "Fashion",
-    summary:
-      "A seasonal lookbook produced entirely with AI photoshoots — no studio, no models, delivered in days.",
-    result: "Replace with real metric",
+      "Full-funnel brand and performance build — creative strategy, content, and paid media working as one system.",
+    result: "Replace with real result",
     image: "",
   },
   {
-    slug: "sample-fnb",
-    brand: "Brand C",
-    industry: "Food & Beverage",
+    slug: "twenty2",
+    brand: "Twenty2",
+    industry: "Creative + paid media",
     summary:
-      "Mouth-watering product imagery and a consistent Instagram presence that lifted engagement.",
-    result: "Replace with real metric",
+      "Scroll-stopping creative paired with data-driven ad scaling to grow reach and conversions.",
+    result: "Replace with real result",
     image: "",
   },
 ];
@@ -90,17 +85,17 @@ export const caseStudies = [
 export const steps = [
   {
     n: "01",
-    title: "Send your brand",
-    body: "Share your product and goals. We learn your brand — its colours, audience, and voice.",
+    title: "Strategy",
+    body: "We learn your brand, audience, and goals — then build a plan where every asset has a job.",
   },
   {
     n: "02",
-    title: "We craft",
-    body: "AI-generated visuals tailored to your brand, refined by hand until they're right.",
+    title: "Create",
+    body: "Creative, content, and AI-powered production — built to stop the scroll and convert.",
   },
   {
     n: "03",
-    title: "We grow you",
-    body: "Those visuals power your Instagram and ads — and we report on what works.",
+    title: "Scale",
+    body: "We run and optimise your paid media, then report on what's actually driving growth.",
   },
 ];
