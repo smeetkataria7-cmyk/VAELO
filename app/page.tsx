@@ -1,6 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Media } from "@/components/site/media";
-import { hero, services, caseStudies, steps } from "@/lib/content";
+import { hero, services, caseStudies, steps, gallery } from "@/lib/content";
 
 export default function Home() {
   return (
@@ -134,33 +135,35 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Work preview */}
+      {/* Selected work — real AI creatives */}
       <section className="border-t border-line">
         <div className="container-vaelo py-24 sm:py-32">
           <div className="flex items-end justify-between">
-            <h2 className="font-display text-4xl leading-tight sm:text-5xl">
-              Selected work
-            </h2>
+            <div>
+              <p className="eyebrow">Selected work</p>
+              <h2 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">
+                Made with AI. Built for the scroll.
+              </h2>
+            </div>
             <Link href="/work" className="link-underline hidden text-sm font-medium sm:inline">
               View all →
             </Link>
           </div>
 
-          <div className="mt-14 grid gap-x-8 gap-y-14 sm:grid-cols-2">
-            {caseStudies.slice(0, 2).map((c) => (
-              <Link key={c.slug} href="/work" className="group block">
-                <Media
-                  src={c.image || undefined}
-                  alt={`${c.brand} — ${c.industry}`}
-                  label={c.brand}
-                  className="aspect-[4/3] w-full transition-transform duration-500 group-hover:scale-[1.01]"
+          <div className="mt-14 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
+            {gallery.slice(0, 6).map((src, i) => (
+              <div
+                key={src}
+                className="group relative aspect-[4/5] overflow-hidden rounded-xl bg-paper-2"
+              >
+                <Image
+                  src={src}
+                  alt={`VAELO AI creative ${i + 1}`}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                  sizes="(max-width: 1024px) 50vw, 33vw"
                 />
-                <div className="mt-5 flex items-baseline justify-between">
-                  <h3 className="font-display text-2xl">{c.brand}</h3>
-                  <span className="eyebrow">{c.industry}</span>
-                </div>
-                <p className="mt-2 max-w-md text-ink-soft">{c.summary}</p>
-              </Link>
+              </div>
             ))}
           </div>
         </div>
