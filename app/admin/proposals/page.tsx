@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { listProposals, inr } from "@/lib/proposals";
+import { convertToProjectAction } from "./actions";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Proposals · Admin", robots: { index: false } };
@@ -21,6 +22,7 @@ export default async function AdminProposalsPage() {
         <div className="flex items-center gap-4">
           <h1 className="text-2xl font-semibold tracking-tight">Proposals</h1>
           <Link href="/admin" className="text-sm text-muted hover:text-ink">Leads →</Link>
+          <Link href="/admin/projects" className="text-sm text-muted hover:text-ink">Projects →</Link>
         </div>
         <Link
           href="/admin/proposals/new"
@@ -56,9 +58,16 @@ export default async function AdminProposalsPage() {
                   <td className="px-4 py-3">{inr(p.total)}</td>
                   <td className={`px-4 py-3 capitalize ${statusColor[p.status] ?? ""}`}>{p.status}</td>
                   <td className="px-4 py-3">
-                    <a href={`/p/${p.public_token}`} target="_blank" className="text-accent hover:underline">
-                      View →
-                    </a>
+                    <div className="flex items-center gap-3">
+                      <a href={`/p/${p.public_token}`} target="_blank" className="text-accent hover:underline">
+                        View →
+                      </a>
+                      {p.status === "accepted" && (
+                        <form action={convertToProjectAction.bind(null, p.id)}>
+                          <button className="text-ink-soft hover:text-ink">+ Project</button>
+                        </form>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}

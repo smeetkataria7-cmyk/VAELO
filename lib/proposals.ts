@@ -68,6 +68,23 @@ export async function getProposalByToken(token: string): Promise<Proposal | null
   return (data as Proposal) ?? null;
 }
 
+export async function getProposalsForEmail(email: string): Promise<Proposal[]> {
+  if (!email) return [];
+  const { data, error } = await db()
+    .from("proposals")
+    .select("*")
+    .ilike("client_email", email)
+    .order("created_at", { ascending: false });
+  if (error) throw new Error(error.message);
+  return (data ?? []) as Proposal[];
+}
+
+export async function getProposalById(id: string): Promise<Proposal | null> {
+  const { data, error } = await db().from("proposals").select("*").eq("id", id).maybeSingle();
+  if (error) throw new Error(error.message);
+  return (data as Proposal) ?? null;
+}
+
 export async function markViewed(token: string): Promise<void> {
   await db()
     .from("proposals")

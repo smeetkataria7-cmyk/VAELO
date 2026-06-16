@@ -1,7 +1,21 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { createProposal } from "@/lib/proposals";
+import { createProposal, getProposalById } from "@/lib/proposals";
+import { createProject } from "@/lib/projects";
+
+export async function convertToProjectAction(proposalId: string) {
+  const p = await getProposalById(proposalId);
+  if (!p) return;
+  await createProject({
+    title: p.title,
+    client_name: p.client_name,
+    client_email: p.client_email,
+    proposal_id: p.id,
+    status: "onboarding",
+  });
+  redirect("/admin/projects");
+}
 
 export async function createProposalAction(formData: FormData) {
   const title = String(formData.get("title") || "").trim();
