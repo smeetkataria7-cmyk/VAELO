@@ -6,7 +6,7 @@ import { gallery } from "@/lib/content";
 export const metadata: Metadata = {
   title: "Work",
   description:
-    "AI-generated creatives by VAELO Creative — studio-quality visuals built to stop the scroll.",
+    "AI-generated creatives by Vaelo Creative — studio-quality visuals built to stop the scroll.",
 };
 
 export default function WorkPage() {
@@ -34,7 +34,7 @@ export default function WorkPage() {
             >
               <Image
                 src={src}
-                alt={`VAELO AI creative ${i + 1}`}
+                alt={`Vaelo AI creative ${i + 1}`}
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                 sizes="(max-width: 1024px) 50vw, 33vw"

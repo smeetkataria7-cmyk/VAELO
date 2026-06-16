@@ -22,11 +22,11 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   title: {
-    default: "VAELO Creative — AI photoshoots, Instagram & ads",
-    template: "%s · VAELO Creative",
+    default: "Vaelo Creative — AI photoshoots, Instagram & ads",
+    template: "%s · Vaelo Creative",
   },
   description:
-    "Photoshoot-quality visuals without the photoshoot. VAELO Creative crafts AI-generated brand imagery, Instagram management, and paid advertising — at a fraction of the cost.",
+    "Photoshoot-quality visuals without the photoshoot. Vaelo Creative crafts AI-generated brand imagery, Instagram management, and paid advertising — at a fraction of the cost.",
 };
 
 export default function RootLayout({

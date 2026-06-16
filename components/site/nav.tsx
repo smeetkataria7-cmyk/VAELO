@@ -11,7 +11,7 @@ export function SiteNav() {
     <header className="sticky top-0 z-50 border-b border-line/70 bg-paper/70 backdrop-blur-xl">
       <nav className="container-vaelo flex h-[72px] items-center justify-between">
         <Link href="/" className="flex items-baseline gap-2">
-          <span className="font-display text-xl tracking-tight">VAELO</span>
+          <span className="font-display text-xl tracking-tight">Vaelo</span>
           <span className="eyebrow hidden sm:inline">Creative</span>
         </Link>
 

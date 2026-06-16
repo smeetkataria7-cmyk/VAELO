@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "VAELO Creative is an AI-first creative studio helping brands look great and grow — without the cost of traditional photoshoots.",
+    "Vaelo Creative is an AI-first creative studio helping brands look great and grow — without the cost of traditional photoshoots.",
 };
 
 export default function AboutPage() {
@@ -19,7 +19,7 @@ export default function AboutPage() {
         <p className="eyebrow">Our story</p>
         <div className="space-y-6 text-xl leading-relaxed text-ink-soft">
           <p>
-            VAELO Creative is an AI-first studio. We believe every brand deserves
+            Vaelo Creative is an AI-first studio. We believe every brand deserves
             stunning visuals — without the cost, delay, and hassle of a
             traditional photoshoot.
           </p>

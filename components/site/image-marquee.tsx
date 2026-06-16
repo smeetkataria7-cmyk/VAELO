@@ -11,7 +11,7 @@ export function ImageMarquee({ images }: { images: string[] }) {
         >
           <Image
             src={src}
-            alt={`VAELO AI creative ${i + 1}`}
+            alt={`Vaelo AI creative ${i + 1}`}
             fill
             className="object-cover"
             sizes="40vw"

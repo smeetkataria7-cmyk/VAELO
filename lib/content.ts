@@ -5,7 +5,7 @@
 // TODO: replace placeholder case studies with real client names + results.
 
 export const hero = {
-  image: "/images/work/1.png", // VAELO "Culture Remix" cover
+  image: "/images/work/1.png", // Vaelo "Culture Remix" cover
 };
 
 // Real AI creatives (Instagram "Culture Remix" carousel). Portrait 4:5.

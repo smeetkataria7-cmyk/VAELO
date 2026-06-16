@@ -42,7 +42,7 @@ export function Media({
           }}
           aria-hidden
         >
-          <span className="font-display text-sm text-accent/70">{label ?? "VAELO"}</span>
+          <span className="font-display text-sm text-accent/70">{label ?? "Vaelo"}</span>
           <span className="eyebrow text-ink/25">Visual</span>
         </div>
       )}

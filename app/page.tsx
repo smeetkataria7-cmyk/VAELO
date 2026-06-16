@@ -47,8 +47,8 @@ export default function Home() {
 
           <Media
             src={hero.image || undefined}
-            alt="VAELO AI-generated brand visual"
-            label="VAELO"
+            alt="Vaelo AI-generated brand visual"
+            label="Vaelo"
             priority
             className="aspect-[4/5] w-full rise"
           />
@@ -83,7 +83,7 @@ export default function Home() {
           <Reveal>
             <div className="grid gap-16 lg:grid-cols-[0.8fr_1.2fr]">
               <div>
-                <p className="eyebrow">Why VAELO</p>
+                <p className="eyebrow">Why Vaelo</p>
                 <h2 className="font-display mt-5 text-4xl leading-tight sm:text-5xl">
                   The same impact.
                   <br />A fraction of the cost.
@@ -102,7 +102,7 @@ export default function Home() {
                   </ul>
                 </div>
                 <div className="bg-ink p-8 text-paper">
-                  <p className="eyebrow text-paper/50">The VAELO way</p>
+                  <p className="eyebrow text-paper/50">The Vaelo way</p>
                   <ul className="mt-6 space-y-4">
                     {["A fraction of the cost", "Delivered in days", "No studio needed", "Unlimited concepts"].map((p) => (
                       <li key={p} className="flex items-start gap-3">
@@ -153,7 +153,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Bento — why VAELO */}
+      {/* Bento — why Vaelo */}
       <section className="border-t border-line">
         <div className="container-vaelo py-24 sm:py-32">
           <Reveal>
@@ -165,21 +165,21 @@ export default function Home() {
           <Reveal>
             <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:auto-rows-[200px]">
               <div className="relative overflow-hidden rounded-xl bg-paper-2 sm:row-span-2">
-                <Image src={gallery[0]} alt="VAELO creative" fill className="object-cover" sizes="(max-width:1024px) 50vw, 33vw" />
+                <Image src={gallery[0]} alt="Vaelo creative" fill className="object-cover" sizes="(max-width:1024px) 50vw, 33vw" />
               </div>
               <div className="flex flex-col justify-between rounded-xl bg-accent p-7 text-accent-ink">
                 <span className="text-3xl">✦</span>
                 <p className="font-display text-2xl leading-snug">A fraction of the cost of a real shoot.</p>
               </div>
               <div className="relative overflow-hidden rounded-xl bg-paper-2">
-                <Image src={gallery[5]} alt="VAELO creative" fill className="object-cover" sizes="33vw" />
+                <Image src={gallery[5]} alt="Vaelo creative" fill className="object-cover" sizes="33vw" />
               </div>
               <div className="flex flex-col justify-between rounded-xl border border-line p-7">
                 <span className="eyebrow">End to end</span>
                 <p className="font-display text-2xl leading-snug">We shoot, post, and run your ads.</p>
               </div>
               <div className="relative overflow-hidden rounded-xl bg-paper-2">
-                <Image src={gallery[1]} alt="VAELO creative" fill className="object-cover" sizes="33vw" />
+                <Image src={gallery[1]} alt="Vaelo creative" fill className="object-cover" sizes="33vw" />
               </div>
             </div>
           </Reveal>

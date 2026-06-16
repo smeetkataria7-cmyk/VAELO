@@ -19,7 +19,7 @@ export async function notifyOwnerOfLead(lead: Lead): Promise<void> {
 
   const resend = new Resend(apiKey);
   const to = process.env.LEAD_NOTIFY_TO ?? "hello@vaelocreative.com";
-  const from = process.env.LEAD_NOTIFY_FROM ?? "VAELO <onboarding@resend.dev>";
+  const from = process.env.LEAD_NOTIFY_FROM ?? "Vaelo <onboarding@resend.dev>";
 
   try {
     await resend.emails.send({
@@ -27,7 +27,7 @@ export async function notifyOwnerOfLead(lead: Lead): Promise<void> {
       to,
       subject: `New lead: ${lead.brand} (${lead.name})`,
       text: [
-        `New lead from the VAELO website:`,
+        `New lead from the Vaelo website:`,
         ``,
         `Name:      ${lead.name}`,
         `Brand:     ${lead.brand}`,

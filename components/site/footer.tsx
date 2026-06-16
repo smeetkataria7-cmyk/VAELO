@@ -25,7 +25,7 @@ export function SiteFooter() {
         <div className="mt-20 flex flex-col gap-8 border-t border-line pt-10 text-sm text-muted sm:flex-row sm:items-end sm:justify-between">
           <div>
             <div className="flex items-baseline gap-2">
-              <span className="font-display text-lg text-ink">VAELO</span>
+              <span className="font-display text-lg text-ink">Vaelo</span>
               <span className="eyebrow">Creative</span>
             </div>
             <p className="mt-2 max-w-xs">
@@ -51,7 +51,7 @@ export function SiteFooter() {
         </div>
 
         <p className="mt-10 text-xs text-muted">
-          © {new Date().getFullYear()} VAELO Creative. All rights reserved.
+          © {new Date().getFullYear()} Vaelo Creative. All rights reserved.
         </p>
       </div>
     </footer>
