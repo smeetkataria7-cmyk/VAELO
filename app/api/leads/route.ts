@@ -54,6 +54,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true }, { status: 201 });
   } catch (err) {
     console.error("Failed to save lead:", err);
-    return NextResponse.json({ error: "Could not save your request." }, { status: 500 });
+    // TEMP DEBUG: surface the underlying error to diagnose production. Revert after.
+    const detail = err instanceof Error ? err.message : String(err);
+    const usingSupabase = Boolean(
+      process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY
+    );
+    return NextResponse.json(
+      { error: "Could not save your request.", detail, usingSupabase },
+      { status: 500 }
+    );
   }
 }
