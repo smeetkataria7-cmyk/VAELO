@@ -8,48 +8,53 @@ import { Marquee } from "@/components/site/marquee";
 import { ImageMarquee } from "@/components/site/image-marquee";
 import { Faq } from "@/components/site/faq";
 import { LeadForm } from "@/components/site/lead-form";
+import { ScrollFade, Parallax } from "@/components/site/scroll-fx";
 
 export default function Home() {
   return (
-    <>
-      {/* Hero */}
-      <section className="container-vaelo pt-16 pb-16 sm:pt-24">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="rise">
-            <p className="eyebrow">Mumbai growth agency</p>
-            <h1 className="font-display mt-6 text-5xl leading-[1.0] sm:text-[5.25rem]">
-              Where strategy
-              <br />
-              meets <span className="text-accent">story.</span>
-            </h1>
-            <p className="mt-7 max-w-md text-xl text-ink">
-              We don&apos;t just run ads — we build brands.
-            </p>
-            <p className="mt-4 max-w-md leading-relaxed text-ink-soft">
-              Sharp creative strategy meets data-driven performance marketing, so
-              every piece of content has a job and every rupee works harder.
-            </p>
-            <div className="mt-9 flex flex-wrap items-center gap-8">
-              <Link
-                href="#get-started"
-                className="group inline-flex items-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper transition-all hover:gap-3"
-              >
-                Let&apos;s talk growth
-                <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
-              </Link>
-              <Link href="/work" className="link-underline text-sm font-medium">
-                See our work
-              </Link>
+    <div className="relative">
+      {/* Hero — pinned, fades as content scrolls over it */}
+      <section className="hero-pin sticky top-0 flex min-h-screen items-center">
+        <ScrollFade className="container-vaelo w-full py-20">
+          <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
+            <div>
+              <p className="eyebrow intro intro-d1">Mumbai growth agency</p>
+              <h1 className="font-display intro intro-d2 mt-6 text-5xl leading-[1.0] sm:text-[5.25rem]">
+                Where strategy
+                <br />
+                meets <span className="text-accent">story.</span>
+              </h1>
+              <p className="intro intro-d3 mt-7 max-w-md text-xl text-ink">
+                We don&apos;t just run ads — we build brands.
+              </p>
+              <p className="intro intro-d4 mt-4 max-w-md leading-relaxed text-ink-soft">
+                Sharp creative strategy meets data-driven performance marketing, so
+                every piece of content has a job and every rupee works harder.
+              </p>
+              <div className="intro intro-d5 mt-9 flex flex-wrap items-center gap-8">
+                <Link
+                  href="#get-started"
+                  className="group inline-flex items-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper transition-all hover:gap-3"
+                >
+                  Let&apos;s talk growth
+                  <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
+                </Link>
+                <Link href="/work" className="link-underline text-sm font-medium">
+                  See our work
+                </Link>
+              </div>
             </div>
-          </div>
 
-          <div className="relative rise">
-            <div className="absolute -inset-8 -z-10 rounded-[2rem] bg-accent/20 blur-3xl" aria-hidden />
-            <ImageWall images={gallery} />
+            <Parallax speed={0.1} className="intro intro-d3 relative">
+              <div className="absolute -inset-8 -z-10 rounded-[2rem] bg-accent/20 blur-3xl" aria-hidden />
+              <ImageWall images={gallery} />
+            </Parallax>
           </div>
-        </div>
+        </ScrollFade>
       </section>
 
+      {/* Content panel — scrolls up over the hero */}
+      <div className="scroll-panel">
       {/* Keyword ticker */}
       <Marquee items={["Performance Marketing", "Creative Strategy", "Content", "Web", "Social", "AI Production"]} />
 
@@ -208,6 +213,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </>
+      </div>
+    </div>
   );
 }

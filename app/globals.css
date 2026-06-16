@@ -199,6 +199,61 @@ footer {
   animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Content panel that scrolls over the pinned hero */
+.scroll-panel {
+  position: relative;
+  z-index: 10;
+  border-radius: 1.75rem 1.75rem 0 0;
+  border-top: 1px solid var(--line);
+  background:
+    radial-gradient(120% 60% at 50% 0%, rgba(201, 162, 75, 0.07), transparent 55%),
+    var(--paper);
+  box-shadow: 0 -30px 60px rgba(0, 0, 0, 0.45);
+}
+.scroll-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background-image:
+    linear-gradient(rgba(201, 162, 75, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201, 162, 75, 0.04) 1px, transparent 1px);
+  background-size: 74px 74px;
+  -webkit-mask-image: radial-gradient(120% 80% at 50% 0%, #000 20%, transparent 80%);
+  mask-image: radial-gradient(120% 80% at 50% 0%, #000 20%, transparent 80%);
+}
+
+/* Hero entrance — staggered intro on load */
+@keyframes intro {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+.intro {
+  opacity: 0;
+  animation: intro 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+.intro-d1 { animation-delay: 0.08s; }
+.intro-d2 { animation-delay: 0.2s; }
+.intro-d3 { animation-delay: 0.32s; }
+.intro-d4 { animation-delay: 0.44s; }
+.intro-d5 { animation-delay: 0.56s; }
+@media (prefers-reduced-motion: reduce) {
+  .intro { opacity: 1; animation: none; }
+}
+
 /* Link underline that grows on hover */
 .link-underline {
   position: relative;
