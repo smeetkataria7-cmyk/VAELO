@@ -71,7 +71,7 @@ export default function Home() {
             </h2>
           </div>
           <div className="grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2">
-            <div className="bg-paper p-8">
+            <div className="bg-paper-2 p-8">
               <p className="eyebrow">Traditional shoot</p>
               <ul className="mt-6 space-y-4 text-ink-soft">
                 {["Thousands per shoot", "Weeks of planning", "Studio, models, crew", "Reshoots cost more"].map((p) => (

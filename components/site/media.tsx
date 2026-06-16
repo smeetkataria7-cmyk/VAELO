@@ -38,12 +38,12 @@ export function Media({
           className="absolute inset-0 flex items-end justify-between p-5"
           style={{
             backgroundImage:
-              "radial-gradient(120% 120% at 0% 0%, #efeae1 0%, #e4dccd 45%, #d8cdb8 100%)",
+              "radial-gradient(120% 120% at 0% 0%, #1c1a16 0%, #141210 45%, #0d0c0a 100%)",
           }}
           aria-hidden
         >
-          <span className="font-display text-sm text-ink/40">{label ?? "VAELO"}</span>
-          <span className="eyebrow text-ink/30">Visual</span>
+          <span className="font-display text-sm text-accent/70">{label ?? "VAELO"}</span>
+          <span className="eyebrow text-ink/25">Visual</span>
         </div>
       )}
     </div>
