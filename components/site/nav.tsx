@@ -8,20 +8,18 @@ const links = [
 
 export function SiteNav() {
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-paper/80 backdrop-blur-md">
-      <nav className="container-vaelo flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-lg font-semibold tracking-tight">VAELO</span>
-          <span className="hidden text-xs uppercase tracking-[0.2em] text-muted sm:inline">
-            Creative
-          </span>
+    <header className="sticky top-0 z-50 border-b border-line/70 bg-paper/70 backdrop-blur-xl">
+      <nav className="container-vaelo flex h-[72px] items-center justify-between">
+        <Link href="/" className="flex items-baseline gap-2">
+          <span className="font-display text-xl tracking-tight">VAELO</span>
+          <span className="eyebrow hidden sm:inline">Creative</span>
         </Link>
 
-        <div className="flex items-center gap-1 sm:gap-6">
-          <ul className="hidden items-center gap-6 text-sm text-ink-soft sm:flex">
+        <div className="flex items-center gap-8">
+          <ul className="hidden items-center gap-8 text-sm text-ink-soft sm:flex">
             {links.map((l) => (
               <li key={l.href}>
-                <Link href={l.href} className="transition-colors hover:text-ink">
+                <Link href={l.href} className="link-underline transition-colors hover:text-ink">
                   {l.label}
                 </Link>
               </li>
@@ -29,9 +27,10 @@ export function SiteNav() {
           </ul>
           <Link
             href="/contact"
-            className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-paper transition-colors hover:bg-ink-soft"
+            className="group inline-flex items-center gap-2 text-sm font-medium"
           >
-            Free AI sample
+            <span className="link-underline">Free AI sample</span>
+            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </Link>
         </div>
       </nav>

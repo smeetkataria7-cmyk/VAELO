@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import "./globals.css";
 import { SiteNav } from "@/components/site/nav";
 import { SiteFooter } from "@/components/site/footer";
@@ -14,13 +14,19 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: {
     default: "VAELO Creative — AI photoshoots, Instagram & ads",
     template: "%s · VAELO Creative",
   },
   description:
-    "Photoshoot-quality visuals without the photoshoot. VAELO Creative delivers AI-generated brand imagery, Instagram management, and paid advertising — at a fraction of the cost.",
+    "Photoshoot-quality visuals without the photoshoot. VAELO Creative crafts AI-generated brand imagery, Instagram management, and paid advertising — at a fraction of the cost.",
 };
 
 export default function RootLayout({
@@ -31,7 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-paper text-ink">
         <SiteNav />

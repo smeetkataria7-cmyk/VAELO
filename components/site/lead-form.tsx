@@ -36,58 +36,48 @@ export function LeadForm() {
 
   if (status === "success") {
     return (
-      <div className="rounded-2xl border border-accent/30 bg-paper-2 p-8 text-center">
-        <p className="text-xl font-semibold">Thanks — we&apos;ve got it. 🎉</p>
-        <p className="mt-2 text-muted">
-          We&apos;ll review your brand and get back to you shortly with a free AI
-          sample.
+      <div className="border-t border-ink pt-8">
+        <p className="font-display text-3xl">Thank you.</p>
+        <p className="mt-3 text-ink-soft">
+          We&apos;ve got your details and will be in touch shortly with a free AI
+          sample for your brand.
         </p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-8">
       <Field label="Your name" name="name" placeholder="Jane Doe" required />
       <Field label="Brand name" name="brand" placeholder="Your brand" required />
-      <Field
-        label="Email"
-        name="email"
-        type="email"
-        placeholder="you@brand.com"
-        required
-      />
-      <Field
-        label="Instagram handle"
-        name="instagram"
-        placeholder="@yourbrand"
-      />
+      <Field label="Email" name="email" type="email" placeholder="you@brand.com" required />
+      <Field label="Instagram handle" name="instagram" placeholder="@yourbrand" />
+
       <div>
-        <label htmlFor="goal" className="mb-1.5 block text-sm font-medium">
+        <label htmlFor="goal" className="eyebrow block">
           What do you want to achieve?
         </label>
         <textarea
           id="goal"
           name="goal"
-          rows={4}
-          placeholder="e.g. More sales, a refreshed feed, product visuals for a launch…"
-          className="w-full rounded-xl border border-line bg-paper px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
+          rows={3}
+          placeholder="More sales, a refreshed feed, visuals for a launch…"
+          className="mt-3 w-full resize-none border-b border-line bg-transparent pb-2 text-lg outline-none transition-colors placeholder:text-muted/60 focus:border-ink"
         />
       </div>
 
-      {status === "error" && (
-        <p className="text-sm text-red-600">{error}</p>
-      )}
+      {status === "error" && <p className="text-sm text-red-700">{error}</p>}
 
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="inline-flex h-12 w-full items-center justify-center rounded-full bg-ink px-6 text-sm font-medium text-paper transition-colors hover:bg-ink-soft disabled:opacity-60"
+        className="group inline-flex items-center gap-2 rounded-full bg-ink px-8 py-4 text-sm font-medium text-paper transition-all hover:gap-3 disabled:opacity-60"
       >
-        {status === "submitting" ? "Sending…" : "Send my free AI sample request"}
+        {status === "submitting" ? "Sending…" : "Send my request"}
+        <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
       </button>
-      <p className="text-center text-xs text-muted">
-        No spam. We&apos;ll only use this to reach out about your brand.
+      <p className="text-xs text-muted">
+        No spam — we&apos;ll only use this to reach out about your brand.
       </p>
     </form>
   );
@@ -108,7 +98,7 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={name} className="mb-1.5 block text-sm font-medium">
+      <label htmlFor={name} className="eyebrow block">
         {label}
         {required && <span className="text-accent"> *</span>}
       </label>
@@ -118,7 +108,7 @@ function Field({
         type={type}
         placeholder={placeholder}
         required={required}
-        className="w-full rounded-xl border border-line bg-paper px-4 py-3 text-sm outline-none transition-colors focus:border-accent"
+        className="mt-3 w-full border-b border-line bg-transparent pb-2 text-lg outline-none transition-colors placeholder:text-muted/60 focus:border-ink"
       />
     </div>
   );

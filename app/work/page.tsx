@@ -1,55 +1,66 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Media } from "@/components/site/media";
 import { caseStudies } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Work",
   description:
-    "Real brands, real results. See how VAELO Creative uses AI photoshoots and Instagram to grow brands.",
+    "Real brands, real results. How VAELO Creative grows brands with AI photoshoots, Instagram, and paid ads.",
 };
 
 export default function WorkPage() {
   return (
-    <section className="container-vaelo py-20 sm:py-28">
-      <h1 className="max-w-2xl text-4xl font-semibold tracking-tight sm:text-5xl">
-        Real brands. Real results.
-      </h1>
-      <p className="mt-5 max-w-xl text-lg text-muted">
-        A look at the brands we&apos;ve helped grow with AI-generated visuals,
-        Instagram management, and paid ads.
-      </p>
+    <>
+      <section className="container-vaelo pt-20 pb-12 sm:pt-28">
+        <p className="eyebrow">Selected work</p>
+        <h1 className="font-display mt-6 max-w-3xl text-5xl leading-[1.05] sm:text-7xl">
+          Real brands.
+          <br />
+          Real results.
+        </h1>
+        <p className="mt-8 max-w-xl text-lg text-ink-soft">
+          A look at the brands we&apos;ve helped grow with AI-generated visuals,
+          Instagram management, and paid ads.
+        </p>
+      </section>
 
-      <div className="mt-12 grid gap-6 md:grid-cols-2">
-        {caseStudies.map((c) => (
-          <article
-            key={c.slug}
-            className="flex flex-col rounded-2xl border border-line bg-paper-2 p-7"
+      <section className="container-vaelo pb-24">
+        <div className="border-t border-line">
+          {caseStudies.map((c, i) => (
+            <div
+              key={c.slug}
+              className="grid items-center gap-8 border-b border-line py-16 lg:grid-cols-2 lg:gap-16"
+            >
+              <Media
+                src={c.image || undefined}
+                alt={`${c.brand} — ${c.industry}`}
+                label={c.brand}
+                className={`aspect-[4/3] w-full ${i % 2 === 1 ? "lg:order-2" : ""}`}
+              />
+              <div>
+                <span className="eyebrow">{c.industry}</span>
+                <h2 className="font-display mt-3 text-4xl">{c.brand}</h2>
+                <p className="mt-5 max-w-md text-lg text-ink-soft">{c.summary}</p>
+                <p className="mt-6 font-display text-2xl text-accent">{c.result}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-20 max-w-2xl">
+          <h2 className="font-display text-4xl leading-tight sm:text-5xl">
+            Your brand could be next.
+          </h2>
+          <Link
+            href="/contact"
+            className="group mt-8 inline-flex items-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper transition-all hover:gap-3"
           >
-            {/* TODO: add before/after creative images for each case study */}
-            <div className="mb-5 flex aspect-[16/9] items-center justify-center rounded-xl border border-dashed border-line bg-paper text-sm text-muted">
-              Creative preview
-            </div>
-            <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-muted">
-              <span>{c.industry}</span>
-            </div>
-            <h2 className="mt-2 text-2xl font-semibold">{c.brand}</h2>
-            <p className="mt-3 flex-1 text-sm text-ink-soft">{c.summary}</p>
-            <p className="mt-5 text-sm font-medium text-accent">{c.result}</p>
-          </article>
-        ))}
-      </div>
-
-      <div className="mt-16 rounded-3xl bg-ink px-8 py-14 text-center text-paper">
-        <h2 className="text-2xl font-semibold sm:text-3xl">
-          Your brand could be next.
-        </h2>
-        <Link
-          href="/contact"
-          className="mt-6 inline-flex h-12 items-center justify-center rounded-full bg-accent px-6 text-sm font-medium text-accent-ink transition-opacity hover:opacity-90"
-        >
-          Get a free AI sample
-        </Link>
-      </div>
-    </section>
+            Get a free AI sample
+            <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
+          </Link>
+        </div>
+      </section>
+    </>
   );
 }

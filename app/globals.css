@@ -1,17 +1,18 @@
 @import "tailwindcss";
 
 /* ----------------------------------------------------------------
-   VAELO brand tokens
-   Premium, creative, AI-forward. Cream paper + ink + violet accent.
+   VAELO — refined / premium design system
+   Warm ivory, deep ink, restrained bronze accent.
+   Serif display (Fraunces) + clean sans (Geist) for body.
 ----------------------------------------------------------------- */
 :root {
-  --paper: #f7f5f0;
-  --paper-2: #efece3;
-  --ink: #141318;
-  --ink-soft: #2a2830;
-  --muted: #6b6760;
-  --line: #e3dfd5;
-  --accent: #6d52f4;
+  --paper: #f6f3ee;
+  --paper-2: #efeae1;
+  --ink: #1a1714;
+  --ink-soft: #4a443d;
+  --muted: #8d847a;
+  --line: #e4ddd1;
+  --accent: #9a7b4f; /* muted bronze — used sparingly */
   --accent-ink: #ffffff;
 }
 
@@ -26,10 +27,15 @@
   --color-accent-ink: var(--accent-ink);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-fraunces);
 }
 
 * {
   border-color: var(--line);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -37,12 +43,63 @@ body {
   color: var(--ink);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* Reusable layout helper */
+/* Serif display for headings */
+.font-display {
+  font-family: var(--font-display), Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Layout container */
 .container-vaelo {
   width: 100%;
-  max-width: 72rem;
+  max-width: 76rem;
   margin-inline: auto;
   padding-inline: 1.5rem;
+}
+
+/* Small uppercase eyebrow label */
+.eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Subtle entrance for sections */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.rise {
+  animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* Link underline that grows on hover */
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.link-underline:hover::after {
+  transform: scaleX(1);
 }

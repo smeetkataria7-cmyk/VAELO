@@ -9,32 +9,34 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <section className="container-vaelo py-20 sm:py-28">
-      <div className="grid gap-12 lg:grid-cols-2">
+    <section className="container-vaelo pt-20 pb-24 sm:pt-28">
+      <div className="grid gap-16 lg:grid-cols-2 lg:gap-24">
         <div>
-          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-            Let&apos;s see what we&apos;d make for you.
+          <p className="eyebrow">Get started</p>
+          <h1 className="font-display mt-6 text-5xl leading-[1.05] sm:text-6xl">
+            Let&apos;s see what
+            <br />
+            we&apos;d make for you.
           </h1>
-          <p className="mt-5 max-w-md text-lg text-muted">
+          <p className="mt-8 max-w-md text-lg text-ink-soft">
             Share a few details about your brand. We&apos;ll send back a free AI
             sample so you can see the quality before spending a rupee.
           </p>
-          <ul className="mt-8 space-y-4 text-ink-soft">
-            <li className="flex items-start gap-3">
-              <span className="mt-1 text-accent">✓</span>
-              A real AI visual made for your brand
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="mt-1 text-accent">✓</span>
-              A quick read on how we&apos;d grow your Instagram
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="mt-1 text-accent">✓</span>
-              No pressure, no obligation
-            </li>
+          <ul className="mt-12 space-y-4">
+            {[
+              "A real AI visual made for your brand",
+              "A quick read on how we'd grow your Instagram",
+              "No pressure, no obligation",
+            ].map((t) => (
+              <li key={t} className="flex items-start gap-3 border-t border-line pt-4 text-ink-soft">
+                <span className="text-accent">+</span>
+                {t}
+              </li>
+            ))}
           </ul>
         </div>
-        <div className="rounded-2xl border border-line bg-paper-2 p-6 sm:p-8">
+
+        <div className="lg:pt-4">
           <LeadForm />
         </div>
       </div>

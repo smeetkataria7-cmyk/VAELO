@@ -1,18 +1,25 @@
 // Central content for the public site.
-// TODO: replace placeholder case studies with real client names, images, and
-// results once approved. Brand names are allowed per the owner.
+//
+// IMAGES: drop files into /public/images and set the `image` paths below
+// (e.g. image: "/images/hero.jpg"). Until then, elegant placeholders render.
+// TODO: replace placeholder case studies with real client names + results.
+
+export const hero = {
+  image: "", // e.g. "/images/hero.jpg" — a tall, striking AI visual
+};
 
 export const services = [
   {
     slug: "ai-photoshoots",
     title: "AI Photoshoots",
-    tagline: "Studio-quality product & brand imagery — generated, not shot.",
+    tagline: "Studio-quality product & brand imagery — crafted, not shot.",
     includes: [
       "Product & lifestyle visuals",
-      "On-brand styling from your Brand Brain",
-      "Unlimited concepts, fast turnaround",
-      "A fraction of a traditional shoot's cost",
+      "On-brand styling",
+      "Unlimited concepts",
+      "Days, not weeks",
     ],
+    image: "", // e.g. "/images/service-photoshoots.jpg"
   },
   {
     slug: "instagram",
@@ -22,39 +29,42 @@ export const services = [
       "Content calendar & posting",
       "Reels, posts & stories",
       "Caption & hashtag strategy",
-      "Monthly performance reporting",
+      "Monthly reporting",
     ],
+    image: "",
   },
   {
     slug: "ads",
     title: "Paid Advertising",
-    tagline: "Put the best creatives behind spend that converts.",
+    tagline: "The best creatives, behind spend that converts.",
     includes: [
       "Meta (Instagram & Facebook) ads",
       "Audience & creative testing",
-      "Budget & bid management",
-      "Transparent results reporting",
+      "Budget management",
+      "Transparent results",
     ],
+    image: "",
   },
 ];
 
-// Placeholder results — replace with real numbers + images before launch.
 export const caseStudies = [
   {
     slug: "sample-real-estate",
     brand: "Marigold Miraaya",
     industry: "Real Estate",
     summary:
-      "Premium residential launch in Mulund West. AI-generated lifestyle visuals positioned the project for families across 2/3/4 BHK inventory.",
+      "A premium residential launch in Mulund West. AI-generated lifestyle visuals positioned the project for families across 2/3/4 BHK inventory.",
     result: "Replace with real metric",
+    image: "", // e.g. "/images/work-marigold.jpg"
   },
   {
     slug: "sample-fashion",
     brand: "Brand B",
     industry: "Fashion",
     summary:
-      "Seasonal lookbook produced entirely with AI photoshoots — no studio, no models, delivered in days.",
+      "A seasonal lookbook produced entirely with AI photoshoots — no studio, no models, delivered in days.",
     result: "Replace with real metric",
+    image: "",
   },
   {
     slug: "sample-fnb",
@@ -63,30 +73,20 @@ export const caseStudies = [
     summary:
       "Mouth-watering product imagery and a consistent Instagram presence that lifted engagement.",
     result: "Replace with real metric",
+    image: "",
   },
 ];
-
-export const contrast = {
-  traditional: {
-    label: "Traditional photoshoot",
-    points: ["₹₹₹ per shoot", "Weeks of planning", "Studio, models, crew", "Reshoots cost more"],
-  },
-  vaelo: {
-    label: "VAELO AI shoot",
-    points: ["A fraction of the cost", "Delivered in days", "No studio needed", "Unlimited concepts"],
-  },
-};
 
 export const steps = [
   {
     n: "01",
     title: "Send your brand",
-    body: "Share your product and goals. We learn your brand — colours, audience, vibe.",
+    body: "Share your product and goals. We learn your brand — its colours, audience, and voice.",
   },
   {
     n: "02",
-    title: "We create",
-    body: "AI-generated visuals tailored to your brand, refined until they're right.",
+    title: "We craft",
+    body: "AI-generated visuals tailored to your brand, refined by hand until they're right.",
   },
   {
     n: "03",
