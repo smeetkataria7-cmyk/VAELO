@@ -44,6 +44,7 @@ export function SiteFooter() {
               <a href={`mailto:${brand.email}`} className="hover:text-ink">{brand.email}</a>
               <a href={`tel:${brand.phone.replace(/\s/g, "")}`} className="hover:text-ink">{brand.phone}</a>
               <span>{brand.location}</span>
+              <Link href="/login" className="hover:text-ink">Client login</Link>
               <Link href="/privacy" className="hover:text-ink">Privacy</Link>
               <Link href="/terms" className="hover:text-ink">Terms</Link>
             </div>

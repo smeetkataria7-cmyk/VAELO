@@ -1,32 +1,47 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
+import { updateSession } from "@/lib/supabase-middleware";
 
-/**
- * Protect /admin with HTTP Basic Auth.
- * Set ADMIN_PASSWORD in your env. Username can be anything; password must match.
- *
- * If ADMIN_PASSWORD is not set, access is allowed (convenient for local dev).
- * ALWAYS set ADMIN_PASSWORD in production.
- */
-export function middleware(req: NextRequest) {
-  const password = process.env.ADMIN_PASSWORD;
-  if (!password) return NextResponse.next();
+export async function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
 
-  const auth = req.headers.get("authorization");
-  if (auth) {
-    const [scheme, encoded] = auth.split(" ");
-    if (scheme === "Basic" && encoded) {
-      const decoded = atob(encoded);
-      const pwd = decoded.slice(decoded.indexOf(":") + 1);
-      if (pwd === password) return NextResponse.next();
+  // Refresh the Supabase session (and learn who the user is) on every request.
+  const { response, user } = await updateSession(req);
+
+  // Protect /admin with HTTP Basic Auth (owner-only operational page).
+  if (pathname.startsWith("/admin")) {
+    const password = process.env.ADMIN_PASSWORD;
+    if (password) {
+      const auth = req.headers.get("authorization");
+      let ok = false;
+      if (auth) {
+        const [scheme, encoded] = auth.split(" ");
+        if (scheme === "Basic" && encoded) {
+          const decoded = atob(encoded);
+          ok = decoded.slice(decoded.indexOf(":") + 1) === password;
+        }
+      }
+      if (!ok) {
+        return new NextResponse("Authentication required.", {
+          status: 401,
+          headers: { "WWW-Authenticate": 'Basic realm="Vaelo Admin"' },
+        });
+      }
     }
   }
 
-  return new NextResponse("Authentication required.", {
-    status: 401,
-    headers: { "WWW-Authenticate": 'Basic realm="VAELO Admin"' },
-  });
+  // Protect the client portal — must be signed in.
+  if (pathname.startsWith("/portal") && !user) {
+    const loginUrl = req.nextUrl.clone();
+    loginUrl.pathname = "/login";
+    loginUrl.searchParams.set("next", pathname);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  return response;
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
+  ],
 };
