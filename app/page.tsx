@@ -7,6 +7,7 @@ import { Marquee } from "@/components/site/marquee";
 import { ImageMarquee } from "@/components/site/image-marquee";
 import { Stats } from "@/components/site/stats";
 import { Faq } from "@/components/site/faq";
+import { LeadForm } from "@/components/site/lead-form";
 
 // TODO: replace with real client testimonials.
 const testimonials = [
@@ -57,7 +58,7 @@ export default function Home() {
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-8">
               <Link
-                href="/contact"
+                href="#get-started"
                 className="group inline-flex items-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper transition-all hover:gap-3"
               >
                 Get a free AI sample
@@ -291,6 +292,43 @@ export default function Home() {
             </Reveal>
             <Reveal>
               <Faq />
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* Get started — lead form */}
+      <section id="get-started" className="scroll-mt-24 border-t border-line">
+        <div className="container-vaelo py-16 sm:py-24">
+          <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
+            <Reveal>
+              <p className="eyebrow">Get started</p>
+              <h2 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">
+                Let&apos;s see what
+                <br />
+                we&apos;d make for you.
+              </h2>
+              <p className="mt-6 max-w-md text-lg text-ink-soft">
+                Tell us about your brand and we&apos;ll send a free AI sample — so
+                you can see the quality before spending a rupee.
+              </p>
+              <ul className="mt-10 space-y-4">
+                {[
+                  "A real AI visual made for your brand",
+                  "A quick read on how we'd grow your Instagram",
+                  "No pressure, no obligation",
+                ].map((t) => (
+                  <li key={t} className="flex items-start gap-3 border-t border-line pt-4 text-ink-soft">
+                    <span className="text-accent">+</span>
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+            <Reveal delay={100}>
+              <div className="glass rounded-2xl p-6 sm:p-8">
+                <LeadForm />
+              </div>
             </Reveal>
           </div>
         </div>
