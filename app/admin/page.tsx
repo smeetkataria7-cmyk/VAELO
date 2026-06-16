@@ -14,7 +14,10 @@ export default async function AdminLeadsPage() {
   return (
     <section className="container-vaelo py-12">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold tracking-tight">Leads</h1>
+        <div className="flex items-center gap-4">
+          <h1 className="text-2xl font-semibold tracking-tight">Leads</h1>
+          <a href="/admin/proposals" className="text-sm text-muted hover:text-ink">Proposals →</a>
+        </div>
         <span className="rounded-full bg-paper-2 px-3 py-1 text-sm text-muted">
           {leads.length} total
         </span>
