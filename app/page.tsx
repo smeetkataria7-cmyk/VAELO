@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { hero, services, caseStudies, steps, gallery } from "@/lib/content";
-import { Media } from "@/components/site/media";
+import { services, caseStudies, steps, gallery } from "@/lib/content";
+import { ImageWall } from "@/components/site/image-wall";
 import { Reveal } from "@/components/site/reveal";
 import { Marquee } from "@/components/site/marquee";
 import { ImageMarquee } from "@/components/site/image-marquee";
@@ -45,13 +45,13 @@ export default function Home() {
             </div>
           </div>
 
-          <Media
-            src={hero.image || undefined}
-            alt="Vaelo AI-generated brand visual"
-            label="Vaelo"
-            priority
-            className="aspect-[4/5] w-full rise"
-          />
+          <div className="relative rise">
+            <div
+              className="absolute -inset-8 -z-10 rounded-[2rem] bg-accent/20 blur-3xl"
+              aria-hidden
+            />
+            <ImageWall images={gallery} />
+          </div>
         </div>
       </section>
 
@@ -174,7 +174,7 @@ export default function Home() {
               <div className="relative overflow-hidden rounded-xl bg-paper-2">
                 <Image src={gallery[5]} alt="Vaelo creative" fill className="object-cover" sizes="33vw" />
               </div>
-              <div className="flex flex-col justify-between rounded-xl border border-line p-7">
+              <div className="glass flex flex-col justify-between rounded-xl p-7">
                 <span className="eyebrow">End to end</span>
                 <p className="font-display text-2xl leading-snug">We shoot, post, and run your ads.</p>
               </div>

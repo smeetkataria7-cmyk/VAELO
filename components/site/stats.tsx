@@ -33,9 +33,9 @@ export function Stats() {
   }, []);
 
   return (
-    <div ref={ref} className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-4">
+    <div ref={ref} className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
       {STATS.map((s) => (
-        <div key={s.label} className="bg-paper p-7 sm:p-9">
+        <div key={s.label} className="glass rounded-xl p-7 sm:p-9">
           <p className="font-display text-4xl text-ink sm:text-5xl">
             {s.prefix}
             {s.num !== undefined ? <CountUp target={s.num} run={on} /> : s.text}
