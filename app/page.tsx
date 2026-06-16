@@ -8,11 +8,35 @@ import { ImageMarquee } from "@/components/site/image-marquee";
 import { Stats } from "@/components/site/stats";
 import { Faq } from "@/components/site/faq";
 
+// TODO: replace with real client testimonials.
+const testimonials = [
+  {
+    quote:
+      "Our feed has never looked this good. Visuals in days that would've cost us a fortune to shoot.",
+    name: "Founder",
+    brand: "Marigold Miraaya",
+  },
+  {
+    quote:
+      "VAELO handles everything — the creatives, the posting, the ads. We just watch the numbers grow.",
+    name: "Marketing Lead",
+    brand: "Fashion brand",
+  },
+  {
+    quote:
+      "The quality genuinely looks like a real photoshoot. Our customers can't tell the difference.",
+    name: "Owner",
+    brand: "F&B brand",
+  },
+];
+
+const serviceThumb = [gallery[1], gallery[3], gallery[5]];
+
 export default function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="container-vaelo pt-20 pb-20 sm:pt-28">
+      <section className="container-vaelo pt-16 pb-16 sm:pt-24">
         <div className="grid items-end gap-12 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="rise">
             <p className="eyebrow">AI-first creative studio</p>
@@ -56,32 +80,28 @@ export default function Home() {
       </section>
 
       {/* Keyword ticker */}
-      <Marquee
-        items={["AI Photoshoots", "Instagram", "Paid Ads", "Brand Visuals", "Culture Remix"]}
-      />
+      <Marquee items={["AI Photoshoots", "Instagram", "Paid Ads", "Brand Visuals", "Culture Remix"]} />
 
-      {/* Trust */}
-      <section className="container-vaelo flex flex-col gap-4 py-7 sm:flex-row sm:items-center sm:justify-between">
-        <span className="eyebrow">Trusted by brands across India</span>
-        <div className="flex flex-wrap gap-x-10 gap-y-2">
-          {caseStudies.map((c) => (
-            <span key={c.slug} className="font-display text-base text-ink-soft">
-              {c.brand}
-            </span>
-          ))}
+      {/* Trust + stats */}
+      <section className="container-vaelo py-12">
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <span className="eyebrow">Trusted by brands across India</span>
+          <div className="flex flex-wrap gap-x-10 gap-y-2">
+            {caseStudies.map((c) => (
+              <span key={c.slug} className="font-display text-base text-ink-soft">
+                {c.brand}
+              </span>
+            ))}
+          </div>
         </div>
-      </section>
-
-      {/* Stats */}
-      <section className="container-vaelo pb-4">
         <Stats />
       </section>
 
       {/* Contrast */}
       <section className="border-t border-line">
-        <div className="container-vaelo py-24 sm:py-32">
+        <div className="container-vaelo py-16 sm:py-24">
           <Reveal>
-            <div className="grid gap-16 lg:grid-cols-[0.8fr_1.2fr]">
+            <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
               <div>
                 <p className="eyebrow">Why Vaelo</p>
                 <h2 className="font-display mt-5 text-4xl leading-tight sm:text-5xl">
@@ -118,9 +138,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services */}
+      {/* Services — denser, with thumbnails */}
       <section className="border-t border-line">
-        <div className="container-vaelo py-24 sm:py-32">
+        <div className="container-vaelo py-16 sm:py-24">
           <Reveal>
             <div className="flex items-end justify-between">
               <h2 className="font-display text-4xl leading-tight sm:text-5xl">What we do</h2>
@@ -129,23 +149,26 @@ export default function Home() {
               </Link>
             </div>
           </Reveal>
-          <div className="mt-14">
+          <div className="mt-10">
             {services.map((s, i) => (
-              <Reveal key={s.slug} delay={i * 80}>
-                <div className="grid gap-6 border-t border-line py-10 transition-colors hover:bg-paper-2/40 sm:grid-cols-[auto_1fr_1.2fr] sm:gap-12">
-                  <span className="font-display text-2xl text-accent">0{i + 1}</span>
-                  <div>
-                    <h3 className="font-display text-2xl">{s.title}</h3>
-                    <p className="mt-2 max-w-xs text-ink-soft">{s.tagline}</p>
+              <Reveal key={s.slug} delay={i * 70}>
+                <div className="grid items-center gap-6 border-t border-line py-8 sm:grid-cols-[110px_1.2fr_1fr] sm:gap-10">
+                  <div className="relative aspect-[4/5] w-[110px] overflow-hidden rounded-lg bg-paper-2">
+                    <Image src={serviceThumb[i]} alt={s.title} fill className="object-cover" sizes="110px" />
                   </div>
-                  <p className="flex flex-wrap items-start gap-x-2 gap-y-1 text-sm text-muted sm:justify-end sm:text-right">
-                    {s.includes.map((inc, idx) => (
-                      <span key={inc}>
+                  <div>
+                    <span className="font-display text-sm text-accent">0{i + 1}</span>
+                    <h3 className="font-display mt-1 text-2xl">{s.title}</h3>
+                    <p className="mt-2 text-ink-soft">{s.tagline}</p>
+                  </div>
+                  <ul className="grid gap-2 sm:grid-cols-2">
+                    {s.includes.map((inc) => (
+                      <li key={inc} className="flex items-start gap-2 text-sm text-ink-soft">
+                        <span className="text-accent">+</span>
                         {inc}
-                        {idx < s.includes.length - 1 && <span className="mx-1 text-line">·</span>}
-                      </span>
+                      </li>
                     ))}
-                  </p>
+                  </ul>
                 </div>
               </Reveal>
             ))}
@@ -155,7 +178,7 @@ export default function Home() {
 
       {/* Bento — why Vaelo */}
       <section className="border-t border-line">
-        <div className="container-vaelo py-24 sm:py-32">
+        <div className="container-vaelo py-16 sm:py-24">
           <Reveal>
             <p className="eyebrow">Why brands choose us</p>
             <h2 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">
@@ -163,7 +186,7 @@ export default function Home() {
             </h2>
           </Reveal>
           <Reveal>
-            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:auto-rows-[200px]">
+            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:auto-rows-[200px]">
               <div className="relative overflow-hidden rounded-xl bg-paper-2 sm:row-span-2">
                 <Image src={gallery[0]} alt="Vaelo creative" fill className="object-cover" sizes="(max-width:1024px) 50vw, 33vw" />
               </div>
@@ -186,21 +209,34 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Statement */}
+      {/* Testimonials */}
       <section className="border-t border-line">
-        <div className="container-vaelo py-28 sm:py-40">
+        <div className="container-vaelo py-16 sm:py-24">
           <Reveal>
-            <p className="font-display text-4xl leading-[1.1] sm:text-6xl">
-              We make brands
-              <br />
-              <span className="text-accent">impossible to scroll past.</span>
-            </p>
+            <p className="eyebrow">What clients say</p>
+            <h2 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">
+              Brands that grew with us.
+            </h2>
           </Reveal>
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            {testimonials.map((t, i) => (
+              <Reveal key={t.brand} delay={i * 80}>
+                <figure className="glass flex h-full flex-col justify-between rounded-xl p-7">
+                  <span className="font-display text-4xl text-accent">&ldquo;</span>
+                  <blockquote className="mt-2 text-lg leading-relaxed text-ink">{t.quote}</blockquote>
+                  <figcaption className="mt-6 border-t border-line pt-4 text-sm">
+                    <span className="font-medium">{t.name}</span>
+                    <span className="text-muted"> · {t.brand}</span>
+                  </figcaption>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Selected work — auto-scrolling wall */}
-      <section className="border-t border-line py-24 sm:py-32">
+      <section className="border-t border-line py-16 sm:py-24">
         <div className="container-vaelo">
           <Reveal>
             <div className="flex items-end justify-between">
@@ -216,21 +252,21 @@ export default function Home() {
             </div>
           </Reveal>
         </div>
-        <div className="mt-14">
+        <div className="mt-10">
           <ImageMarquee images={gallery} />
         </div>
       </section>
 
       {/* How it works */}
       <section className="border-t border-line">
-        <div className="container-vaelo py-24 sm:py-32">
+        <div className="container-vaelo py-16 sm:py-24">
           <Reveal>
             <h2 className="font-display text-4xl leading-tight sm:text-5xl">How it works</h2>
           </Reveal>
-          <div className="mt-14 grid gap-12 sm:grid-cols-3">
+          <div className="mt-10 grid gap-4 sm:grid-cols-3">
             {steps.map((s, i) => (
-              <Reveal key={s.n} delay={i * 100}>
-                <div className="border-t border-ink pt-6">
+              <Reveal key={s.n} delay={i * 90}>
+                <div className="glass h-full rounded-xl p-7">
                   <p className="font-display text-3xl text-accent">{s.n}</p>
                   <h3 className="mt-4 text-lg font-medium">{s.title}</h3>
                   <p className="mt-2 text-ink-soft">{s.body}</p>
@@ -243,7 +279,7 @@ export default function Home() {
 
       {/* FAQ */}
       <section className="border-t border-line">
-        <div className="container-vaelo py-24 sm:py-32">
+        <div className="container-vaelo py-16 sm:py-24">
           <div className="grid gap-12 lg:grid-cols-[0.7fr_1.3fr]">
             <Reveal>
               <p className="eyebrow">FAQ</p>
