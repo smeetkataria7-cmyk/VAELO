@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Montserrat } from "next/font/google";
 import "./globals.css";
 import { SiteNav } from "@/components/site/nav";
 import { SiteFooter } from "@/components/site/footer";
+import { CursorGlow } from "@/components/site/cursor-glow";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,6 +42,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-paper text-ink">
         <div className="bg-ambient" aria-hidden />
+        <CursorGlow />
         <SiteNav />
         <main className="flex-1">{children}</main>
         <SiteFooter />

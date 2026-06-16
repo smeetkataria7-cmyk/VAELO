@@ -60,26 +60,42 @@ body {
   content: "";
   position: absolute;
   border-radius: 9999px;
-  filter: blur(110px);
+  filter: blur(90px);
   will-change: transform;
 }
 .bg-ambient::before {
-  width: 55vw;
-  height: 55vw;
-  top: -12%;
-  left: -8%;
-  background: radial-gradient(circle, rgba(201, 162, 75, 0.45), transparent 70%);
-  opacity: 0.5;
-  animation: drift1 26s ease-in-out infinite alternate;
+  width: 60vw;
+  height: 60vw;
+  top: -14%;
+  left: -10%;
+  background: radial-gradient(circle, rgba(201, 162, 75, 0.6), transparent 68%);
+  opacity: 0.85;
+  animation: drift1 20s ease-in-out infinite alternate;
 }
 .bg-ambient::after {
-  width: 48vw;
-  height: 48vw;
-  bottom: -18%;
-  right: -10%;
-  background: radial-gradient(circle, rgba(201, 162, 75, 0.3), transparent 70%);
-  opacity: 0.45;
-  animation: drift2 34s ease-in-out infinite alternate;
+  width: 52vw;
+  height: 52vw;
+  bottom: -20%;
+  right: -12%;
+  background: radial-gradient(circle, rgba(201, 162, 75, 0.45), transparent 68%);
+  opacity: 0.7;
+  animation: drift2 27s ease-in-out infinite alternate;
+}
+
+/* Cursor-following spotlight */
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 640px;
+  height: 640px;
+  margin: -320px 0 0 -320px;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 9999px;
+  filter: blur(70px);
+  background: radial-gradient(circle, rgba(201, 162, 75, 0.22), transparent 60%);
+  will-change: transform;
 }
 @keyframes drift1 {
   from { transform: translate(0, 0) scale(1); }
