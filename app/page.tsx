@@ -15,7 +15,7 @@ export default function Home() {
               <br />
               visuals, without the
               <br />
-              <span className="italic text-accent">photoshoot.</span>
+              <span className="text-accent">photoshoot.</span>
             </h1>
             <p className="mt-8 max-w-md text-lg leading-relaxed text-ink-soft">
               We craft studio-grade brand imagery with AI, then run your Instagram
