@@ -1,9 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
 import { hero, services, caseStudies, steps, gallery } from "@/lib/content";
 import { Media } from "@/components/site/media";
 import { Reveal } from "@/components/site/reveal";
 import { Marquee } from "@/components/site/marquee";
 import { ImageMarquee } from "@/components/site/image-marquee";
+import { Stats } from "@/components/site/stats";
+import { Faq } from "@/components/site/faq";
 
 export default function Home() {
   return (
@@ -67,6 +70,11 @@ export default function Home() {
             </span>
           ))}
         </div>
+      </section>
+
+      {/* Stats */}
+      <section className="container-vaelo pb-4">
+        <Stats />
       </section>
 
       {/* Contrast */}
@@ -145,6 +153,39 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Bento — why VAELO */}
+      <section className="border-t border-line">
+        <div className="container-vaelo py-24 sm:py-32">
+          <Reveal>
+            <p className="eyebrow">Why brands choose us</p>
+            <h2 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">
+              Everything in one studio.
+            </h2>
+          </Reveal>
+          <Reveal>
+            <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:auto-rows-[200px]">
+              <div className="relative overflow-hidden rounded-xl bg-paper-2 sm:row-span-2">
+                <Image src={gallery[0]} alt="VAELO creative" fill className="object-cover" sizes="(max-width:1024px) 50vw, 33vw" />
+              </div>
+              <div className="flex flex-col justify-between rounded-xl bg-accent p-7 text-accent-ink">
+                <span className="text-3xl">✦</span>
+                <p className="font-display text-2xl leading-snug">A fraction of the cost of a real shoot.</p>
+              </div>
+              <div className="relative overflow-hidden rounded-xl bg-paper-2">
+                <Image src={gallery[5]} alt="VAELO creative" fill className="object-cover" sizes="33vw" />
+              </div>
+              <div className="flex flex-col justify-between rounded-xl border border-line p-7">
+                <span className="eyebrow">End to end</span>
+                <p className="font-display text-2xl leading-snug">We shoot, post, and run your ads.</p>
+              </div>
+              <div className="relative overflow-hidden rounded-xl bg-paper-2">
+                <Image src={gallery[1]} alt="VAELO creative" fill className="object-cover" sizes="33vw" />
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       {/* Statement */}
       <section className="border-t border-line">
         <div className="container-vaelo py-28 sm:py-40">
@@ -196,6 +237,25 @@ export default function Home() {
                 </div>
               </Reveal>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="border-t border-line">
+        <div className="container-vaelo py-24 sm:py-32">
+          <div className="grid gap-12 lg:grid-cols-[0.7fr_1.3fr]">
+            <Reveal>
+              <p className="eyebrow">FAQ</p>
+              <h2 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">
+                Good questions,
+                <br />
+                answered.
+              </h2>
+            </Reveal>
+            <Reveal>
+              <Faq />
+            </Reveal>
           </div>
         </div>
       </section>
