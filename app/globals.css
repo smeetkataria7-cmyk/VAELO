@@ -40,13 +40,54 @@ html {
 }
 
 body {
-  background:
-    radial-gradient(75% 50% at 50% -6%, rgba(201, 162, 75, 0.13), transparent 55%),
-    var(--paper);
+  background: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/* Ambient aurora — slow drifting gold glows behind everything */
+.bg-ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.bg-ambient::before,
+.bg-ambient::after {
+  content: "";
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(110px);
+  will-change: transform;
+}
+.bg-ambient::before {
+  width: 55vw;
+  height: 55vw;
+  top: -12%;
+  left: -8%;
+  background: radial-gradient(circle, rgba(201, 162, 75, 0.45), transparent 70%);
+  opacity: 0.5;
+  animation: drift1 26s ease-in-out infinite alternate;
+}
+.bg-ambient::after {
+  width: 48vw;
+  height: 48vw;
+  bottom: -18%;
+  right: -10%;
+  background: radial-gradient(circle, rgba(201, 162, 75, 0.3), transparent 70%);
+  opacity: 0.45;
+  animation: drift2 34s ease-in-out infinite alternate;
+}
+@keyframes drift1 {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(22vw, 16vh) scale(1.25); }
+}
+@keyframes drift2 {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(-16vw, -12vh) scale(1.2); }
 }
 
 /* Film grain overlay for richness over the flat black */
@@ -161,5 +202,6 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
   .marquee-track { animation: none; }
+  .bg-ambient::before, .bg-ambient::after { animation: none; }
   html { scroll-behavior: auto; }
 }

@@ -40,6 +40,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-paper text-ink">
+        <div className="bg-ambient" aria-hidden />
         <SiteNav />
         <main className="flex-1">{children}</main>
         <SiteFooter />
