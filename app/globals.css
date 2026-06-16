@@ -10,8 +10,8 @@
   --paper: #0a0a0a;        /* base — black (the 80%) */
   --paper-2: #141414;      /* slightly raised dark surface */
   --ink: #f5f3ee;          /* primary text / white surfaces (the 15%) */
-  --ink-soft: #b9b4aa;     /* secondary text */
-  --muted: #7d776c;        /* tertiary / labels */
+  --ink-soft: #cbc6bc;     /* secondary text — brighter for contrast on black */
+  --muted: #a39b8e;        /* tertiary / labels — readable on black */
   --line: #262320;         /* hairline dividers on black */
   --accent: #c9a24b;       /* gold (the 5%) — used sparingly */
   --accent-ink: #0a0a0a;   /* black text on gold */
