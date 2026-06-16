@@ -22,3 +22,10 @@ create index if not exists leads_status_idx on public.leads (status);
 -- server, which bypasses RLS. With RLS on and no public policies, the anon/public
 -- key cannot read or write leads — exactly what we want.
 alter table public.leads enable row level security;
+
+-- Grant table privileges to the service role ONLY. Required because this project
+-- has "Automatically expose new tables" disabled (so no grants are created by
+-- default). The service key bypasses RLS *policies* but still needs this GRANT.
+-- We intentionally do NOT grant to anon/authenticated — keeps leads server-only.
+grant usage on schema public to service_role;
+grant all privileges on table public.leads to service_role;

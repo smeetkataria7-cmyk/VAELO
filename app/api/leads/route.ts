@@ -54,14 +54,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true }, { status: 201 });
   } catch (err) {
     console.error("Failed to save lead:", err);
-    // TEMP DEBUG: surface the underlying error to diagnose production. Revert after.
-    const detail = err instanceof Error ? err.message : String(err);
-    const key = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
-    const keyFingerprint = key ? `${key.slice(0, 10)}…(len ${key.length})` : "MISSING";
-    const urlHost = (process.env.SUPABASE_URL ?? "").replace(/^https?:\/\//, "").slice(0, 20);
-    return NextResponse.json(
-      { error: "Could not save your request.", detail, keyFingerprint, urlHost },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Could not save your request." }, { status: 500 });
   }
 }
