@@ -9,7 +9,7 @@ export const brand = {
 };
 
 export const about =
-  "Vaelo Creative is a Mumbai-based growth agency built for brands serious about scaling. We combine sharp creative strategy with data-driven performance marketing — so every piece of content has a job to do, and every rupee of ad spend works harder. We're not a vendor. We're your growth partner.";
+  "A Mumbai growth agency for brands serious about scaling. We pair sharp creative with data-driven media — we don't just run ads, we build brands.";
 
 export const services = [
   {
