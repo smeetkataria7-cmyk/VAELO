@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import type { Lead } from "./leads";
+import { inr, type Invoice } from "./invoices";
 
 /**
  * Email notifications via Resend. Gracefully no-ops if RESEND_API_KEY is unset,
@@ -41,5 +42,43 @@ export async function notifyOwnerOfLead(lead: Lead): Promise<void> {
   } catch (err) {
     // Don't fail the lead submission if email fails.
     console.error("[email] Failed to send lead notification:", err);
+  }
+}
+
+/** Sends an invoice reminder to the client. No-ops if email isn't configured. */
+export async function sendInvoiceReminder(inv: Invoice, siteUrl: string): Promise<boolean> {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey || !inv.client_email) return false;
+
+  const resend = new Resend(apiKey);
+  const from = process.env.LEAD_NOTIFY_FROM ?? "Vaelo <onboarding@resend.dev>";
+  const due = inv.due_date ? new Date(inv.due_date) : null;
+  const overdue = !!due && due < new Date(new Date().toDateString());
+  const link = `${siteUrl}/i/${inv.public_token}`;
+
+  try {
+    await resend.emails.send({
+      from,
+      to: inv.client_email,
+      subject: overdue
+        ? `Overdue: invoice ${inv.number} — ${inr(inv.total)}`
+        : `Reminder: invoice ${inv.number} — ${inr(inv.total)}`,
+      text: [
+        `Hi ${inv.client_name},`,
+        ``,
+        overdue
+          ? `This is a friendly reminder that invoice ${inv.number} for ${inr(inv.total)} is now overdue${due ? ` (was due ${due.toLocaleDateString()})` : ""}.`
+          : `This is a friendly reminder that invoice ${inv.number} for ${inr(inv.total)} is due${due ? ` on ${due.toLocaleDateString()}` : " soon"}.`,
+        ``,
+        `View it here: ${link}`,
+        ``,
+        `Thank you,`,
+        `Vaelo Creative`,
+      ].join("\n"),
+    });
+    return true;
+  } catch (err) {
+    console.error("[email] Failed to send invoice reminder:", err);
+    return false;
   }
 }

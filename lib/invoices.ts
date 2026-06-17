@@ -17,6 +17,7 @@ export type Invoice = {
   public_token: string;
   status: "draft" | "sent" | "paid" | "overdue" | "void";
   paid_at: string | null;
+  last_reminded_on: string | null;
   created_at: string;
 };
 
@@ -107,6 +108,11 @@ export async function setInvoiceStatus(
   if (status === "paid") patch.paid_at = new Date().toISOString();
   const { error } = await db().from("invoices").update(patch).eq("id", id);
   if (error) throw new Error(error.message);
+}
+
+export async function markInvoiceReminded(id: string): Promise<void> {
+  const today = new Date().toISOString().slice(0, 10);
+  await db().from("invoices").update({ last_reminded_on: today }).eq("id", id);
 }
 
 /** True if a sent invoice is past its due date. */
