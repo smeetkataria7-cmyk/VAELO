@@ -20,6 +20,7 @@ export default async function AdminProjectsPage() {
         <h1 className="text-2xl font-semibold tracking-tight">Projects</h1>
         <Link href="/admin" className="text-sm text-muted hover:text-ink">Leads →</Link>
         <Link href="/admin/proposals" className="text-sm text-muted hover:text-ink">Proposals →</Link>
+        <Link href="/admin/invoices" className="text-sm text-muted hover:text-ink">Invoices →</Link>
       </div>
 
       {projects.length === 0 ? (

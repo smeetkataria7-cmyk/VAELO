@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { listProposals, inr } from "@/lib/proposals";
 import { convertToProjectAction } from "./actions";
+import { createInvoiceFromProposalAction } from "../invoices/actions";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Proposals · Admin", robots: { index: false } };
@@ -23,6 +24,7 @@ export default async function AdminProposalsPage() {
           <h1 className="text-2xl font-semibold tracking-tight">Proposals</h1>
           <Link href="/admin" className="text-sm text-muted hover:text-ink">Leads →</Link>
           <Link href="/admin/projects" className="text-sm text-muted hover:text-ink">Projects →</Link>
+          <Link href="/admin/invoices" className="text-sm text-muted hover:text-ink">Invoices →</Link>
         </div>
         <Link
           href="/admin/proposals/new"
@@ -63,9 +65,14 @@ export default async function AdminProposalsPage() {
                         View →
                       </a>
                       {p.status === "accepted" && (
-                        <form action={convertToProjectAction.bind(null, p.id)}>
-                          <button className="text-ink-soft hover:text-ink">+ Project</button>
-                        </form>
+                        <>
+                          <form action={convertToProjectAction.bind(null, p.id)}>
+                            <button className="text-ink-soft hover:text-ink">+ Project</button>
+                          </form>
+                          <form action={createInvoiceFromProposalAction.bind(null, p.id)}>
+                            <button className="text-ink-soft hover:text-ink">+ Invoice</button>
+                          </form>
+                        </>
                       )}
                     </div>
                   </td>

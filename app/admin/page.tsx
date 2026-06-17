@@ -27,6 +27,7 @@ export default async function AdminLeadsPage() {
           <h1 className="text-2xl font-semibold tracking-tight">Leads</h1>
           <a href="/admin/proposals" className="text-sm text-muted hover:text-ink">Proposals →</a>
           <a href="/admin/projects" className="text-sm text-muted hover:text-ink">Projects →</a>
+          <a href="/admin/invoices" className="text-sm text-muted hover:text-ink">Invoices →</a>
         </div>
         <div className="flex items-center gap-4">
           <span className="rounded-full bg-paper-2 px-3 py-1 text-sm text-muted">

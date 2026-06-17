@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase-server";
 import { getProposalsForEmail, inr, type Proposal } from "@/lib/proposals";
 import { getProjectsForEmail, type Project } from "@/lib/projects";
+import { getInvoicesForEmail, isOverdue, type Invoice } from "@/lib/invoices";
 
 export const metadata = {
   title: "Portal",
@@ -26,6 +27,9 @@ const statusColor: Record<string, string> = {
   active: "text-green-400",
   paused: "text-muted",
   completed: "text-ink-soft",
+  paid: "text-green-400",
+  overdue: "text-red-400",
+  void: "text-muted",
 };
 
 export default async function PortalPage() {
@@ -38,10 +42,12 @@ export default async function PortalPage() {
   const email = user.email ?? "";
   let proposals: Proposal[] = [];
   let projects: Project[] = [];
+  let invoices: Invoice[] = [];
   try {
-    [proposals, projects] = await Promise.all([
+    [proposals, projects, invoices] = await Promise.all([
       getProposalsForEmail(email),
       getProjectsForEmail(email),
+      getInvoicesForEmail(email),
     ]);
   } catch {
     // tables may not exist yet — show empty states
@@ -104,18 +110,39 @@ export default async function PortalPage() {
         )}
       </div>
 
-      {/* Coming soon */}
-      <div className="mt-12 grid gap-4 sm:grid-cols-2">
-        {[
-          { title: "Invoices", body: "See what's due and pay securely." },
-          { title: "Files", body: "Approve creatives and download your assets." },
-        ].map((c) => (
-          <div key={c.title} className="glass rounded-xl p-7">
-            <h2 className="font-display text-xl">{c.title}</h2>
-            <p className="mt-2 text-sm text-ink-soft">{c.body}</p>
-            <p className="eyebrow mt-6 text-accent/70">Coming soon</p>
+      {/* Invoices */}
+      <div className="mt-12">
+        <h2 className="font-display text-2xl">Your invoices</h2>
+        {invoices.length === 0 ? (
+          <p className="mt-3 text-muted">No invoices yet.</p>
+        ) : (
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {invoices.map((inv) => {
+              const status = isOverdue(inv) ? "overdue" : inv.status;
+              return (
+                <Link key={inv.id} href={`/i/${inv.public_token}`} className="glass block rounded-xl p-6 transition-colors hover:border-accent/40">
+                  <div className="flex items-baseline justify-between">
+                    <h3 className="font-display text-lg">{inv.number}</h3>
+                    <span className={`eyebrow capitalize ${statusColor[status] ?? ""}`}>{status}</span>
+                  </div>
+                  <p className="mt-2 font-display text-2xl">{inr(inv.total)}</p>
+                  {inv.due_date && status !== "paid" && (
+                    <p className="mt-1 text-xs text-muted">Due {new Date(inv.due_date).toLocaleDateString()}</p>
+                  )}
+                </Link>
+              );
+            })}
           </div>
-        ))}
+        )}
+      </div>
+
+      {/* Files — coming soon */}
+      <div className="mt-12">
+        <div className="glass rounded-xl p-7">
+          <h2 className="font-display text-xl">Files</h2>
+          <p className="mt-2 text-sm text-ink-soft">Approve creatives and download your assets.</p>
+          <p className="eyebrow mt-6 text-accent/70">Coming soon</p>
+        </div>
       </div>
     </section>
   );
