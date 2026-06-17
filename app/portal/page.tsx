@@ -48,24 +48,26 @@ export default async function PortalPage() {
   if (!user) redirect("/login");
 
   const email = user.email ?? "";
-  let proposals: Proposal[] = [];
-  let projects: Project[] = [];
-  let invoices: Invoice[] = [];
-  let brand: BrandBrain | null = null;
-  let files: FileRec[] = [];
-  try {
-    [proposals, projects, invoices, brand, files] = await Promise.all([
-      getProposalsForEmail(email),
-      getProjectsForEmail(email),
-      getInvoicesForEmail(email),
-      getBrandBrainForEmail(email),
-      listFilesForEmail(email),
-    ]);
-  } catch {
-    // tables may not exist yet — show empty states
-  }
+
+  // Fetch each independently so a missing/erroring table can't blank the others.
+  const [proposalsR, projectsR, invoicesR, brandR, filesR] = await Promise.allSettled([
+    getProposalsForEmail(email),
+    getProjectsForEmail(email),
+    getInvoicesForEmail(email),
+    getBrandBrainForEmail(email),
+    listFilesForEmail(email),
+  ]);
+  const proposals: Proposal[] = proposalsR.status === "fulfilled" ? proposalsR.value : [];
+  const projects: Project[] = projectsR.status === "fulfilled" ? projectsR.value : [];
+  const invoices: Invoice[] = invoicesR.status === "fulfilled" ? invoicesR.value : [];
+  const brand: BrandBrain | null = brandR.status === "fulfilled" ? brandR.value : null;
+  const files: FileRec[] = filesR.status === "fulfilled" ? filesR.value : [];
+
   const fileItems = await Promise.all(
-    files.map(async (f) => ({ ...f, url: await signedUrlFor(f.path) }))
+    files.map(async (f) => ({
+      ...f,
+      url: await signedUrlFor(f.path).catch(() => null),
+    }))
   );
 
   return (
