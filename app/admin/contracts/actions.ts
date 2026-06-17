@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { createContract, deleteContract } from "@/lib/contracts";
+import { createContract, deleteContract, uploadContractPdf } from "@/lib/contracts";
 
 export async function deleteContractAction(id: string) {
   await deleteContract(id);
@@ -14,7 +14,15 @@ export async function createContractAction(formData: FormData) {
   const client_name = String(formData.get("client_name") || "").trim();
   const client_email = String(formData.get("client_email") || "").trim();
   const body = String(formData.get("body") || "").trim();
+  const file_link = String(formData.get("file_link") || "").trim();
   if (!title || !client_name) return;
-  await createContract({ title, client_name, client_email, body });
+
+  const file = formData.get("file");
+  let file_path = "";
+  if (file instanceof File && file.size > 0) {
+    file_path = await uploadContractPdf(file);
+  }
+
+  await createContract({ title, client_name, client_email, body, file_path, file_link });
   redirect("/admin/contracts");
 }

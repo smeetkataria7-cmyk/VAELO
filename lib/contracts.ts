@@ -6,6 +6,8 @@ export type Contract = {
   client_name: string;
   client_email: string;
   body: string;
+  file_path: string;
+  file_link: string;
   public_token: string;
   status: "sent" | "signed";
   signer_name: string;
@@ -13,10 +15,28 @@ export type Contract = {
   created_at: string;
 };
 
+const BUCKET = "client-files";
+
 function db() {
   const supabase = getSupabaseAdmin();
   if (!supabase) throw new Error("Supabase is not configured.");
   return supabase;
+}
+
+/** Uploads a contract PDF to private storage, returns its path. */
+export async function uploadContractPdf(file: File): Promise<string> {
+  const safe = file.name.replace(/[^\w.\-]/g, "_");
+  const path = `contracts/${Date.now()}-${safe}`;
+  const { error } = await db()
+    .storage.from(BUCKET)
+    .upload(path, file, { contentType: file.type || "application/pdf" });
+  if (error) throw new Error(error.message);
+  return path;
+}
+
+export async function signedContractUrl(path: string): Promise<string | null> {
+  const { data } = await db().storage.from(BUCKET).createSignedUrl(path, 60 * 60);
+  return data?.signedUrl ?? null;
 }
 
 export async function createContract(input: {
@@ -24,6 +44,8 @@ export async function createContract(input: {
   client_name: string;
   client_email?: string;
   body?: string;
+  file_path?: string;
+  file_link?: string;
 }): Promise<Contract> {
   const { data, error } = await db()
     .from("contracts")
@@ -32,6 +54,8 @@ export async function createContract(input: {
       client_name: input.client_name,
       client_email: input.client_email ?? "",
       body: input.body ?? "",
+      file_path: input.file_path ?? "",
+      file_link: input.file_link ?? "",
       public_token: crypto.randomUUID(),
       status: "sent",
     })

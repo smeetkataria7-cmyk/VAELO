@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getContractByToken } from "@/lib/contracts";
+import { getContractByToken, signedContractUrl } from "@/lib/contracts";
 import { signContractAction } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -15,6 +15,8 @@ export default async function ContractPage({
   const c = await getContractByToken(token);
   if (!c) notFound();
 
+  const pdfUrl = c.file_link || (c.file_path ? await signedContractUrl(c.file_path) : null);
+
   return (
     <section className="container-vaelo max-w-2xl py-16 sm:py-24">
       <Link href="/portal" className="mb-8 inline-flex items-center gap-1 text-sm text-muted transition-colors hover:text-ink">
@@ -24,9 +26,32 @@ export default async function ContractPage({
       <p className="eyebrow">Contract for {c.client_name}</p>
       <h1 className="font-display mt-4 text-4xl sm:text-5xl">{c.title}</h1>
 
-      <div className="mt-8 whitespace-pre-line rounded-2xl border border-line p-6 leading-relaxed text-ink-soft">
-        {c.body || "No contract text provided."}
-      </div>
+      {c.body && (
+        <div className="mt-8 whitespace-pre-line rounded-2xl border border-line p-6 leading-relaxed text-ink-soft">
+          {c.body}
+        </div>
+      )}
+
+      {pdfUrl ? (
+        <div className="mt-8">
+          <a
+            href={pdfUrl}
+            target="_blank"
+            className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline"
+          >
+            Open contract PDF →
+          </a>
+          <iframe
+            src={pdfUrl}
+            className="mt-4 h-[60vh] w-full rounded-2xl border border-line"
+            title="Contract PDF"
+          />
+        </div>
+      ) : (
+        !c.body && (
+          <p className="mt-8 text-muted">No contract document provided.</p>
+        )
+      )}
 
       {c.status === "signed" ? (
         <div className="mt-10 rounded-xl border border-green-500/30 bg-green-500/10 p-6">

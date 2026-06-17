@@ -25,10 +25,21 @@ export default async function AdminContractsPage() {
           <input name="client_name" required placeholder="Client name *" className="border-b border-line bg-transparent pb-2 outline-none focus:border-accent" />
           <ClientEmailInput placeholder="Client email" className="border-b border-line bg-transparent pb-2 outline-none focus:border-accent" />
         </div>
-        <textarea name="body" rows={5} placeholder="Contract terms / text…" className="w-full border-b border-line bg-transparent pb-2 outline-none focus:border-accent" />
+        <div className="grid gap-6 sm:grid-cols-2">
+          <div>
+            <label className="eyebrow block">Upload contract PDF</label>
+            <input name="file" type="file" accept="application/pdf" className="mt-2 block text-sm text-ink-soft" />
+          </div>
+          <div>
+            <label className="eyebrow block">…or paste a link (Drive, etc.)</label>
+            <input name="file_link" type="url" placeholder="https://drive.google.com/…" className="mt-2 w-full border-b border-line bg-transparent pb-2 outline-none focus:border-accent" />
+          </div>
+        </div>
+        <textarea name="body" rows={3} placeholder="Optional terms / note shown above the PDF…" className="w-full border-b border-line bg-transparent pb-2 outline-none focus:border-accent" />
         <button className="rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-paper hover:bg-ink-soft">
           Create &amp; get sign link
         </button>
+        <p className="text-xs text-muted">Upload your PDF (or a link). The client opens it and signs by typing their name.</p>
       </form>
 
       {contracts.length === 0 ? (
