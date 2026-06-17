@@ -1,4 +1,6 @@
 import { getLeads } from "@/lib/leads";
+import { createClient } from "@/lib/supabase-server";
+import { redirect } from "next/navigation";
 
 // Always render fresh (leads change frequently).
 export const dynamic = "force-dynamic";
@@ -7,6 +9,13 @@ export const metadata = {
   title: "Leads · Admin",
   robots: { index: false, follow: false },
 };
+
+async function signOut() {
+  "use server";
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  redirect("/login");
+}
 
 export default async function AdminLeadsPage() {
   const leads = await getLeads();
@@ -17,10 +26,16 @@ export default async function AdminLeadsPage() {
         <div className="flex items-center gap-4">
           <h1 className="text-2xl font-semibold tracking-tight">Leads</h1>
           <a href="/admin/proposals" className="text-sm text-muted hover:text-ink">Proposals →</a>
+          <a href="/admin/projects" className="text-sm text-muted hover:text-ink">Projects →</a>
         </div>
-        <span className="rounded-full bg-paper-2 px-3 py-1 text-sm text-muted">
-          {leads.length} total
-        </span>
+        <div className="flex items-center gap-4">
+          <span className="rounded-full bg-paper-2 px-3 py-1 text-sm text-muted">
+            {leads.length} leads
+          </span>
+          <form action={signOut}>
+            <button className="text-sm text-muted hover:text-ink">Sign out</button>
+          </form>
+        </div>
       </div>
 
       {leads.length === 0 ? (
