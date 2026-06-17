@@ -10,7 +10,7 @@ export function PortalTabs({
   const [active, setActive] = useState(tabs[0]?.key);
   return (
     <div className="mt-10">
-      <nav className="flex flex-wrap gap-1 border-b border-line">
+      <nav className="flex flex-wrap gap-1 border-b border-accent/40">
         {tabs.map((t) => (
           <button
             key={t.key}

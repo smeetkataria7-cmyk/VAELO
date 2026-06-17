@@ -1,7 +1,13 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { createContract } from "@/lib/contracts";
+import { revalidatePath } from "next/cache";
+import { createContract, deleteContract } from "@/lib/contracts";
+
+export async function deleteContractAction(id: string) {
+  await deleteContract(id);
+  revalidatePath("/admin/contracts");
+}
 
 export async function createContractAction(formData: FormData) {
   const title = String(formData.get("title") || "").trim();

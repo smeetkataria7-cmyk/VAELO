@@ -71,6 +71,11 @@ export async function getContractsForEmail(email: string): Promise<Contract[]> {
   return (data ?? []) as Contract[];
 }
 
+export async function deleteContract(id: string): Promise<void> {
+  const { error } = await db().from("contracts").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+}
+
 export async function signContract(token: string, signerName: string): Promise<void> {
   const { error } = await db()
     .from("contracts")

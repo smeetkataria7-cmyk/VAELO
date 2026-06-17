@@ -1,7 +1,7 @@
 import { listContracts } from "@/lib/contracts";
 import { AdminTabs } from "@/components/site/admin-tabs";
 import { ClientEmailInput } from "@/components/site/client-email-input";
-import { createContractAction } from "./actions";
+import { createContractAction, deleteContractAction } from "./actions";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Contracts · Admin", robots: { index: false } };
@@ -55,7 +55,12 @@ export default async function AdminContractsPage() {
                     {c.status === "signed" ? `Signed by ${c.signer_name}` : "Waiting to sign"}
                   </td>
                   <td className="px-4 py-3">
-                    <a href={`/c/${c.public_token}`} target="_blank" className="text-accent hover:underline">View →</a>
+                    <div className="flex items-center gap-4">
+                      <a href={`/c/${c.public_token}`} target="_blank" className="text-accent hover:underline">View</a>
+                      <form action={deleteContractAction.bind(null, c.id)}>
+                        <button className="text-red-400 hover:underline">Delete</button>
+                      </form>
+                    </div>
                   </td>
                 </tr>
               ))}
