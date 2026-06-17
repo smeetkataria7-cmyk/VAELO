@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getContractByToken, signedContractUrl } from "@/lib/contracts";
 import { signContractAction } from "./actions";
+import { getViewer, canAccess } from "@/lib/client-access";
+import { NoAccess } from "@/components/site/no-access";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Contract", robots: { index: false } };
@@ -14,6 +16,7 @@ export default async function ContractPage({
   const { token } = await params;
   const c = await getContractByToken(token);
   if (!c) notFound();
+  if (!canAccess(await getViewer(), c.client_email)) return <NoAccess />;
 
   const pdfUrl = c.file_link || (c.file_path ? await signedContractUrl(c.file_path) : null);
 

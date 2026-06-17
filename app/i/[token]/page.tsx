@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getInvoiceByToken, inr, isOverdue } from "@/lib/invoices";
+import { getViewer, canAccess } from "@/lib/client-access";
+import { NoAccess } from "@/components/site/no-access";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Invoice", robots: { index: false } };
@@ -13,6 +15,7 @@ export default async function InvoicePage({
   const { token } = await params;
   const inv = await getInvoiceByToken(token);
   if (!inv) notFound();
+  if (!canAccess(await getViewer(), inv.client_email)) return <NoAccess />;
 
   const status = isOverdue(inv) ? "overdue" : inv.status;
 

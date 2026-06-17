@@ -33,6 +33,19 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // Client documents (contracts/proposals/invoices) require login.
+  // Ownership (must be the right client, or admin) is enforced in each page.
+  const isDoc =
+    pathname.startsWith("/c/") ||
+    pathname.startsWith("/p/") ||
+    pathname.startsWith("/i/");
+  if (isDoc && !user) {
+    const url = req.nextUrl.clone();
+    url.pathname = "/login";
+    url.searchParams.set("next", pathname);
+    return NextResponse.redirect(url);
+  }
+
   return response;
 }
 

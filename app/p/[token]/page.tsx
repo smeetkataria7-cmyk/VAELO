@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProposalByToken, markViewed, inr } from "@/lib/proposals";
 import { acceptProposal, declineProposal } from "./actions";
+import { getViewer, canAccess } from "@/lib/client-access";
+import { NoAccess } from "@/components/site/no-access";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Proposal", robots: { index: false } };
@@ -14,6 +16,7 @@ export default async function ProposalPage({
   const { token } = await params;
   const p = await getProposalByToken(token);
   if (!p) notFound();
+  if (!canAccess(await getViewer(), p.client_email)) return <NoAccess />;
   await markViewed(token);
 
   const decided = p.status === "accepted" || p.status === "declined";
