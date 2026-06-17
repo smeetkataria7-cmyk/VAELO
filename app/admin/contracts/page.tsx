@@ -1,5 +1,6 @@
 import { listContracts } from "@/lib/contracts";
 import { AdminTabs } from "@/components/site/admin-tabs";
+import { ClientEmailInput } from "@/components/site/client-email-input";
 import { createContractAction } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -22,7 +23,7 @@ export default async function AdminContractsPage() {
         <div className="grid gap-4 sm:grid-cols-3">
           <input name="title" required placeholder="Contract title *" className="border-b border-line bg-transparent pb-2 outline-none focus:border-accent" />
           <input name="client_name" required placeholder="Client name *" className="border-b border-line bg-transparent pb-2 outline-none focus:border-accent" />
-          <input name="client_email" type="email" placeholder="Client email" className="border-b border-line bg-transparent pb-2 outline-none focus:border-accent" />
+          <ClientEmailInput placeholder="Client email" className="border-b border-line bg-transparent pb-2 outline-none focus:border-accent" />
         </div>
         <textarea name="body" rows={5} placeholder="Contract terms / text…" className="w-full border-b border-line bg-transparent pb-2 outline-none focus:border-accent" />
         <button className="rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-paper hover:bg-ink-soft">

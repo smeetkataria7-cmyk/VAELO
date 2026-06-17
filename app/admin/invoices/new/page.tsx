@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { createInvoiceAction } from "../actions";
+import { ClientEmailInput } from "@/components/site/client-email-input";
 
 export default function NewInvoicePage() {
   const [rows, setRows] = useState([{ desc: "", amount: "" }]);
@@ -19,7 +20,10 @@ export default function NewInvoicePage() {
       <form action={createInvoiceAction} className="mt-8 space-y-6">
         <div className="grid gap-6 sm:grid-cols-2">
           <Field label="Client name" name="client_name" placeholder="Brand name" required />
-          <Field label="Client email" name="client_email" type="email" placeholder="client@brand.com" />
+          <div>
+            <label className="eyebrow block">Client email</label>
+            <ClientEmailInput className="mt-3 w-full border-b border-line bg-transparent pb-2 outline-none focus:border-accent" />
+          </div>
         </div>
         <div className="grid gap-6 sm:grid-cols-2">
           <Field label="Due date" name="due_date" type="date" />

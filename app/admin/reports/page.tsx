@@ -1,5 +1,6 @@
 import { listReports } from "@/lib/reports";
 import { AdminTabs } from "@/components/site/admin-tabs";
+import { ClientEmailInput } from "@/components/site/client-email-input";
 import { createReportAction, deleteReportAction } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -17,7 +18,7 @@ export default async function AdminReportsPage() {
 
       <form action={createReportAction} className="mt-6 space-y-4 rounded-2xl border border-line p-6">
         <div className="grid gap-4 sm:grid-cols-3">
-          <input name="client_email" type="email" required placeholder="Client email *" className={field} />
+          <ClientEmailInput required placeholder="Client email *" className={field} />
           <input name="title" required placeholder="Report title * (e.g. June performance)" className={field} />
           <input name="period" placeholder="Period (e.g. Jun 2026)" className={field} />
         </div>

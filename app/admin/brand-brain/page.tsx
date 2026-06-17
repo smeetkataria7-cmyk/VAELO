@@ -2,6 +2,7 @@ import Link from "next/link";
 import { listBrandBrains } from "@/lib/brand-brain";
 import { openBrandForEmail } from "./actions";
 import { AdminTabs } from "@/components/site/admin-tabs";
+import { ClientEmailInput } from "@/components/site/client-email-input";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Brand Brain · Admin", robots: { index: false } };
@@ -15,10 +16,8 @@ export default async function AdminBrandBrainPage() {
       <h1 className="text-2xl font-semibold tracking-tight">Brand Brain</h1>
 
       <form action={openBrandForEmail} className="mt-6 flex gap-3">
-        <input
+        <ClientEmailInput
           name="email"
-          type="email"
-          placeholder="client@brand.com"
           required
           className="w-72 border-b border-line bg-transparent pb-2 outline-none focus:border-accent"
         />

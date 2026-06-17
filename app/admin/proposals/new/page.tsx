@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { createProposalAction } from "../actions";
+import { ClientEmailInput } from "@/components/site/client-email-input";
 
 export default function NewProposalPage() {
   const [rows, setRows] = useState([{ desc: "", amount: "" }]);
@@ -18,7 +19,10 @@ export default function NewProposalPage() {
         <Field label="Title" name="title" placeholder="Growth retainer — Q3" required />
         <div className="grid gap-6 sm:grid-cols-2">
           <Field label="Client name" name="client_name" placeholder="Brand name" required />
-          <Field label="Client email" name="client_email" type="email" placeholder="client@brand.com" />
+          <div>
+            <label className="eyebrow block">Client email</label>
+            <ClientEmailInput className="mt-3 w-full border-b border-line bg-transparent pb-2 outline-none focus:border-accent" />
+          </div>
         </div>
 
         <div>

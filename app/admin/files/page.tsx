@@ -1,6 +1,7 @@
 import { listAllFiles, signedUrlFor } from "@/lib/files";
 import { uploadFileAction, deleteFileAction } from "./actions";
 import { AdminTabs } from "@/components/site/admin-tabs";
+import { ClientEmailInput } from "@/components/site/client-email-input";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Files · Admin", robots: { index: false } };
@@ -25,11 +26,8 @@ export default async function AdminFilesPage() {
       <form action={uploadFileAction} className="mt-6 space-y-5 rounded-2xl border border-line p-6">
         <div>
           <label className="eyebrow block">Client email</label>
-          <input
-            name="client_email"
-            type="email"
+          <ClientEmailInput
             required
-            placeholder="client@brand.com"
             className="mt-2 w-72 border-b border-line bg-transparent pb-2 outline-none focus:border-accent"
           />
         </div>
