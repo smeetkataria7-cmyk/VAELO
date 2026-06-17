@@ -15,7 +15,7 @@ export function SiteNav() {
           <span className="eyebrow hidden sm:inline">Creative</span>
         </Link>
 
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-6 sm:gap-8">
           <ul className="hidden items-center gap-8 text-sm text-ink-soft sm:flex">
             {links.map((l) => (
               <li key={l.href}>
@@ -26,8 +26,14 @@ export function SiteNav() {
             ))}
           </ul>
           <Link
+            href="/login"
+            className="link-underline text-sm text-ink-soft transition-colors hover:text-ink"
+          >
+            Login
+          </Link>
+          <Link
             href="/contact"
-            className="group inline-flex items-center gap-2 text-sm font-medium"
+            className="group hidden items-center gap-2 text-sm font-medium sm:inline-flex"
           >
             <span className="link-underline">Let&apos;s talk growth</span>
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
