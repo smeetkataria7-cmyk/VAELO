@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getInvoiceByToken, inr, isOverdue } from "@/lib/invoices";
 
@@ -17,6 +18,9 @@ export default async function InvoicePage({
 
   return (
     <section className="container-vaelo max-w-2xl py-16 sm:py-24">
+      <Link href="/portal" className="mb-8 inline-flex items-center gap-1 text-sm text-muted transition-colors hover:text-ink">
+        ← Back to portal
+      </Link>
       <div className="flex items-center justify-between">
         <div>
           <p className="eyebrow">Invoice {inv.number}</p>

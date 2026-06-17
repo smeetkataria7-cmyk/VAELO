@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProposalByToken, markViewed, inr } from "@/lib/proposals";
 import { acceptProposal, declineProposal } from "./actions";
@@ -19,6 +20,9 @@ export default async function ProposalPage({
 
   return (
     <section className="container-vaelo max-w-2xl py-16 sm:py-24">
+      <Link href="/portal" className="mb-8 inline-flex items-center gap-1 text-sm text-muted transition-colors hover:text-ink">
+        ← Back to portal
+      </Link>
       <p className="eyebrow">Proposal for {p.client_name}</p>
       <h1 className="font-display mt-4 text-4xl sm:text-5xl">{p.title}</h1>
 
