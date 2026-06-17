@@ -33,14 +33,24 @@ export default function NewProposalPage() {
                   placeholder="Deliverable"
                   className="flex-1 border-b border-line bg-transparent pb-2 outline-none focus:border-accent"
                 />
-                <input
-                  name="itemAmount"
-                  type="number"
-                  value={r.amount}
-                  onChange={(e) => setRows(rows.map((x, j) => (j === i ? { ...x, amount: e.target.value } : x)))}
-                  placeholder="₹"
-                  className="w-32 border-b border-line bg-transparent pb-2 text-right outline-none focus:border-accent"
-                />
+                <div className="flex w-40 items-center gap-1 border-b border-line pb-2 focus-within:border-accent">
+                  <span className="text-muted">₹</span>
+                  <input
+                    name="itemAmount"
+                    type="text"
+                    inputMode="decimal"
+                    value={r.amount}
+                    onChange={(e) =>
+                      setRows(
+                        rows.map((x, j) =>
+                          j === i ? { ...x, amount: e.target.value.replace(/[^\d.]/g, "") } : x
+                        )
+                      )
+                    }
+                    placeholder="0"
+                    className="w-full bg-transparent text-right outline-none"
+                  />
+                </div>
               </div>
             ))}
           </div>
