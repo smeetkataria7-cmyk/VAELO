@@ -24,6 +24,7 @@ export default async function AdminInvoicesPage() {
           <Link href="/admin" className="text-sm text-muted hover:text-ink">Leads →</Link>
           <Link href="/admin/proposals" className="text-sm text-muted hover:text-ink">Proposals →</Link>
           <Link href="/admin/projects" className="text-sm text-muted hover:text-ink">Projects →</Link>
+          <Link href="/admin/brand-brain" className="text-sm text-muted hover:text-ink">Brand Brain →</Link>
         </div>
         <Link
           href="/admin/invoices/new"

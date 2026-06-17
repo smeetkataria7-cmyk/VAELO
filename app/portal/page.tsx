@@ -4,6 +4,9 @@ import { createClient } from "@/lib/supabase-server";
 import { getProposalsForEmail, inr, type Proposal } from "@/lib/proposals";
 import { getProjectsForEmail, type Project } from "@/lib/projects";
 import { getInvoicesForEmail, isOverdue, type Invoice } from "@/lib/invoices";
+import { getBrandBrainForEmail, type BrandBrain } from "@/lib/brand-brain";
+import { BrandForm } from "@/components/site/brand-form";
+import { saveMyBrand } from "./brand-actions";
 
 export const metadata = {
   title: "Portal",
@@ -43,11 +46,13 @@ export default async function PortalPage() {
   let proposals: Proposal[] = [];
   let projects: Project[] = [];
   let invoices: Invoice[] = [];
+  let brand: BrandBrain | null = null;
   try {
-    [proposals, projects, invoices] = await Promise.all([
+    [proposals, projects, invoices, brand] = await Promise.all([
       getProposalsForEmail(email),
       getProjectsForEmail(email),
       getInvoicesForEmail(email),
+      getBrandBrainForEmail(email),
     ]);
   } catch {
     // tables may not exist yet — show empty states
@@ -134,6 +139,21 @@ export default async function PortalPage() {
             })}
           </div>
         )}
+      </div>
+
+      {/* Brand profile */}
+      <div className="mt-12">
+        <h2 className="font-display text-2xl">Your brand profile</h2>
+        <p className="mt-2 max-w-xl text-sm text-ink-soft">
+          The more we know about your brand, the sharper everything we make. Fill this
+          once — we&apos;ll use it across all your creative.
+        </p>
+        <div className="glass mt-5 rounded-2xl p-6 sm:p-8">
+          <BrandForm
+            initial={brand as unknown as Record<string, string> | null}
+            action={saveMyBrand}
+          />
+        </div>
       </div>
 
       {/* Files — coming soon */}
