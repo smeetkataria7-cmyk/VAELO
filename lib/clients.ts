@@ -25,7 +25,8 @@ export async function listClientOptions(): Promise<ClientOption[]> {
 
   for (const s of sources) {
     const { data } = await supabase.from(s.table).select(`${s.emailCol}, ${s.nameCol}`);
-    (data ?? []).forEach((row: Record<string, string>) => add(row[s.emailCol], row[s.nameCol]));
+    const rows = (data ?? []) as unknown as Record<string, string>[];
+    rows.forEach((row) => add(row[s.emailCol], row[s.nameCol]));
   }
 
   return [...map.entries()]
