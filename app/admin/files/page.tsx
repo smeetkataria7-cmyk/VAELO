@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { listAllFiles, signedUrlFor } from "@/lib/files";
 import { uploadFileAction } from "./actions";
+import { AdminTabs } from "@/components/site/admin-tabs";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Files · Admin", robots: { index: false } };
@@ -19,13 +19,8 @@ export default async function AdminFilesPage() {
 
   return (
     <section className="container-vaelo py-12">
-      <div className="flex items-center gap-4">
-        <h1 className="text-2xl font-semibold tracking-tight">Files</h1>
-        <Link href="/admin" className="text-sm text-muted hover:text-ink">Leads →</Link>
-        <Link href="/admin/proposals" className="text-sm text-muted hover:text-ink">Proposals →</Link>
-        <Link href="/admin/invoices" className="text-sm text-muted hover:text-ink">Invoices →</Link>
-        <Link href="/admin/brand-brain" className="text-sm text-muted hover:text-ink">Brand Brain →</Link>
-      </div>
+      <AdminTabs />
+      <h1 className="text-2xl font-semibold tracking-tight">Files</h1>
 
       <form action={uploadFileAction} className="mt-6 flex flex-wrap items-end gap-4 rounded-2xl border border-line p-6">
         <div>
@@ -39,8 +34,14 @@ export default async function AdminFilesPage() {
           />
         </div>
         <div>
-          <label className="eyebrow block">File</label>
-          <input name="file" type="file" required className="mt-2 block text-sm text-ink-soft" />
+          <label className="eyebrow block">File (image or video, up to ~20 MB)</label>
+          <input
+            name="file"
+            type="file"
+            required
+            accept="image/*,video/*,application/pdf"
+            className="mt-2 block text-sm text-ink-soft"
+          />
         </div>
         <button className="rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-paper hover:bg-ink-soft">
           Upload &amp; deliver

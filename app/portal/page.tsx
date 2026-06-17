@@ -9,6 +9,7 @@ import { BrandForm } from "@/components/site/brand-form";
 import { saveMyBrand } from "./brand-actions";
 import { listFilesForEmail, signedUrlFor, type FileRec } from "@/lib/files";
 import { approveFile, requestRevision } from "./file-actions";
+import { getContractsForEmail, type Contract } from "@/lib/contracts";
 
 export const metadata = {
   title: "Portal",
@@ -38,6 +39,7 @@ const statusColor: Record<string, string> = {
   pending: "text-ink-soft",
   approved: "text-green-400",
   revision: "text-red-400",
+  signed: "text-green-400",
 };
 
 export default async function PortalPage() {
@@ -50,18 +52,21 @@ export default async function PortalPage() {
   const email = user.email ?? "";
 
   // Fetch each independently so a missing/erroring table can't blank the others.
-  const [proposalsR, projectsR, invoicesR, brandR, filesR] = await Promise.allSettled([
-    getProposalsForEmail(email),
-    getProjectsForEmail(email),
-    getInvoicesForEmail(email),
-    getBrandBrainForEmail(email),
-    listFilesForEmail(email),
-  ]);
+  const [proposalsR, projectsR, invoicesR, brandR, filesR, contractsR] =
+    await Promise.allSettled([
+      getProposalsForEmail(email),
+      getProjectsForEmail(email),
+      getInvoicesForEmail(email),
+      getBrandBrainForEmail(email),
+      listFilesForEmail(email),
+      getContractsForEmail(email),
+    ]);
   const proposals: Proposal[] = proposalsR.status === "fulfilled" ? proposalsR.value : [];
   const projects: Project[] = projectsR.status === "fulfilled" ? projectsR.value : [];
   const invoices: Invoice[] = invoicesR.status === "fulfilled" ? invoicesR.value : [];
   const brand: BrandBrain | null = brandR.status === "fulfilled" ? brandR.value : null;
   const files: FileRec[] = filesR.status === "fulfilled" ? filesR.value : [];
+  const contracts: Contract[] = contractsR.status === "fulfilled" ? contractsR.value : [];
 
   const fileItems = await Promise.all(
     files.map(async (f) => ({
@@ -99,6 +104,30 @@ export default async function PortalPage() {
                   <span className={`eyebrow capitalize ${statusColor[p.status] ?? ""}`}>{p.status}</span>
                 </div>
                 <p className="mt-2 text-2xl font-display">{inr(p.total)}</p>
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Contracts */}
+      <div className="mt-12">
+        <h2 className="font-display text-2xl">Your contracts</h2>
+        {contracts.length === 0 ? (
+          <p className="mt-3 text-muted">No contracts yet.</p>
+        ) : (
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {contracts.map((c) => (
+              <Link key={c.id} href={`/c/${c.public_token}`} className="glass block rounded-xl p-6 transition-colors hover:border-accent/40">
+                <div className="flex items-baseline justify-between gap-3">
+                  <h3 className="font-display text-lg">{c.title}</h3>
+                  <span className={`eyebrow capitalize ${statusColor[c.status] ?? ""}`}>
+                    {c.status === "signed" ? "Signed" : "To sign"}
+                  </span>
+                </div>
+                <p className="mt-2 text-sm text-accent">
+                  {c.status === "signed" ? "View" : "Review & sign →"}
+                </p>
               </Link>
             ))}
           </div>

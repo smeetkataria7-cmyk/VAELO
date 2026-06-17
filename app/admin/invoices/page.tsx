@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { listInvoices, inr, isOverdue } from "@/lib/invoices";
 import { markPaidAction, voidInvoiceAction } from "./actions";
+import { AdminTabs } from "@/components/site/admin-tabs";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Invoices · Admin", robots: { index: false } };
@@ -18,14 +19,9 @@ export default async function AdminInvoicesPage() {
 
   return (
     <section className="container-vaelo py-12">
+      <AdminTabs />
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <h1 className="text-2xl font-semibold tracking-tight">Invoices</h1>
-          <Link href="/admin" className="text-sm text-muted hover:text-ink">Leads →</Link>
-          <Link href="/admin/proposals" className="text-sm text-muted hover:text-ink">Proposals →</Link>
-          <Link href="/admin/projects" className="text-sm text-muted hover:text-ink">Projects →</Link>
-          <Link href="/admin/brand-brain" className="text-sm text-muted hover:text-ink">Brand Brain →</Link>
-        </div>
+        <h1 className="text-2xl font-semibold tracking-tight">Invoices</h1>
         <Link
           href="/admin/invoices/new"
           className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-paper hover:bg-ink-soft"

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { listBrandBrains } from "@/lib/brand-brain";
 import { openBrandForEmail } from "./actions";
+import { AdminTabs } from "@/components/site/admin-tabs";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Brand Brain · Admin", robots: { index: false } };
@@ -10,12 +11,8 @@ export default async function AdminBrandBrainPage() {
 
   return (
     <section className="container-vaelo py-12">
-      <div className="flex items-center gap-4">
-        <h1 className="text-2xl font-semibold tracking-tight">Brand Brain</h1>
-        <Link href="/admin" className="text-sm text-muted hover:text-ink">Leads →</Link>
-        <Link href="/admin/proposals" className="text-sm text-muted hover:text-ink">Proposals →</Link>
-        <Link href="/admin/invoices" className="text-sm text-muted hover:text-ink">Invoices →</Link>
-      </div>
+      <AdminTabs />
+      <h1 className="text-2xl font-semibold tracking-tight">Brand Brain</h1>
 
       <form action={openBrandForEmail} className="mt-6 flex gap-3">
         <input

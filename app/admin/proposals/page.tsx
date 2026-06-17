@@ -2,6 +2,7 @@ import Link from "next/link";
 import { listProposals, inr } from "@/lib/proposals";
 import { convertToProjectAction } from "./actions";
 import { createInvoiceFromProposalAction } from "../invoices/actions";
+import { AdminTabs } from "@/components/site/admin-tabs";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Proposals · Admin", robots: { index: false } };
@@ -19,13 +20,9 @@ export default async function AdminProposalsPage() {
 
   return (
     <section className="container-vaelo py-12">
+      <AdminTabs />
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <h1 className="text-2xl font-semibold tracking-tight">Proposals</h1>
-          <Link href="/admin" className="text-sm text-muted hover:text-ink">Leads →</Link>
-          <Link href="/admin/projects" className="text-sm text-muted hover:text-ink">Projects →</Link>
-          <Link href="/admin/invoices" className="text-sm text-muted hover:text-ink">Invoices →</Link>
-        </div>
+        <h1 className="text-2xl font-semibold tracking-tight">Proposals</h1>
         <Link
           href="/admin/proposals/new"
           className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-paper hover:bg-ink-soft"

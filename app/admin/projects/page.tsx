@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { listProjects } from "@/lib/projects";
+import { AdminTabs } from "@/components/site/admin-tabs";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Projects · Admin", robots: { index: false } };
@@ -16,12 +16,8 @@ export default async function AdminProjectsPage() {
 
   return (
     <section className="container-vaelo py-12">
-      <div className="flex items-center gap-4">
-        <h1 className="text-2xl font-semibold tracking-tight">Projects</h1>
-        <Link href="/admin" className="text-sm text-muted hover:text-ink">Leads →</Link>
-        <Link href="/admin/proposals" className="text-sm text-muted hover:text-ink">Proposals →</Link>
-        <Link href="/admin/invoices" className="text-sm text-muted hover:text-ink">Invoices →</Link>
-      </div>
+      <AdminTabs />
+      <h1 className="text-2xl font-semibold tracking-tight">Projects</h1>
 
       {projects.length === 0 ? (
         <p className="mt-8 text-muted">
