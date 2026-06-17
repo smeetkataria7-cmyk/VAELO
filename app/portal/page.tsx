@@ -10,6 +10,7 @@ import { saveMyBrand } from "./brand-actions";
 import { listFilesForEmail, signedUrlFor, type FileRec } from "@/lib/files";
 import { approveFile, requestRevision } from "./file-actions";
 import { getContractsForEmail, type Contract } from "@/lib/contracts";
+import { getReportsForEmail, type Report } from "@/lib/reports";
 import { PortalTabs } from "@/components/site/portal-tabs";
 
 export const metadata = {
@@ -59,7 +60,7 @@ export default async function PortalPage() {
   const email = user.email ?? "";
 
   // Fetch each independently so a missing/erroring table can't blank the others.
-  const [proposalsR, projectsR, invoicesR, brandR, filesR, contractsR] =
+  const [proposalsR, projectsR, invoicesR, brandR, filesR, contractsR, reportsR] =
     await Promise.allSettled([
       getProposalsForEmail(email),
       getProjectsForEmail(email),
@@ -67,6 +68,7 @@ export default async function PortalPage() {
       getBrandBrainForEmail(email),
       listFilesForEmail(email),
       getContractsForEmail(email),
+      getReportsForEmail(email),
     ]);
   const proposals: Proposal[] = proposalsR.status === "fulfilled" ? proposalsR.value : [];
   const projects: Project[] = projectsR.status === "fulfilled" ? projectsR.value : [];
@@ -74,6 +76,7 @@ export default async function PortalPage() {
   const brand: BrandBrain | null = brandR.status === "fulfilled" ? brandR.value : null;
   const files: FileRec[] = filesR.status === "fulfilled" ? filesR.value : [];
   const contracts: Contract[] = contractsR.status === "fulfilled" ? contractsR.value : [];
+  const reports: Report[] = reportsR.status === "fulfilled" ? reportsR.value : [];
 
   const fileItems = await Promise.all(
     files.map(async (f) => ({
@@ -221,6 +224,49 @@ export default async function PortalPage() {
     </div>
   );
 
+  const fmt = (n: number | null) => (n == null ? null : n.toLocaleString("en-IN"));
+  const reportsContent =
+    reports.length === 0 ? (
+      <Empty>No reports yet.</Empty>
+    ) : (
+      <div className="grid gap-4 sm:grid-cols-2">
+        {reports.map((r) => {
+          const metrics = [
+            r.spend != null && (["Spend", inr(r.spend)] as [string, string]),
+            r.reach != null && (["Reach", fmt(r.reach)!] as [string, string]),
+            r.clicks != null && (["Clicks", fmt(r.clicks)!] as [string, string]),
+            r.conversions != null && (["Conversions", fmt(r.conversions)!] as [string, string]),
+            r.roas && (["ROAS", r.roas] as [string, string]),
+          ].filter(Boolean) as [string, string][];
+          return (
+            <div key={r.id} className="glass rounded-xl p-6">
+              <div className="flex items-baseline justify-between gap-3">
+                <h3 className="font-display text-lg">{r.title}</h3>
+                {r.platform && <span className={badge}>{r.platform}</span>}
+              </div>
+              {r.period && <p className="mt-1 text-xs text-muted">{r.period}</p>}
+              {metrics.length > 0 && (
+                <div className="mt-4 grid grid-cols-2 gap-3">
+                  {metrics.map(([k, v]) => (
+                    <div key={k}>
+                      <p className="font-display text-xl">{v}</p>
+                      <p className="text-[11px] uppercase tracking-wider text-muted">{k}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {r.link && (
+                <a href={r.link} target="_blank" className="mt-4 inline-block text-sm text-accent hover:underline">
+                  Open full dashboard →
+                </a>
+              )}
+              {r.notes && <p className="mt-3 text-sm text-ink-soft">{r.notes}</p>}
+            </div>
+          );
+        })}
+      </div>
+    );
+
   return (
     <section className="container-vaelo py-16 sm:py-24">
       <div className="flex flex-wrap items-end justify-between gap-4">
@@ -242,6 +288,7 @@ export default async function PortalPage() {
           { key: "contracts", label: "Contracts", content: contractsContent },
           { key: "projects", label: "Projects", content: projectsContent },
           { key: "invoices", label: "Invoices", content: invoicesContent },
+          { key: "reports", label: "Reports", content: reportsContent },
           { key: "files", label: "Files", content: filesContent },
           { key: "brand", label: "Brand profile", content: brandContent },
         ]}

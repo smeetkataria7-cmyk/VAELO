@@ -10,6 +10,7 @@ const tabs = [
   { href: "/admin/projects", label: "Projects" },
   { href: "/admin/invoices", label: "Invoices" },
   { href: "/admin/files", label: "Files" },
+  { href: "/admin/reports", label: "Reports" },
   { href: "/admin/brand-brain", label: "Brand Brain" },
 ];
 
