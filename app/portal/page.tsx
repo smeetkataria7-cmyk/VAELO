@@ -7,6 +7,8 @@ import { getInvoicesForEmail, isOverdue, type Invoice } from "@/lib/invoices";
 import { getBrandBrainForEmail, type BrandBrain } from "@/lib/brand-brain";
 import { BrandForm } from "@/components/site/brand-form";
 import { saveMyBrand } from "./brand-actions";
+import { listFilesForEmail, signedUrlFor, type FileRec } from "@/lib/files";
+import { approveFile, requestRevision } from "./file-actions";
 
 export const metadata = {
   title: "Portal",
@@ -33,6 +35,9 @@ const statusColor: Record<string, string> = {
   paid: "text-green-400",
   overdue: "text-red-400",
   void: "text-muted",
+  pending: "text-ink-soft",
+  approved: "text-green-400",
+  revision: "text-red-400",
 };
 
 export default async function PortalPage() {
@@ -47,16 +52,21 @@ export default async function PortalPage() {
   let projects: Project[] = [];
   let invoices: Invoice[] = [];
   let brand: BrandBrain | null = null;
+  let files: FileRec[] = [];
   try {
-    [proposals, projects, invoices, brand] = await Promise.all([
+    [proposals, projects, invoices, brand, files] = await Promise.all([
       getProposalsForEmail(email),
       getProjectsForEmail(email),
       getInvoicesForEmail(email),
       getBrandBrainForEmail(email),
+      listFilesForEmail(email),
     ]);
   } catch {
     // tables may not exist yet — show empty states
   }
+  const fileItems = await Promise.all(
+    files.map(async (f) => ({ ...f, url: await signedUrlFor(f.path) }))
+  );
 
   return (
     <section className="container-vaelo py-16 sm:py-24">
@@ -156,13 +166,48 @@ export default async function PortalPage() {
         </div>
       </div>
 
-      {/* Files — coming soon */}
+      {/* Files & approvals */}
       <div className="mt-12">
-        <div className="glass rounded-xl p-7">
-          <h2 className="font-display text-xl">Files</h2>
-          <p className="mt-2 text-sm text-ink-soft">Approve creatives and download your assets.</p>
-          <p className="eyebrow mt-6 text-accent/70">Coming soon</p>
-        </div>
+        <h2 className="font-display text-2xl">Your files</h2>
+        {fileItems.length === 0 ? (
+          <p className="mt-3 text-muted">No files delivered yet.</p>
+        ) : (
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {fileItems.map((f) => (
+              <div key={f.id} className="glass rounded-xl p-6">
+                <div className="flex items-baseline justify-between gap-3">
+                  <h3 className="truncate font-medium" title={f.name}>{f.name}</h3>
+                  <span className={`eyebrow capitalize ${statusColor[f.status] ?? ""}`}>{f.status}</span>
+                </div>
+                {f.url && (
+                  <a href={f.url} target="_blank" className="mt-3 inline-block text-sm text-accent hover:underline">
+                    Open / download →
+                  </a>
+                )}
+                {f.status !== "approved" && (
+                  <div className="mt-4 flex flex-col gap-2">
+                    <form action={approveFile.bind(null, f.id)}>
+                      <button className="w-full rounded-full bg-accent px-4 py-2 text-sm font-medium text-accent-ink hover:opacity-90">
+                        Approve
+                      </button>
+                    </form>
+                    <form action={requestRevision.bind(null, f.id)} className="flex gap-2">
+                      <input
+                        name="comment"
+                        placeholder="What to change?"
+                        className="min-w-0 flex-1 border-b border-line bg-transparent pb-1 text-sm outline-none focus:border-accent"
+                      />
+                      <button className="shrink-0 text-sm text-ink-soft hover:text-ink">Request revision</button>
+                    </form>
+                  </div>
+                )}
+                {f.status === "revision" && f.comment && (
+                  <p className="mt-2 text-xs text-muted">You asked: &ldquo;{f.comment}&rdquo;</p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
