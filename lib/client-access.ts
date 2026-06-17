@@ -1,16 +1,16 @@
 import { createClient } from "./supabase-server";
+import { isAdminEmail } from "./admin";
 
 export type Viewer = { email: string | null; isAdmin: boolean };
 
-/** The currently signed-in viewer (email + whether they're the admin). */
+/** The currently signed-in viewer (email + whether they're an admin). */
 export async function getViewer(): Promise<Viewer> {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const adminEmail = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || "").toLowerCase();
   const email = user?.email?.toLowerCase() ?? null;
-  return { email, isAdmin: !!email && email === adminEmail };
+  return { email, isAdmin: isAdminEmail(email) };
 }
 
 /** Admin can see everything; a client can only see records matching their email. */

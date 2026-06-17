@@ -1,4 +1,5 @@
 import { getSupabaseAdmin } from "./supabase";
+import { getViewer } from "./client-access";
 
 export type ProposalItem = { desc: string; amount: number };
 
@@ -14,6 +15,7 @@ export type Proposal = {
   status: "draft" | "sent" | "viewed" | "accepted" | "declined";
   viewed_at: string | null;
   accepted_at: string | null;
+  created_by: string;
   created_at: string;
 };
 
@@ -42,6 +44,7 @@ export async function createProposal(input: {
       notes: input.notes ?? "",
       public_token: crypto.randomUUID(),
       status: "sent",
+      created_by: (await getViewer()).email ?? "",
     })
     .select()
     .single();

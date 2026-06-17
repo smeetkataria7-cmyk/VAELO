@@ -3,8 +3,7 @@
 import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
-
-const ADMIN_EMAIL = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || "").toLowerCase();
+import { isAdminEmail } from "@/lib/admin";
 
 function LoginInner() {
   const params = useSearchParams();
@@ -36,8 +35,7 @@ function LoginInner() {
         if (error) throw error;
       }
       // Route by role.
-      const dest =
-        email.trim().toLowerCase() === ADMIN_EMAIL ? "/admin" : next;
+      const dest = isAdminEmail(email.trim()) ? "/admin" : next;
       window.location.assign(dest);
     } catch (err) {
       setStatus("error");

@@ -43,6 +43,7 @@ export default async function AdminProposalsPage() {
                 <th className="px-4 py-3 font-medium">Client</th>
                 <th className="px-4 py-3 font-medium">Total</th>
                 <th className="px-4 py-3 font-medium">Status</th>
+                <th className="px-4 py-3 font-medium">By</th>
                 <th className="px-4 py-3 font-medium">Link</th>
               </tr>
             </thead>
@@ -56,6 +57,7 @@ export default async function AdminProposalsPage() {
                   <td className="px-4 py-3">{p.client_name}</td>
                   <td className="px-4 py-3">{inr(p.total)}</td>
                   <td className={`px-4 py-3 capitalize ${statusColor[p.status] ?? ""}`}>{p.status}</td>
+                  <td className="px-4 py-3 text-muted">{p.created_by || "—"}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
                       <a href={`/p/${p.public_token}`} target="_blank" className="text-accent hover:underline">

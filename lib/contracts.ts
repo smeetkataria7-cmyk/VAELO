@@ -1,4 +1,5 @@
 import { getSupabaseAdmin } from "./supabase";
+import { getViewer } from "./client-access";
 
 export type Contract = {
   id: string;
@@ -12,6 +13,7 @@ export type Contract = {
   status: "sent" | "signed";
   signer_name: string;
   signed_at: string | null;
+  created_by: string;
   created_at: string;
 };
 
@@ -58,6 +60,7 @@ export async function createContract(input: {
       file_link: input.file_link ?? "",
       public_token: crypto.randomUUID(),
       status: "sent",
+      created_by: (await getViewer()).email ?? "",
     })
     .select()
     .single();

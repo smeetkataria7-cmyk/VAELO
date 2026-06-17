@@ -53,6 +53,7 @@ export default async function AdminContractsPage() {
                 <th className="px-4 py-3 font-medium">Title</th>
                 <th className="px-4 py-3 font-medium">Client</th>
                 <th className="px-4 py-3 font-medium">Status</th>
+                <th className="px-4 py-3 font-medium">By</th>
                 <th className="px-4 py-3 font-medium">Link</th>
               </tr>
             </thead>
@@ -65,6 +66,7 @@ export default async function AdminContractsPage() {
                   <td className={`px-4 py-3 capitalize ${statusColor[c.status] ?? ""}`}>
                     {c.status === "signed" ? `Signed by ${c.signer_name}` : "Waiting to sign"}
                   </td>
+                  <td className="px-4 py-3 text-muted">{c.created_by || "—"}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-4">
                       <a href={`/c/${c.public_token}`} target="_blank" className="text-accent hover:underline">View</a>

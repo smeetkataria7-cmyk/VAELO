@@ -1,4 +1,5 @@
 import { getSupabaseAdmin } from "./supabase";
+import { getViewer } from "./client-access";
 
 export type Report = {
   id: string;
@@ -13,6 +14,7 @@ export type Report = {
   conversions: number | null;
   roas: string;
   notes: string;
+  created_by: string;
   created_at: string;
 };
 
@@ -46,6 +48,7 @@ export async function createReportFromForm(formData: FormData): Promise<void> {
     conversions: num(formData.get("conversions")),
     roas: String(formData.get("roas") || "").trim(),
     notes: String(formData.get("notes") || "").trim(),
+    created_by: (await getViewer()).email ?? "",
   });
   if (error) throw new Error(error.message);
 }

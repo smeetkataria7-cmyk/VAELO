@@ -58,6 +58,7 @@ export default async function AdminReportsPage() {
                 <th className="px-4 py-3 font-medium">Title</th>
                 <th className="px-4 py-3 font-medium">Client</th>
                 <th className="px-4 py-3 font-medium">Platform</th>
+                <th className="px-4 py-3 font-medium">By</th>
                 <th className="px-4 py-3 font-medium"></th>
               </tr>
             </thead>
@@ -68,6 +69,7 @@ export default async function AdminReportsPage() {
                   <td className="px-4 py-3 font-medium">{r.title}{r.period ? ` · ${r.period}` : ""}</td>
                   <td className="px-4 py-3 text-muted">{r.client_email}</td>
                   <td className="px-4 py-3">{r.platform || "—"}</td>
+                  <td className="px-4 py-3 text-muted">{r.created_by || "—"}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-4">
                       {r.link && <a href={r.link} target="_blank" className="text-accent hover:underline">Open</a>}

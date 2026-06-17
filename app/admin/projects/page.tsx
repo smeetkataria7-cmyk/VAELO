@@ -33,6 +33,7 @@ export default async function AdminProjectsPage() {
                 <th className="px-4 py-3 font-medium">Client</th>
                 <th className="px-4 py-3 font-medium">Email</th>
                 <th className="px-4 py-3 font-medium">Status</th>
+                <th className="px-4 py-3 font-medium">By</th>
               </tr>
             </thead>
             <tbody>
@@ -45,6 +46,7 @@ export default async function AdminProjectsPage() {
                   <td className="px-4 py-3">{p.client_name}</td>
                   <td className="px-4 py-3 text-muted">{p.client_email || "—"}</td>
                   <td className={`px-4 py-3 capitalize ${statusColor[p.status] ?? ""}`}>{p.status}</td>
+                  <td className="px-4 py-3 text-muted">{p.created_by || "—"}</td>
                 </tr>
               ))}
             </tbody>

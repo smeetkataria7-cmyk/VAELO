@@ -42,6 +42,7 @@ export default async function AdminInvoicesPage() {
                 <th className="px-4 py-3 font-medium">Total</th>
                 <th className="px-4 py-3 font-medium">Due</th>
                 <th className="px-4 py-3 font-medium">Status</th>
+                <th className="px-4 py-3 font-medium">By</th>
                 <th className="px-4 py-3 font-medium">Actions</th>
               </tr>
             </thead>
@@ -57,6 +58,7 @@ export default async function AdminInvoicesPage() {
                       {inv.due_date ? new Date(inv.due_date).toLocaleDateString() : "—"}
                     </td>
                     <td className={`px-4 py-3 capitalize ${statusColor[status] ?? ""}`}>{status}</td>
+                    <td className="px-4 py-3 text-muted">{inv.created_by || "—"}</td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
                         <a href={`/i/${inv.public_token}`} target="_blank" className="text-accent hover:underline">View</a>

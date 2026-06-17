@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase-middleware";
+import { adminEmails, isAdminEmail } from "@/lib/admin";
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -7,10 +8,10 @@ export async function middleware(req: NextRequest) {
   // Refresh the Supabase session and learn who the user is.
   const { response, user } = await updateSession(req);
 
-  const adminEmail = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || "").toLowerCase();
-  const isAdmin = !!user?.email && user.email.toLowerCase() === adminEmail;
+  const isAdmin = isAdminEmail(user?.email);
+  const hasAdmins = adminEmails().length > 0;
 
-  // Admin area — must be signed in AS the admin.
+  // Admin area — must be signed in AS an admin.
   if (pathname.startsWith("/admin")) {
     if (!user) {
       const url = req.nextUrl.clone();
@@ -18,7 +19,7 @@ export async function middleware(req: NextRequest) {
       url.searchParams.set("next", pathname);
       return NextResponse.redirect(url);
     }
-    if (adminEmail && !isAdmin) {
+    if (hasAdmins && !isAdmin) {
       const url = req.nextUrl.clone();
       url.pathname = "/portal";
       return NextResponse.redirect(url);

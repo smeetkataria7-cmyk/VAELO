@@ -1,4 +1,5 @@
 import { getSupabaseAdmin } from "./supabase";
+import { getViewer } from "./client-access";
 
 export type InvoiceItem = { desc: string; amount: number };
 
@@ -18,6 +19,7 @@ export type Invoice = {
   status: "draft" | "sent" | "paid" | "overdue" | "void";
   paid_at: string | null;
   last_reminded_on: string | null;
+  created_by: string;
   created_at: string;
 };
 
@@ -63,6 +65,7 @@ export async function createInvoice(input: {
       notes: input.notes ?? "",
       public_token: crypto.randomUUID(),
       status: "sent",
+      created_by: (await getViewer()).email ?? "",
     })
     .select()
     .single();

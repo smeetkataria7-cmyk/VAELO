@@ -1,4 +1,5 @@
 import { getSupabaseAdmin } from "./supabase";
+import { getViewer } from "./client-access";
 
 export type Project = {
   id: string;
@@ -7,6 +8,7 @@ export type Project = {
   client_email: string;
   status: "onboarding" | "active" | "paused" | "completed";
   proposal_id: string | null;
+  created_by: string;
   created_at: string;
 };
 
@@ -31,6 +33,7 @@ export async function createProject(input: {
       client_email: input.client_email ?? "",
       proposal_id: input.proposal_id ?? null,
       status: input.status ?? "active",
+      created_by: (await getViewer()).email ?? "",
     })
     .select()
     .single();
