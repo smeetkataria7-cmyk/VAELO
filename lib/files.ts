@@ -8,6 +8,7 @@ export type FileRec = {
   project_id: string | null;
   name: string;
   path: string;
+  link: string;
   type: string;
   status: "pending" | "approved" | "revision";
   comment: string;
@@ -38,6 +39,29 @@ export async function uploadClientFile(email: string, file: File): Promise<void>
     type: file.type || "",
     status: "pending",
   });
+  if (error) throw new Error(error.message);
+}
+
+/** Delivers a file as an external link (e.g. Google Drive) — no upload. */
+export async function addFileLink(email: string, name: string, link: string): Promise<void> {
+  const { error } = await db().from("files").insert({
+    client_email: email.toLowerCase(),
+    name,
+    path: "",
+    link,
+    type: "link",
+    status: "pending",
+  });
+  if (error) throw new Error(error.message);
+}
+
+/** Removes a file record and its stored object (if any). */
+export async function deleteFile(id: string): Promise<void> {
+  const supabase = db();
+  const { data } = await supabase.from("files").select("path").eq("id", id).maybeSingle();
+  const path = (data as { path?: string } | null)?.path;
+  if (path) await supabase.storage.from(BUCKET).remove([path]);
+  const { error } = await supabase.from("files").delete().eq("id", id);
   if (error) throw new Error(error.message);
 }
 

@@ -1,5 +1,5 @@
 import { listAllFiles, signedUrlFor } from "@/lib/files";
-import { uploadFileAction } from "./actions";
+import { uploadFileAction, deleteFileAction } from "./actions";
 import { AdminTabs } from "@/components/site/admin-tabs";
 
 export const dynamic = "force-dynamic";
@@ -22,7 +22,7 @@ export default async function AdminFilesPage() {
       <AdminTabs />
       <h1 className="text-2xl font-semibold tracking-tight">Files</h1>
 
-      <form action={uploadFileAction} className="mt-6 flex flex-wrap items-end gap-4 rounded-2xl border border-line p-6">
+      <form action={uploadFileAction} className="mt-6 space-y-5 rounded-2xl border border-line p-6">
         <div>
           <label className="eyebrow block">Client email</label>
           <input
@@ -30,22 +30,40 @@ export default async function AdminFilesPage() {
             type="email"
             required
             placeholder="client@brand.com"
-            className="mt-2 w-64 border-b border-line bg-transparent pb-2 outline-none focus:border-accent"
+            className="mt-2 w-72 border-b border-line bg-transparent pb-2 outline-none focus:border-accent"
           />
         </div>
-        <div>
-          <label className="eyebrow block">File (image or video, up to ~20 MB)</label>
-          <input
-            name="file"
-            type="file"
-            required
-            accept="image/*,video/*,application/pdf"
-            className="mt-2 block text-sm text-ink-soft"
-          />
+
+        <div className="grid gap-6 sm:grid-cols-2">
+          <div>
+            <label className="eyebrow block">Upload a file (image / video / PDF, up to ~20 MB)</label>
+            <input
+              name="file"
+              type="file"
+              accept="image/*,video/*,application/pdf"
+              className="mt-2 block text-sm text-ink-soft"
+            />
+          </div>
+          <div>
+            <label className="eyebrow block">…or paste a link (Google Drive, etc. — for big files)</label>
+            <input
+              name="link"
+              type="url"
+              placeholder="https://drive.google.com/…"
+              className="mt-2 w-full border-b border-line bg-transparent pb-2 outline-none focus:border-accent"
+            />
+            <input
+              name="link_name"
+              placeholder="Name for the link (optional)"
+              className="mt-3 w-full border-b border-line bg-transparent pb-2 text-sm outline-none focus:border-accent"
+            />
+          </div>
         </div>
+
         <button className="rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-paper hover:bg-ink-soft">
-          Upload &amp; deliver
+          Deliver to client
         </button>
+        <p className="text-xs text-muted">Upload a file <em>or</em> paste a link — whichever you fill in.</p>
       </form>
 
       {withUrls.length === 0 ? (
@@ -73,11 +91,16 @@ export default async function AdminFilesPage() {
                     {f.status === "revision" && f.comment ? ` — "${f.comment}"` : ""}
                   </td>
                   <td className="px-4 py-3">
-                    {f.url ? (
-                      <a href={f.url} target="_blank" className="text-accent hover:underline">Open</a>
-                    ) : (
-                      <span className="text-muted">—</span>
-                    )}
+                    <div className="flex items-center gap-4">
+                      {f.link || f.url ? (
+                        <a href={f.link || f.url!} target="_blank" className="text-accent hover:underline">Open</a>
+                      ) : (
+                        <span className="text-muted">—</span>
+                      )}
+                      <form action={deleteFileAction.bind(null, f.id)}>
+                        <button className="text-red-400 hover:underline">Delete</button>
+                      </form>
+                    </div>
                   </td>
                 </tr>
               ))}

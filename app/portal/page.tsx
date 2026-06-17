@@ -210,8 +210,8 @@ export default async function PortalPage() {
                   <h3 className="truncate font-medium" title={f.name}>{f.name}</h3>
                   <span className={`eyebrow capitalize ${statusColor[f.status] ?? ""}`}>{f.status}</span>
                 </div>
-                {f.url && (
-                  <a href={f.url} target="_blank" className="mt-3 inline-block text-sm text-accent hover:underline">
+                {(f.link || f.url) && (
+                  <a href={f.link || f.url!} target="_blank" className="mt-3 inline-block text-sm text-accent hover:underline">
                     Open / download →
                   </a>
                 )}
