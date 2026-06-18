@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { viewerIsSuper } from "@/app/admin/client-options-action";
 
 const tabs = [
   { href: "/admin", label: "Leads" },
@@ -16,9 +18,19 @@ const tabs = [
 
 export function AdminTabs() {
   const path = usePathname();
+  const [isSuper, setIsSuper] = useState(false);
+
+  useEffect(() => {
+    viewerIsSuper()
+      .then(setIsSuper)
+      .catch(() => {});
+  }, []);
+
+  const items = isSuper ? [...tabs, { href: "/admin/people", label: "People" }] : tabs;
+
   return (
     <nav className="mb-8 flex flex-wrap gap-1 border-b border-accent/40">
-      {tabs.map((t) => {
+      {items.map((t) => {
         const active = t.href === "/admin" ? path === "/admin" : path.startsWith(t.href);
         return (
           <Link
