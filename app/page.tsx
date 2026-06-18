@@ -70,6 +70,32 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Get started — lead form (high on the page) */}
+      <section id="get-started" className="scroll-mt-24 border-t border-line">
+        <div className="container-vaelo py-16 sm:py-24">
+          <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
+            <Reveal>
+              <p className="eyebrow">Let&apos;s talk growth</p>
+              <h2 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">Tell us about<br />your brand.</h2>
+              <p className="mt-6 max-w-md text-lg text-ink-soft">
+                Share where you want to grow and we&apos;ll come back with how we&apos;d
+                get you there — no pressure, no obligation.
+              </p>
+              <div className="mt-10 space-y-3 text-sm">
+                <a href={`mailto:${brand.email}`} className="block text-ink-soft hover:text-ink">{brand.email}</a>
+                <a href={`tel:${brand.phone.replace(/\s/g, "")}`} className="block text-ink-soft hover:text-ink">{brand.phone}</a>
+                <p className="text-muted">{brand.location}</p>
+              </div>
+            </Reveal>
+            <Reveal delay={100}>
+              <div className="glass rounded-2xl p-6 sm:p-8">
+                <LeadForm />
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
       {/* About */}
       <section className="border-t border-line">
         <div className="container-vaelo py-16 sm:py-24">
@@ -188,31 +214,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Get started — lead form */}
-      <section id="get-started" className="scroll-mt-24 border-t border-line">
-        <div className="container-vaelo py-16 sm:py-24">
-          <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
-            <Reveal>
-              <p className="eyebrow">Let&apos;s talk growth</p>
-              <h2 className="font-display mt-4 text-4xl leading-tight sm:text-5xl">Tell us about<br />your brand.</h2>
-              <p className="mt-6 max-w-md text-lg text-ink-soft">
-                Share where you want to grow and we&apos;ll come back with how we&apos;d
-                get you there — no pressure, no obligation.
-              </p>
-              <div className="mt-10 space-y-3 text-sm">
-                <a href={`mailto:${brand.email}`} className="block text-ink-soft hover:text-ink">{brand.email}</a>
-                <a href={`tel:${brand.phone.replace(/\s/g, "")}`} className="block text-ink-soft hover:text-ink">{brand.phone}</a>
-                <p className="text-muted">{brand.location}</p>
-              </div>
-            </Reveal>
-            <Reveal delay={100}>
-              <div className="glass rounded-2xl p-6 sm:p-8">
-                <LeadForm />
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
       </div>
     </div>
   );

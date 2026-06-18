@@ -2,23 +2,26 @@
 
 import { createClient } from "@/lib/supabase-server";
 import { listClientOptions, type ClientOption } from "@/lib/clients";
-import { isAdminEmail, isSuperAdminEmail } from "@/lib/admin";
+import { resolveRoles } from "@/lib/roles";
 
-/** Whether the signed-in viewer is a master (super) admin. */
-export async function viewerIsSuper(): Promise<boolean> {
+async function roles() {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  return isSuperAdminEmail(user?.email);
+  return resolveRoles(user?.email);
 }
 
 /** Returns the client list — only to a signed-in admin. */
 export async function getClientOptions(): Promise<ClientOption[]> {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!isAdminEmail(user?.email)) return [];
+  if (!(await roles()).isAdmin) return [];
   return listClientOptions();
+}
+
+export async function viewerIsSuper(): Promise<boolean> {
+  return (await roles()).isSuper;
+}
+
+export async function viewerIsAdmin(): Promise<boolean> {
+  return (await roles()).isAdmin;
 }

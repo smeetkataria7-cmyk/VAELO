@@ -3,7 +3,7 @@
 import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
-import { isAdminEmail } from "@/lib/admin";
+import { viewerIsAdmin } from "@/app/admin/client-options-action";
 
 function LoginInner() {
   const params = useSearchParams();
@@ -34,8 +34,9 @@ function LoginInner() {
         const { error } = await supabase.auth.signInWithPassword(creds);
         if (error) throw error;
       }
-      // Route by role.
-      const dest = isAdminEmail(email.trim()) ? "/admin" : next;
+      // Route by role (checked server-side).
+      const isAdmin = await viewerIsAdmin().catch(() => false);
+      const dest = isAdmin ? "/admin" : next;
       window.location.assign(dest);
     } catch (err) {
       setStatus("error");

@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase-middleware";
-import { adminEmails, isAdminEmail } from "@/lib/admin";
+import { resolveRoles } from "@/lib/roles";
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -8,10 +8,7 @@ export async function middleware(req: NextRequest) {
   // Refresh the Supabase session and learn who the user is.
   const { response, user } = await updateSession(req);
 
-  const isAdmin = isAdminEmail(user?.email);
-  const hasAdmins = adminEmails().length > 0;
-
-  // Admin area — must be signed in AS an admin.
+  // Admin area — must be signed in AS an admin (env or team_members).
   if (pathname.startsWith("/admin")) {
     if (!user) {
       const url = req.nextUrl.clone();
@@ -19,7 +16,8 @@ export async function middleware(req: NextRequest) {
       url.searchParams.set("next", pathname);
       return NextResponse.redirect(url);
     }
-    if (hasAdmins && !isAdmin) {
+    const { isAdmin } = await resolveRoles(user.email);
+    if (!isAdmin) {
       const url = req.nextUrl.clone();
       url.pathname = "/portal";
       return NextResponse.redirect(url);
