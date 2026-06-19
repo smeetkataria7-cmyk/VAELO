@@ -38,6 +38,18 @@ export async function removeTeamMember(email: string): Promise<void> {
   if (error) throw new Error(error.message);
 }
 
+/** Sends an email invite so the person can set a password and log in. */
+export async function inviteUser(
+  email: string,
+  redirectTo: string
+): Promise<{ ok: boolean; error?: string }> {
+  const { error } = await db().auth.admin.inviteUserByEmail(email.trim().toLowerCase(), {
+    redirectTo,
+  });
+  if (error) return { ok: false, error: error.message };
+  return { ok: true };
+}
+
 /** Deletes a client's login account by email (revokes portal access). */
 export async function deleteAuthUserByEmail(email: string): Promise<boolean> {
   const supabase = db();

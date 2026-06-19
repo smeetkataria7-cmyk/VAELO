@@ -7,7 +7,7 @@ import { listProposals } from "@/lib/proposals";
 import { listProjects } from "@/lib/projects";
 import { listInvoices } from "@/lib/invoices";
 import { AdminTabs } from "@/components/site/admin-tabs";
-import { addAdminAction, removeAdminAction, removeClientAction } from "./actions";
+import { inviteUserAction, removeAdminAction, removeClientAction } from "./actions";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "People · Admin", robots: { index: false } };
@@ -53,24 +53,25 @@ export default async function PeoplePage() {
         Admins ({adminList.length})
       </h2>
 
-      <form action={addAdminAction} className="mt-3 flex flex-wrap items-end gap-3 rounded-2xl border border-line p-5">
+      <form action={inviteUserAction} className="mt-3 flex flex-wrap items-end gap-3 rounded-2xl border border-line p-5">
         <div>
-          <label className="eyebrow block">New admin email</label>
-          <input name="email" type="email" required placeholder="colleague@vaelocreative.com" className={`mt-2 w-72 ${field}`} />
+          <label className="eyebrow block">Invite email</label>
+          <input name="email" type="email" required placeholder="person@email.com" className={`mt-2 w-72 ${field}`} />
         </div>
         <div>
           <label className="eyebrow block">Role</label>
-          <select name="role" defaultValue="admin" className={`mt-2 ${field}`}>
+          <select name="role" defaultValue="client" className={`mt-2 ${field}`}>
+            <option value="client">Client (portal)</option>
             <option value="admin">Admin</option>
             <option value="super">Master admin</option>
           </select>
         </div>
         <button className="rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-paper hover:bg-ink-soft">
-          Add admin
+          Send invite
         </button>
       </form>
       <p className="mt-2 text-xs text-muted">
-        They then sign up at <span className="text-ink-soft">/login</span> with this email to get access.
+        They get an email with a link to set a password and log in. Admin/Master roles also get admin access.
       </p>
 
       <div className="mt-4 overflow-x-auto rounded-2xl border border-line">

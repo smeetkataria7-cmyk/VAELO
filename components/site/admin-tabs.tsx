@@ -11,9 +11,15 @@ const tabs = [
   { href: "/admin/contracts", label: "Contracts" },
   { href: "/admin/projects", label: "Projects" },
   { href: "/admin/invoices", label: "Invoices" },
+  { href: "/admin/billing", label: "Billing" },
   { href: "/admin/files", label: "Files" },
   { href: "/admin/reports", label: "Reports" },
   { href: "/admin/brand-brain", label: "Brand Brain" },
+];
+
+const superTabs = [
+  { href: "/admin/finance", label: "Finance" },
+  { href: "/admin/people", label: "People" },
 ];
 
 export function AdminTabs() {
@@ -26,7 +32,7 @@ export function AdminTabs() {
       .catch(() => {});
   }, []);
 
-  const items = isSuper ? [...tabs, { href: "/admin/people", label: "People" }] : tabs;
+  const items = isSuper ? [...tabs, ...superTabs] : tabs;
 
   return (
     <nav className="mb-8 flex flex-wrap gap-1 border-b border-accent/40">
