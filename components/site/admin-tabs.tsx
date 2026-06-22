@@ -10,6 +10,7 @@ const tabs = [
   { href: "/admin/proposals", label: "Proposals" },
   { href: "/admin/contracts", label: "Contracts" },
   { href: "/admin/projects", label: "Projects" },
+  { href: "/admin/works", label: "Works" },
   { href: "/admin/invoices", label: "Invoices" },
   { href: "/admin/billing", label: "Billing" },
   { href: "/admin/files", label: "Files" },

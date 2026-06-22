@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import Image from "next/image";
-import { gallery } from "@/lib/content";
+import fs from "fs";
+import path from "path";
+import { listPublishedWorks, type Work } from "@/lib/works";
+import { caseStudies } from "@/lib/content";
+import { WorksPageClient } from "@/components/site/works-page";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Work",
@@ -9,55 +13,58 @@ export const metadata: Metadata = {
     "AI-generated creatives by Vaelo Creative — studio-quality visuals built to stop the scroll.",
 };
 
-export default function WorkPage() {
-  return (
-    <>
-      <section className="container-vaelo pt-20 pb-12 sm:pt-28">
-        <p className="eyebrow">Selected work</p>
-        <h1 className="font-display mt-6 max-w-3xl text-5xl leading-[1.05] sm:text-7xl">
-          Made with AI.
-          <br />
-          Built for the scroll.
-        </h1>
-        <p className="mt-8 max-w-xl text-lg text-ink-soft">
-          A selection of AI-generated creatives — studio-quality visuals
-          produced in days, not weeks.
-        </p>
-      </section>
+const PALETTE = [
+  "#d6a128", "#c8331f", "#1f2552", "#2f5d3a",
+  "#8d2f6b", "#9bd14a", "#0e4d59", "#b5612b",
+  "#3a1d54", "#1a1a1a",
+];
 
-      <section className="container-vaelo pb-12">
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
-          {gallery.map((src, i) => (
-            <div
-              key={src}
-              className="group relative aspect-[4/5] overflow-hidden rounded-xl bg-paper-2"
-            >
-              <Image
-                src={src}
-                alt={`Vaelo AI creative ${i + 1}`}
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                sizes="(max-width: 1024px) 50vw, 33vw"
-              />
-            </div>
-          ))}
-        </div>
-      </section>
+function fallbackWorks(): Work[] {
+  const now = new Date().toISOString();
+  const base = (i: number): Omit<Work, "slug" | "title" | "image_url" | "categories"> => ({
+    id: `fallback-${i}`,
+    accent_color: PALETTE[i % PALETTE.length],
+    case_url: "",
+    sort_order: i,
+    published: true,
+    created_by: "",
+    created_at: now,
+  });
+  const studies: Work[] = caseStudies.map((c, i) => ({
+    ...base(i),
+    id: `cs-${c.slug}`,
+    slug: c.slug,
+    title: c.brand,
+    image_url: c.image,
+    accent_color: c.accent,
+    categories: c.categories,
+  }));
+  return studies;
+}
 
-      <section className="container-vaelo py-24">
-        <div className="max-w-2xl">
-          <h2 className="font-display text-4xl leading-tight sm:text-5xl">
-            Your brand could be next.
-          </h2>
-          <Link
-            href="/contact"
-            className="group mt-8 inline-flex items-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-paper transition-all hover:gap-3"
-          >
-            Get a free AI sample
-            <span className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
-          </Link>
-        </div>
-      </section>
-    </>
-  );
+/** Read /public/images/work/<slug>/ and return sorted video URLs. */
+function readVideos(slug: string): string[] {
+  try {
+    const dir = path.join(process.cwd(), "public", "images", "work", slug);
+    return fs
+      .readdirSync(dir)
+      .filter((f) => f.endsWith(".mp4"))
+      .sort()
+      .map((f) => `/images/work/${slug}/${f}`);
+  } catch {
+    return [];
+  }
+}
+
+export default async function WorkPage() {
+  const works = await listPublishedWorks().catch(() => []);
+  const items = works.length > 0 ? works : fallbackWorks();
+
+  // Attach local videos to each work.
+  const withVideos: Work[] = items.map((w) => ({
+    ...w,
+    videos: readVideos(w.slug),
+  }));
+
+  return <WorksPageClient works={withVideos} />;
 }

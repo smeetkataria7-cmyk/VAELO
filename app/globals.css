@@ -323,3 +323,60 @@ html.lenis body {
   .img-col { animation: none; }
   html { scroll-behavior: auto; }
 }
+
+/* ----------------------------------------------------------------
+   Works page — Lights On (white mode)
+   Scoped to [data-lights="on"] so nothing else is affected.
+----------------------------------------------------------------- */
+.works-page {
+  transition: background 0.45s ease, color 0.45s ease;
+}
+
+.works-page[data-lights="on"] .works-hero,
+.works-page[data-lights="on"] .works-grid-section,
+.works-page[data-lights="on"] .works-cta {
+  --paper: #ffffff;
+  --paper-2: #f4f4f0;
+  --ink: #0a0a0a;
+  --ink-soft: #444;
+  --muted: #888;
+  --line: #e0ddd8;
+  background: #ffffff;
+  color: #0a0a0a;
+}
+
+.works-page[data-lights="on"] .works-hero .eyebrow {
+  color: #888;
+}
+
+/* Grid wrapper in light mode */
+.works-page[data-lights="on"] .works-grid-section {
+  background: #ffffff;
+}
+
+/* Filter pills active state in light mode uses gold as-is (still works) */
+.works-page[data-lights="on"] .works-cta-headline,
+.works-page[data-lights="on"] .works-cta * {
+  color: #0a0a0a;
+}
+
+.works-page[data-lights="on"] .works-cta .text-accent {
+  color: var(--accent);
+}
+
+.works-page[data-lights="on"] .works-lights-btn {
+  border-color: rgba(0,0,0,0.2);
+  color: #0a0a0a;
+}
+.works-page[data-lights="on"] .works-lights-btn:hover {
+  background: rgba(0,0,0,0.06);
+}
+
+/* Dark mode default for the lights button */
+.works-lights-btn {
+  border-color: rgba(255,255,255,0.25);
+  color: var(--ink);
+}
+.works-lights-btn:hover {
+  background: rgba(255,255,255,0.08);
+}

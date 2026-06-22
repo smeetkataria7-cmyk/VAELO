@@ -60,11 +60,57 @@ export const gallery = [
   "/images/work/6.png",
 ];
 
-// Real portfolio projects + images pulled from vaelocreative.com.
-export const caseStudies = [
-  { slug: "zerolys", brand: "Zerolys", category: "Brand build", image: "/images/work/zerolys.jpg" },
-  { slug: "twenty2", brand: "Twenty2", category: "Eyewear", image: "/images/work/twenty2.jpg" },
-  { slug: "simplicare", brand: "Simplicare", category: "Brand build", image: "/images/work/simplicare.jpg" },
+// Portfolio projects.
+// images: drop the real file in /public/images/work/<slug>.jpg to replace the placeholder.
+export const caseStudies: {
+  slug: string;
+  brand: string;
+  categories: string[];
+  accent: string;
+  image: string;
+}[] = [
+  {
+    slug: "simplicare",
+    brand: "Simplicare",
+    categories: ["Branding"],
+    accent: "#2d5a3d",   // forest green — clean / wellness
+    image: "/images/work/simplicare.jpg",
+  },
+  {
+    slug: "tribalzone",
+    brand: "Tribalzone",
+    categories: ["Branding", "Social Media"],
+    accent: "#1a1a2e",   // deep navy — streetwear / tribe energy
+    image: "/images/work/tribalzone.jpg",
+  },
+  {
+    slug: "dvoc",
+    brand: "DVOC",
+    categories: ["Branding", "Strategy"],
+    accent: "#c8331f",   // bold red — strong identity
+    image: "/images/work/dvoc.jpg",
+  },
+  {
+    slug: "marigold-miraya",
+    brand: "Marigold Miraya",
+    categories: ["Branding", "AI Production"],
+    accent: "#c9871a",   // warm marigold / gold
+    image: "/images/work/marigold-miraya.jpg",
+  },
+  {
+    slug: "zerolys",
+    brand: "Zerolys",
+    categories: ["Branding"],
+    accent: "#0e2a47",   // midnight blue — tech / health
+    image: "/images/work/zerolys.jpg",
+  },
+  {
+    slug: "conceptual",
+    brand: "Conceptual",
+    categories: ["AI Production"],
+    accent: "#2a0a3a",   // deep grape — experimental / creative
+    image: "/images/work/conceptual.jpg",
+  },
 ];
 
 export const steps = [

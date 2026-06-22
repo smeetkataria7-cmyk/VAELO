@@ -154,10 +154,10 @@ export default function Home() {
             {caseStudies.map((c, i) => (
               <Reveal key={c.slug} delay={i * 90}>
                 <Link href="/work" className="group block">
-                  <Media src={c.image || undefined} alt={`${c.brand} — ${c.category}`} label={c.brand} className="aspect-[4/5] w-full transition-transform duration-500 group-hover:scale-[1.01]" />
+                  <Media src={c.image || undefined} alt={`${c.brand} — ${c.categories[0]}`} label={c.brand} className="aspect-[4/5] w-full transition-transform duration-500 group-hover:scale-[1.01]" />
                   <div className="mt-4 flex items-baseline justify-between">
                     <h3 className="font-display text-xl">{c.brand}</h3>
-                    <span className="eyebrow">{c.category}</span>
+                    <span className="eyebrow">{c.categories[0]}</span>
                   </div>
                 </Link>
               </Reveal>
