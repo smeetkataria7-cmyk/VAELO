@@ -44,7 +44,8 @@ function WorkCard({ work, delay }: { work: Work; delay: number }) {
   }, [active]);
 
   return (
-    <Reveal delay={delay} className="group mb-5 break-inside-avoid">
+    <Reveal delay={delay} className="mb-5 break-inside-avoid">
+    <div className="group cursor-pointer" onClick={() => window.location.href = `/work/${work.slug}`}>
       <div className="relative overflow-hidden rounded-[1.25rem] bg-paper-2">
         {hasVideos ? (
           <video
@@ -117,6 +118,7 @@ function WorkCard({ work, delay }: { work: Work; delay: number }) {
           <p className={`mt-1 text-xs ${subtle}`}>Vaelo Creative</p>
         )}
       </div>
+    </div>
     </Reveal>
   );
 }
