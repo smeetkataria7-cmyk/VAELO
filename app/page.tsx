@@ -19,7 +19,7 @@ export default function Home() {
             <p className="intro intro-d1 text-sm font-semibold uppercase leading-[1.3] tracking-[0.18em] text-ink/80">
               Vaelo. Where strategy meets story.
             </p>
-            <h1 className="font-display intro intro-d2 mt-6 text-4xl font-semibold uppercase leading-[1.05] sm:text-6xl lg:text-7xl">
+            <h1 className="font-display intro intro-d2 mt-6 text-4xl font-semibold uppercase leading-[1.05] sm:text-5xl lg:text-[3.75rem]">
               We don&apos;t just run ads,
               <br />
               we build brands.

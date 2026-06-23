@@ -34,23 +34,22 @@ export function SiteNav() {
           </a>
         </div>
 
-        {/* Center — logo */}
+        {/* Center — logo, single line */}
         <Link
           href="/"
-          className="flex flex-col items-center justify-center text-center"
-          style={{ fontFamily: "var(--font-azeret-mono)", fontSize: "12px", lineHeight: "1.6", fontWeight: 400 }}
+          className="flex items-center justify-center text-center"
+          style={{ fontFamily: "var(--font-azeret-mono)", fontSize: "13px", lineHeight: "1", fontWeight: 400 }}
         >
-          <span>Vaelo</span>
-          <span>Creative</span>
+          Vaelo Creative
         </Link>
 
         {/* Right — pill nav buttons */}
-        <div className="flex items-center justify-end gap-2">
+        <div className="flex items-center justify-end gap-3">
           {navLinks.map((l) => (
             <Link
               key={l.href}
               href={l.href}
-              className="rounded-full border border-ink/60 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink hover:text-paper"
+              className="rounded-full border border-ink px-5 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink hover:text-paper"
             >
               {l.label}
             </Link>
