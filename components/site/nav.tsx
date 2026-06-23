@@ -33,13 +33,15 @@ export function SiteNav() {
         </div>
 
         {/* Center — logo, single line */}
-        <Link
-          href="/"
+        <a
+          href="https://www.vaelocreative.com/"
+          target="_blank"
+          rel="noopener noreferrer"
           className="flex items-center justify-center text-center"
           style={{ fontFamily: "var(--font-azeret-mono)", fontSize: "13px", lineHeight: "1", fontWeight: 400, whiteSpace: "nowrap" }}
         >
           Vaelo Creative
-        </Link>
+        </a>
 
         {/* Right — pill nav buttons */}
         <div className="flex items-center justify-end gap-3">
