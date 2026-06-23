@@ -26,7 +26,7 @@ export function WorksPageClient({ works }: { works: Work[] }) {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-ink"
         >
-          ← Back to mainpage
+          ← Back to Main page
         </a>
       </section>
 
