@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 const links = [
-  { href: "/work", label: "Portfolio" },
+  { href: "https://www.vaelocreative.com/", label: "Portfolio", external: true },
 ];
 
 export function SiteNav() {
@@ -15,13 +15,26 @@ export function SiteNav() {
 
         <div className="flex items-center gap-6 sm:gap-8">
           <ul className="hidden items-center gap-8 text-sm text-ink-soft sm:flex">
-            {links.map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className="link-underline transition-colors hover:text-ink">
-                  {l.label}
-                </Link>
-              </li>
-            ))}
+            {links.map((l) =>
+              l.external ? (
+                <li key={l.href}>
+                  <a
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link-underline transition-colors hover:text-ink"
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ) : (
+                <li key={l.href}>
+                  <Link href={l.href} className="link-underline transition-colors hover:text-ink">
+                    {l.label}
+                  </Link>
+                </li>
+              )
+            )}
           </ul>
           <Link
             href="/login"
