@@ -8,9 +8,9 @@ export function SiteNav() {
   return (
     <header className="sticky top-0 z-50 border-b border-line/70 bg-paper/70 backdrop-blur-xl">
       <nav className="container-vaelo flex h-[72px] items-center justify-between">
-        <Link href="/" className="flex items-baseline gap-2">
-          <span className="font-display text-xl tracking-tight">Vaelo</span>
-          <span className="eyebrow hidden sm:inline">Creative</span>
+        <Link href="/" className="flex flex-col items-center text-center leading-[1.05]">
+          <span className="text-base font-light uppercase tracking-[0.25em]">Vaelo</span>
+          <span className="text-base font-light uppercase tracking-[0.25em]">Creative</span>
         </Link>
 
         <div className="flex items-center gap-6 sm:gap-8">
