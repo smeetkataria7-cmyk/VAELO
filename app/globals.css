@@ -3,7 +3,7 @@
 /* ----------------------------------------------------------------
    Vaelo — refined / premium design system
    Black (80%) · White (15%) · Gold (5%).
-   Serif display (Fraunces) + clean sans (Geist) for body.
+   Work Sans (Semi Bold display + body) — matches the Vaelo brand site.
 ----------------------------------------------------------------- */
 :root {
   color-scheme: light;
@@ -26,9 +26,9 @@
   --color-line: var(--line);
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-work-sans);
   --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-montserrat);
+  --font-display: var(--font-work-sans);
 }
 
 * {
@@ -141,7 +141,7 @@ footer {
   border: 1px solid var(--line);
 }
 
-/* Serif display for headings */
+/* Work Sans Semi Bold for headings */
 .font-display {
   font-family: var(--font-display), "Helvetica Neue", Arial, sans-serif;
   font-weight: 600;
