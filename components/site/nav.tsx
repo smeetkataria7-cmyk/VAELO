@@ -38,7 +38,7 @@ export function SiteNav() {
         <Link
           href="/"
           className="flex items-center justify-center text-center"
-          style={{ fontFamily: "var(--font-azeret-mono)", fontSize: "13px", lineHeight: "1", fontWeight: 400 }}
+          style={{ fontFamily: "var(--font-azeret-mono)", fontSize: "13px", lineHeight: "1", fontWeight: 400, whiteSpace: "nowrap" }}
         >
           Vaelo Creative
         </Link>
