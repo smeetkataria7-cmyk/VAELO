@@ -49,7 +49,7 @@ function readVideos(slug: string): string[] {
     return fs
       .readdirSync(dir)
       .filter((f) => f.endsWith(".mp4"))
-      .sort()
+      .sort((a, b) => parseInt(a) - parseInt(b))
       .map((f) => `/images/work/${slug}/${f}`);
   } catch {
     return [];
