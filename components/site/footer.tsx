@@ -37,8 +37,6 @@ export function SiteFooter() {
           <div className="flex gap-12">
             <div className="flex flex-col gap-2">
               <Link href="/work" className="hover:text-ink">Portfolio</Link>
-              <Link href="/services" className="hover:text-ink">Services</Link>
-              <Link href="/about" className="hover:text-ink">Studio</Link>
             </div>
             <div className="flex flex-col gap-2">
               <a href={`mailto:${brand.email}`} className="hover:text-ink">{brand.email}</a>
