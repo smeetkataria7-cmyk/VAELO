@@ -1,55 +1,62 @@
 import Link from "next/link";
 
-const links = [
+const navLinks = [
   { href: "/work", label: "Portfolio" },
+  { href: "/services", label: "Studio" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function SiteNav() {
   return (
-    <header className="sticky top-0 z-50 border-b border-line/70 bg-paper/70 backdrop-blur-xl">
-      <nav className="container-vaelo flex h-[72px] items-center justify-between">
-        <Link href="/" className="flex flex-col items-center text-center" style={{ fontFamily: "var(--font-azeret-mono)", fontSize: "12px", lineHeight: "1.6", fontWeight: 400 }}>
+    <header className="sticky top-0 z-50 border-b border-line/40 bg-paper/80 backdrop-blur-xl">
+      <nav className="container-vaelo grid h-[72px] grid-cols-3 items-center">
+
+        {/* Left — social icons */}
+        <div className="flex items-center gap-5">
+          <a href="https://instagram.com/vaelocreative" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-ink-soft hover:text-ink transition-colors">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+          <a href="https://facebook.com/vaelocreative" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-ink-soft hover:text-ink transition-colors">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+            </svg>
+          </a>
+          <a href="https://linkedin.com/company/vaelocreative" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-ink-soft hover:text-ink transition-colors">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+              <rect x="2" y="9" width="4" height="12"/>
+              <circle cx="4" cy="4" r="2"/>
+            </svg>
+          </a>
+        </div>
+
+        {/* Center — logo */}
+        <Link
+          href="/"
+          className="flex flex-col items-center justify-center text-center"
+          style={{ fontFamily: "var(--font-azeret-mono)", fontSize: "12px", lineHeight: "1.6", fontWeight: 400 }}
+        >
           <span>Vaelo</span>
           <span>Creative</span>
         </Link>
 
-        <div className="flex items-center gap-6 sm:gap-8">
-          <ul className="hidden items-center gap-8 text-sm text-ink-soft sm:flex">
-            {links.map((l) =>
-              l.external ? (
-                <li key={l.href}>
-                  <a
-                    href={l.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="link-underline transition-colors hover:text-ink"
-                  >
-                    {l.label}
-                  </a>
-                </li>
-              ) : (
-                <li key={l.href}>
-                  <Link href={l.href} className="link-underline transition-colors hover:text-ink">
-                    {l.label}
-                  </Link>
-                </li>
-              )
-            )}
-          </ul>
-          <Link
-            href="/login"
-            className="link-underline text-sm text-ink-soft transition-colors hover:text-ink"
-          >
-            Login
-          </Link>
-          <Link
-            href="/contact"
-            className="group hidden items-center gap-2 text-sm font-medium sm:inline-flex"
-          >
-            <span className="link-underline">Let&apos;s talk growth</span>
-            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-          </Link>
+        {/* Right — pill nav buttons */}
+        <div className="flex items-center justify-end gap-2">
+          {navLinks.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className="rounded-full border border-ink/60 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink hover:text-paper"
+            >
+              {l.label}
+            </Link>
+          ))}
         </div>
+
       </nav>
     </header>
   );
