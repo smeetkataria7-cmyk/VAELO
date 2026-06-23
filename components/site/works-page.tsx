@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useId } from "react";
+import { useId } from "react";
 import Link from "next/link";
 import { WorksGrid } from "@/components/site/works-grid";
 import type { Work } from "@/lib/works";
@@ -14,11 +14,10 @@ const FLOATS: { src: string; cls: string }[] = [
 ];
 
 export function WorksPageClient({ works }: { works: Work[] }) {
-  const [lights, setLights] = useState<"off" | "on">("off"); // off = dark (default), on = light
   const id = useId();
 
   return (
-    <div data-lights={lights} className="works-page">
+    <div className="works-page">
       {/* Hero */}
       <section className="container-vaelo works-hero pt-20 pb-12 text-center sm:pt-28">
         <p className="eyebrow">Selected work</p>
@@ -72,12 +71,6 @@ export function WorksPageClient({ works }: { works: Work[] }) {
                 >
                   Let&apos;s talk growth
                 </Link>
-                <button
-                  onClick={() => setLights((l) => (l === "off" ? "on" : "off"))}
-                  className="works-lights-btn rounded-full border px-7 py-3.5 text-sm font-medium transition-colors"
-                >
-                  {lights === "off" ? "Lights On" : "Lights Off"}
-                </button>
               </div>
             </div>
           </div>
