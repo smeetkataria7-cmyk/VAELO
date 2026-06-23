@@ -1,10 +1,12 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
-const navLinks = [
-  { href: "/work", label: "Portfolio", external: false },
-];
-
 export function SiteNav() {
+  const pathname = usePathname();
+  const isWorkPage = pathname.startsWith("/work");
+
   return (
     <header className="sticky top-0 z-50 border-b border-line/40 bg-paper/80 backdrop-blur-xl">
       <nav className="container-vaelo grid h-[72px] grid-cols-3 items-center gap-2 sm:gap-4">
@@ -45,26 +47,22 @@ export function SiteNav() {
 
         {/* Right — pill nav buttons */}
         <div className="flex items-center justify-end gap-2 sm:gap-3">
-          {navLinks.map((l) =>
-            l.external ? (
-              <a
-                key={l.href}
-                href={l.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full border border-ink px-3 py-1.5 sm:px-5 sm:py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink hover:text-paper"
-              >
-                {l.label}
-              </a>
-            ) : (
-              <Link
-                key={l.href}
-                href={l.href}
-                className="rounded-full border border-ink px-3 py-1.5 sm:px-5 sm:py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink hover:text-paper"
-              >
-                {l.label}
-              </Link>
-            )
+          {isWorkPage ? (
+            <a
+              href="https://www.vaelocreative.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full border border-ink px-3 py-1.5 sm:px-5 sm:py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink hover:text-paper"
+            >
+              Return to Main page
+            </a>
+          ) : (
+            <Link
+              href="/work"
+              className="rounded-full border border-ink px-3 py-1.5 sm:px-5 sm:py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink hover:text-paper"
+            >
+              Portfolio
+            </Link>
           )}
         </div>
 
