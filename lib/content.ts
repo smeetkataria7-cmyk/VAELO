@@ -72,35 +72,35 @@ export const caseStudies: {
   {
     slug: "simplicare",
     brand: "Simplicare",
-    categories: ["Branding"],
+    categories: ["Branding", "Social Media", "Website", "Performance Marketing"],
     accent: "#2d5a3d",   // forest green — clean / wellness
     image: "/images/work/simplicare.jpg",
   },
   {
     slug: "tribalzone",
     brand: "Tribalzone",
-    categories: ["Branding", "Social Media"],
+    categories: ["Branding", "Social Media", "Website", "Performance Marketing"],
     accent: "#1a1a2e",   // deep navy — streetwear / tribe energy
     image: "/images/work/tribalzone.jpg",
   },
   {
     slug: "dvoc",
     brand: "DVOC",
-    categories: ["Branding", "Strategy"],
+    categories: ["Branding", "Social Media", "Website", "Performance Marketing"],
     accent: "#c8331f",   // bold red — strong identity
     image: "/images/work/dvoc.jpg",
   },
   {
     slug: "marigold-miraya",
     brand: "Marigold Miraya",
-    categories: ["Branding", "AI Production"],
+    categories: ["Branding", "AI Production", "Social Media", "Website"],
     accent: "#c9871a",   // warm marigold / gold
     image: "/images/work/marigold-miraya.jpg",
   },
   {
     slug: "zerolys",
     brand: "Zerolys",
-    categories: ["Branding"],
+    categories: ["Website", "Social Media"],
     accent: "#0e2a47",   // midnight blue — tech / health
     image: "/images/work/zerolys.jpg",
   },
