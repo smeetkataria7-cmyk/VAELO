@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Work_Sans } from "next/font/google";
+import { Azeret_Mono, Geist_Mono, Work_Sans } from "next/font/google";
 import "./globals.css";
 import { SiteNav } from "@/components/site/nav";
 import { SiteFooter } from "@/components/site/footer";
@@ -7,6 +7,12 @@ import { SmoothScroll } from "@/components/site/smooth-scroll";
 
 const workSans = Work_Sans({
   variable: "--font-work-sans",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const azeretMono = Azeret_Mono({
+  variable: "--font-azeret-mono",
   subsets: ["latin"],
   display: "swap",
 });
@@ -33,7 +39,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${workSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${workSans.variable} ${geistMono.variable} ${azeretMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-paper text-ink">
         <SmoothScroll />
