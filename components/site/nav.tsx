@@ -1,9 +1,9 @@
 import Link from "next/link";
 
 const navLinks = [
-  { href: "/work", label: "Portfolio" },
-  { href: "/services", label: "Studio" },
-  { href: "/contact", label: "Contact" },
+  { href: "https://www.vaelocreative.com/", label: "Portfolio", external: true },
+  { href: "https://www.vaelocreative.com/", label: "Studio", external: true },
+  { href: "https://www.vaelocreative.com/", label: "Contact", external: true },
 ];
 
 export function SiteNav() {
@@ -45,15 +45,27 @@ export function SiteNav() {
 
         {/* Right — pill nav buttons */}
         <div className="flex items-center justify-end gap-3">
-          {navLinks.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="rounded-full border border-ink px-5 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink hover:text-paper"
-            >
-              {l.label}
-            </Link>
-          ))}
+          {navLinks.map((l) =>
+            l.external ? (
+              <a
+                key={l.href}
+                href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-ink px-5 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink hover:text-paper"
+              >
+                {l.label}
+              </a>
+            ) : (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="rounded-full border border-ink px-5 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:bg-ink hover:text-paper"
+              >
+                {l.label}
+              </Link>
+            )
+          )}
         </div>
 
       </nav>
