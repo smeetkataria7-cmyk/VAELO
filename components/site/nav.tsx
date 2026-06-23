@@ -1,9 +1,7 @@
 import Link from "next/link";
 
 const navLinks = [
-  { href: "https://www.vaelocreative.com/", label: "Portfolio", external: true },
-  { href: "https://www.vaelocreative.com/", label: "Studio", external: true },
-  { href: "https://www.vaelocreative.com/", label: "Contact", external: true },
+  { href: "/work", label: "Portfolio", external: false },
 ];
 
 export function SiteNav() {
