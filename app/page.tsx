@@ -13,10 +13,10 @@ export default function Home() {
   return (
     <div className="relative">
       {/* Hero — pinned, fades as content scrolls over it */}
-      <section className="hero-pin sticky top-0 flex min-h-screen items-center bg-ink text-paper">
+      <section className="hero-pin sticky top-0 flex min-h-screen items-center bg-paper text-ink">
         <ScrollFade className="container-vaelo w-full py-20">
           <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
-            <p className="intro intro-d1 text-sm font-semibold uppercase leading-[1.3] tracking-[0.18em] text-paper/90">
+            <p className="intro intro-d1 text-sm font-semibold uppercase leading-[1.3] tracking-[0.18em] text-ink/80">
               Vaelo. Where strategy meets story.
             </p>
             <h1 className="font-display intro intro-d2 mt-6 text-4xl font-semibold uppercase leading-[1.05] sm:text-6xl lg:text-7xl">
@@ -27,7 +27,7 @@ export default function Home() {
             <div className="intro intro-d4 mt-10">
               <Link
                 href="#get-started"
-                className="inline-flex items-center rounded-full border border-paper bg-paper px-8 py-3.5 text-sm font-semibold uppercase tracking-[0.12em] text-ink transition-colors hover:bg-transparent hover:text-paper"
+                className="inline-flex items-center rounded-full border border-ink bg-ink px-8 py-3.5 text-sm font-semibold uppercase tracking-[0.12em] text-paper transition-colors hover:bg-transparent hover:text-ink"
               >
                 Let&apos;s talk growth
               </Link>

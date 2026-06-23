@@ -6,15 +6,15 @@
    Work Sans (Semi Bold display + body) — matches the Vaelo brand site.
 ----------------------------------------------------------------- */
 :root {
-  color-scheme: light;
-  --paper: #ffffff;        /* base — white */
-  --paper-2: #f4f3f0;      /* light raised surface */
-  --ink: #161616;          /* charcoal text */
-  --ink-soft: #4a4a4a;     /* secondary text */
-  --muted: #8a8a8a;        /* tertiary / labels */
-  --line: #e6e3dd;         /* hairline dividers */
-  --accent: #161616;       /* black accent (matches the brand's black CTAs) */
-  --accent-ink: #ffffff;   /* white text on black */
+  color-scheme: dark;
+  --paper: #0a0a0a;        /* base — near-black */
+  --paper-2: #161616;      /* raised surface */
+  --ink: #f4f3ee;          /* warm white text */
+  --ink-soft: #b3b1aa;     /* secondary text */
+  --muted: #84827b;        /* tertiary / labels */
+  --line: #262522;         /* hairline dividers */
+  --accent: #ffffff;       /* white accent (monochrome, matches the brand site) */
+  --accent-ink: #0a0a0a;   /* dark text on white */
 }
 
 @theme inline {
@@ -206,9 +206,9 @@ html.lenis body {
   position: relative;
   z-index: 10;
   border-radius: 1.75rem 1.75rem 0 0;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   background: var(--paper);
-  box-shadow: 0 -24px 50px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 -24px 60px rgba(0, 0, 0, 0.55);
 }
 
 /* Hero entrance — staggered intro on load */
