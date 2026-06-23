@@ -35,12 +35,14 @@ export default async function WorkDetailPage({
   return (
     <>
       <section className="container-vaelo pt-20 pb-10 sm:pt-28">
-        <Link
-          href="/work"
+        <a
+          href="https://www.vaelocreative.com/"
+          target="_blank"
+          rel="noopener noreferrer"
           className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-ink"
         >
-          ← All work
-        </Link>
+          ← Return to home
+        </a>
 
         <div className="mt-8 flex flex-wrap items-end justify-between gap-4">
           <div>
