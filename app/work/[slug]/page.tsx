@@ -64,9 +64,9 @@ export default async function WorkDetailPage({
         {videos.length === 0 ? (
           <p className="text-muted">No reels yet — drop MP4s in <code>/public/images/work/{slug}/</code></p>
         ) : (
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-5">
             {videos.map((src, i) => (
-              <div key={src} className="overflow-hidden rounded-2xl bg-paper-2">
+              <div key={src} className="overflow-hidden rounded-2xl bg-paper-2 mb-5 break-inside-avoid">
                 <video
                   src={src}
                   autoPlay
