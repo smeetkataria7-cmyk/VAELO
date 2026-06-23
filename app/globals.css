@@ -6,15 +6,15 @@
    Serif display (Fraunces) + clean sans (Geist) for body.
 ----------------------------------------------------------------- */
 :root {
-  color-scheme: dark;
-  --paper: #0a0a0a;        /* base — black (the 80%) */
-  --paper-2: #141414;      /* slightly raised dark surface */
-  --ink: #f5f3ee;          /* primary text / white surfaces (the 15%) */
-  --ink-soft: #cbc6bc;     /* secondary text — brighter for contrast on black */
-  --muted: #a39b8e;        /* tertiary / labels — readable on black */
-  --line: #262320;         /* hairline dividers on black */
-  --accent: #c9a24b;       /* gold (the 5%) — used sparingly */
-  --accent-ink: #0a0a0a;   /* black text on gold */
+  color-scheme: light;
+  --paper: #ffffff;        /* base — white */
+  --paper-2: #f4f3f0;      /* light raised surface */
+  --ink: #161616;          /* charcoal text */
+  --ink-soft: #4a4a4a;     /* secondary text */
+  --muted: #8a8a8a;        /* tertiary / labels */
+  --line: #e6e3dd;         /* hairline dividers */
+  --accent: #161616;       /* black accent (matches the brand's black CTAs) */
+  --accent-ink: #ffffff;   /* white text on black */
 }
 
 @theme inline {
@@ -40,16 +40,18 @@ html {
 }
 
 body {
-  background:
-    radial-gradient(130% 90% at 50% -12%, #15120b 0%, #0a0a0a 46%, #060605 100%);
+  background: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-/* Ambient aurora — slow drifting gold glows behind everything */
+/* Ambient aurora disabled in light theme */
 .bg-ambient {
+  display: none;
+}
+.bg-ambient-unused {
   position: fixed;
   inset: 0;
   z-index: 0;
@@ -83,20 +85,8 @@ body {
   animation: drift2 27s ease-in-out infinite alternate;
 }
 
-/* Faint gold grid that fades toward the edges — adds structure */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(rgba(201, 162, 75, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(201, 162, 75, 0.05) 1px, transparent 1px);
-  background-size: 74px 74px;
-  -webkit-mask-image: radial-gradient(115% 85% at 50% 0%, #000 25%, transparent 78%);
-  mask-image: radial-gradient(115% 85% at 50% 0%, #000 25%, transparent 78%);
-}
+/* Grid disabled in light theme */
+body::after { content: none; }
 @keyframes drift1 {
   from { transform: translate(0, 0) scale(1); }
   to { transform: translate(22vw, 16vh) scale(1.25); }
@@ -106,16 +96,8 @@ body::after {
   to { transform: translate(-16vw, -12vh) scale(1.2); }
 }
 
-/* Film grain overlay for richness over the flat black */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.045;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
+/* Film grain disabled in light theme */
+body::before { content: none; }
 
 /* Keep all content above the grain */
 header,
@@ -153,12 +135,10 @@ footer {
   to { transform: translateY(0); }
 }
 
-/* Glass surface — depth for cards */
+/* Card surface (light) */
 .glass {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012));
-  border: 1px solid rgba(201, 162, 75, 0.16);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: var(--paper);
+  border: 1px solid var(--line);
 }
 
 /* Serif display for headings */
@@ -227,23 +207,8 @@ html.lenis body {
   z-index: 10;
   border-radius: 1.75rem 1.75rem 0 0;
   border-top: 1px solid var(--line);
-  background:
-    radial-gradient(120% 60% at 50% 0%, rgba(201, 162, 75, 0.07), transparent 55%),
-    var(--paper);
-  box-shadow: 0 -30px 60px rgba(0, 0, 0, 0.45);
-}
-.scroll-panel::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  border-radius: inherit;
-  background-image:
-    linear-gradient(rgba(201, 162, 75, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(201, 162, 75, 0.04) 1px, transparent 1px);
-  background-size: 74px 74px;
-  -webkit-mask-image: radial-gradient(120% 80% at 50% 0%, #000 20%, transparent 80%);
-  mask-image: radial-gradient(120% 80% at 50% 0%, #000 20%, transparent 80%);
+  background: var(--paper);
+  box-shadow: 0 -24px 50px rgba(0, 0, 0, 0.08);
 }
 
 /* Hero entrance — staggered intro on load */
