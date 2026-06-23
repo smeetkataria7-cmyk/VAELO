@@ -18,8 +18,20 @@ export function WorksPageClient({ works }: { works: Work[] }) {
 
   return (
     <div className="works-page">
+      {/* Back button */}
+      <section className="container-vaelo pt-6 sm:pt-8">
+        <a
+          href="https://www.vaelocreative.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-ink"
+        >
+          ← Back to mainpage
+        </a>
+      </section>
+
       {/* Hero */}
-      <section className="container-vaelo works-hero pt-20 pb-12 text-center sm:pt-28">
+      <section className="container-vaelo works-hero pt-12 pb-12 text-center sm:pt-20">
         <p className="eyebrow">Selected work</p>
         <h1 className="font-display mx-auto mt-6 max-w-3xl text-5xl leading-[1.05] sm:text-7xl">
           Made with AI.
