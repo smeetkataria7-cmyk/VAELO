@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 
 interface CaseStudy {
   slug: string;
@@ -121,10 +122,10 @@ function CaseStudyCard({ study }: { study: CaseStudy }) {
   };
 
   return (
-    <div
-      ref={cardRef}
-      className="group h-[500px] cursor-pointer perspective"
-      onClick={() => setIsFlipped(!isFlipped)}
+    <Link
+      href={`/case-studies/${study.slug}`}
+      ref={cardRef as any}
+      className="block h-[500px] group perspective hover:opacity-90 transition-opacity"
     >
       <div
         className="relative w-full h-full transition-transform duration-500"
