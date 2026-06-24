@@ -31,7 +31,7 @@ export function WorksPageClient({ works }: { works: Work[] }) {
       </section>
 
       {/* Hero */}
-      <section className="container-vaelo works-hero pt-12 pb-12 text-center sm:pt-20">
+      <section className="container-vaelo works-hero pt-12 pb-16 text-center sm:pt-20 sm:pb-20">
         <p className="eyebrow">Selected work</p>
         <h1 className="font-display mx-auto mt-6 max-w-3xl text-5xl leading-[1.05] sm:text-7xl">
           Made with AI.
@@ -42,11 +42,44 @@ export function WorksPageClient({ works }: { works: Work[] }) {
           A selection of AI-generated creatives and brand builds — studio-quality
           visuals produced in days, not weeks.
         </p>
+
+        {/* What we are + who we work with */}
+        <div className="mx-auto mt-16 max-w-2xl grid gap-12 sm:grid-cols-2 text-left">
+          <div>
+            <p className="eyebrow">Who we are</p>
+            <p className="mt-4 text-sm leading-relaxed text-ink-soft">
+              Full-service <span className="text-ink font-medium">AI-first creative agency</span>. We pair sharp creative with data-driven media — not a performance marketing shop.
+            </p>
+          </div>
+          <div>
+            <p className="eyebrow">Who we serve</p>
+            <p className="mt-4 text-sm leading-relaxed text-ink-soft">
+              <span className="text-ink font-medium">D2C</span> · <span className="text-ink font-medium">Real Estate</span> · <span className="text-ink font-medium">Ed-tech</span> · <span className="text-ink font-medium">Fashion</span>
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* Grid */}
       <section className="works-grid-section container-vaelo pb-20">
         <WorksGrid works={works} />
+      </section>
+
+      {/* What we do */}
+      <section className="container-vaelo border-t border-line py-16 sm:py-24">
+        <p className="eyebrow">What we do</p>
+        <div className="mt-10 grid gap-4 text-sm text-ink-soft sm:grid-cols-2">
+          <div>
+            <p className="text-ink font-medium mb-2">Meta Ads & Paid Social</p>
+            <p className="text-ink font-medium mb-2">Content Strategy & Social Management</p>
+            <p className="text-ink font-medium mb-2">AI-Native Video Production</p>
+          </div>
+          <div>
+            <p className="text-ink font-medium mb-2">Shopify & E-commerce</p>
+            <p className="text-ink font-medium mb-2">Web Design & Development</p>
+            <p className="text-ink font-medium mb-2">Brand Strategy & Creative Direction</p>
+          </div>
+        </div>
       </section>
 
       {/* CTA — "Vaelo the competition" */}
