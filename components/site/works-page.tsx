@@ -3,6 +3,7 @@
 import { useId } from "react";
 import Link from "next/link";
 import { WorksGrid } from "@/components/site/works-grid";
+import { CaseStudies } from "@/components/site/case-studies";
 import type { Work } from "@/lib/works";
 
 // Thumbnails that float around the CTA headline (uses your gallery images).
@@ -64,6 +65,9 @@ export function WorksPageClient({ works }: { works: Work[] }) {
       <section className="works-grid-section container-vaelo pb-20">
         <WorksGrid works={works} />
       </section>
+
+      {/* Case Studies */}
+      <CaseStudies />
 
       {/* What we do */}
       <section className="container-vaelo border-t border-line py-16 sm:py-24">

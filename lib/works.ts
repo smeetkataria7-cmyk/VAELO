@@ -29,9 +29,15 @@ export type Work = {
   published: boolean;
   created_by: string;
   created_at: string;
-  // Local video reels from /public/images/work/<slug>/ — populated server-side.
-  videos?: string[];
+  // Local media (videos + images) from /public/images/work/<slug>/ — populated server-side.
+  media?: MediaItem[];
 };
+
+export type MediaItem = { type: "video" | "image"; src: string };
+
+/** File extensions we treat as portfolio media. */
+export const IMAGE_EXTS = [".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif"];
+export const VIDEO_EXTS = [".mp4", ".webm", ".mov"];
 
 function db() {
   const supabase = getSupabaseAdmin();
