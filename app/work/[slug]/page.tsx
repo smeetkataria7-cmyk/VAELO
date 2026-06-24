@@ -95,19 +95,20 @@ export default async function WorkDetailPage({
       {/* Case Study Section */}
       {caseStudy && (
         <>
-          {/* Challenge */}
+          {/* Challenge + Solution — side by side cards */}
           <section className="container-vaelo border-t border-line py-20">
-            <div className="max-w-4xl">
-              <h2 className="font-display text-4xl sm:text-5xl mb-8">The Challenge</h2>
-              <p className="text-xl leading-relaxed text-ink-soft">{caseStudy.challenge}</p>
-            </div>
-          </section>
-
-          {/* Solution */}
-          <section className="container-vaelo border-t border-line py-20">
-            <div className="max-w-4xl">
-              <h2 className="font-display text-4xl sm:text-5xl mb-8">Our Solution</h2>
-              <p className="text-xl leading-relaxed text-ink-soft">{caseStudy.solution}</p>
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="rounded-2xl border border-line p-8 sm:p-10">
+                <h2 className="font-display text-2xl sm:text-3xl mb-5">The Challenge</h2>
+                <p className="leading-relaxed text-ink-soft">{caseStudy.challenge}</p>
+              </div>
+              <div
+                className="rounded-2xl border p-8 sm:p-10"
+                style={{ borderColor: `${brand.accent}30`, backgroundColor: `${brand.accent}08` }}
+              >
+                <h2 className="font-display text-2xl sm:text-3xl mb-5">Our Solution</h2>
+                <p className="leading-relaxed text-ink-soft">{caseStudy.solution}</p>
+              </div>
             </div>
           </section>
 
