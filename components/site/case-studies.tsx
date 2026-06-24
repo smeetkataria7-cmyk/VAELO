@@ -173,7 +173,7 @@ function CaseStudyCard({ study }: { study: CaseStudy }) {
           <div className="text-xs text-muted">Click to see results →</div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
