@@ -61,32 +61,7 @@ export function WorksPageClient({ works }: { works: Work[] }) {
         </div>
       </section>
 
-      {/* Grid */}
-      <section className="works-grid-section container-vaelo pb-20">
-        <WorksGrid works={works} />
-      </section>
-
-      {/* Case Studies */}
-      <CaseStudies />
-
-      {/* What we do */}
-      <section className="container-vaelo border-t border-line py-16 sm:py-24">
-        <p className="eyebrow">What we do</p>
-        <div className="mt-10 grid gap-4 text-sm text-ink-soft sm:grid-cols-2">
-          <div>
-            <p className="text-ink font-medium mb-2">Meta Ads & Paid Social</p>
-            <p className="text-ink font-medium mb-2">Content Strategy & Social Management</p>
-            <p className="text-ink font-medium mb-2">AI-Native Video Production</p>
-          </div>
-          <div>
-            <p className="text-ink font-medium mb-2">Shopify & E-commerce</p>
-            <p className="text-ink font-medium mb-2">Web Design & Development</p>
-            <p className="text-ink font-medium mb-2">Brand Strategy & Creative Direction</p>
-          </div>
-        </div>
-      </section>
-
-      {/* AI Workflow */}
+      {/* AI Workflow - MOVED TO TOP */}
       <section className="container-vaelo border-t border-line py-16 sm:py-24">
         <p className="eyebrow">How we do it</p>
         <h2 className="font-display mt-6 text-3xl sm:text-5xl">AI-Native Production Engine</h2>
@@ -94,35 +69,41 @@ export function WorksPageClient({ works }: { works: Work[] }) {
           While traditional agencies rely on photographers, production teams, and lengthy creative cycles, we leverage an AI-native production system that transforms ideas into campaign-ready assets at unprecedented speed.
         </p>
 
-        {/* Workflow Steps */}
-        <div className="mt-16 space-y-8 max-w-3xl">
-          <div className="space-y-4">
-            <div>
+        {/* Horizontal Workflow Chain */}
+        <div className="mt-16 overflow-x-auto pb-4">
+          <div className="flex items-center gap-4 min-w-max">
+            {/* Frame Generation */}
+            <div className="flex-shrink-0">
               <p className="eyebrow text-accent">Frame Generation</p>
               <p className="mt-2 text-sm text-ink-soft">Nano Banana</p>
             </div>
-            <p className="text-center text-ink-soft">↓</p>
-          </div>
 
-          <div className="space-y-4">
-            <div>
+            {/* Arrow */}
+            <div className="flex-shrink-0 text-ink-soft text-xl">→</div>
+
+            {/* Motion Creation */}
+            <div className="flex-shrink-0">
               <p className="eyebrow text-accent">Motion Creation</p>
               <p className="mt-2 text-sm text-ink-soft">Higgsfield · Kling · Seedance</p>
             </div>
-            <p className="text-center text-ink-soft">↓</p>
-          </div>
 
-          <div className="space-y-4">
-            <div>
+            {/* Arrow */}
+            <div className="flex-shrink-0 text-ink-soft text-xl">→</div>
+
+            {/* Creative Refinement */}
+            <div className="flex-shrink-0">
               <p className="eyebrow text-accent">Creative Refinement</p>
               <p className="mt-2 text-sm text-ink-soft">Editing · Sound Design · Brand Adaptation</p>
             </div>
-            <p className="text-center text-ink-soft">↓</p>
-          </div>
 
-          <div>
-            <p className="eyebrow text-accent">Deployment</p>
-            <p className="mt-2 text-sm text-ink-soft">Social · Ads · Websites · Sales Assets</p>
+            {/* Arrow */}
+            <div className="flex-shrink-0 text-ink-soft text-xl">→</div>
+
+            {/* Deployment */}
+            <div className="flex-shrink-0">
+              <p className="eyebrow text-accent">Deployment</p>
+              <p className="mt-2 text-sm text-ink-soft">Social · Ads · Websites · Sales Assets</p>
+            </div>
           </div>
         </div>
 
@@ -142,6 +123,31 @@ export function WorksPageClient({ works }: { works: Work[] }) {
           </div>
         </div>
       </section>
+
+      {/* What we do */}
+      <section className="container-vaelo border-t border-line py-16 sm:py-24">
+        <p className="eyebrow">What we do</p>
+        <div className="mt-10 grid gap-4 text-sm text-ink-soft sm:grid-cols-2">
+          <div>
+            <p className="text-ink font-medium mb-2">Meta Ads & Paid Social</p>
+            <p className="text-ink font-medium mb-2">Content Strategy & Social Management</p>
+            <p className="text-ink font-medium mb-2">AI-Native Video Production</p>
+          </div>
+          <div>
+            <p className="text-ink font-medium mb-2">Shopify & E-commerce</p>
+            <p className="text-ink font-medium mb-2">Web Design & Development</p>
+            <p className="text-ink font-medium mb-2">Brand Strategy & Creative Direction</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Grid */}
+      <section className="works-grid-section container-vaelo pb-20 pt-20">
+        <WorksGrid works={works} />
+      </section>
+
+      {/* Case Studies */}
+      <CaseStudies />
 
       {/* CTA — "Vaelo the competition" */}
       <section className="works-cta relative overflow-hidden py-24 sm:py-36">
