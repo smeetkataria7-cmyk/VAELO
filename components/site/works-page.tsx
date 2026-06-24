@@ -82,6 +82,63 @@ export function WorksPageClient({ works }: { works: Work[] }) {
         </div>
       </section>
 
+      {/* AI Workflow */}
+      <section className="container-vaelo border-t border-line py-16 sm:py-24">
+        <p className="eyebrow">How we do it</p>
+        <h2 className="font-display mt-6 text-3xl sm:text-5xl">AI-Native Production Engine</h2>
+        <p className="mt-6 max-w-2xl text-ink-soft">
+          While traditional agencies rely on photographers, production teams, and lengthy creative cycles, we leverage an AI-native production system that transforms ideas into campaign-ready assets at unprecedented speed.
+        </p>
+
+        {/* Workflow Steps */}
+        <div className="mt-16 space-y-8 max-w-3xl">
+          <div className="space-y-4">
+            <div>
+              <p className="eyebrow text-accent">Frame Generation</p>
+              <p className="mt-2 text-sm text-ink-soft">Nano Banana</p>
+            </div>
+            <p className="text-center text-ink-soft">↓</p>
+          </div>
+
+          <div className="space-y-4">
+            <div>
+              <p className="eyebrow text-accent">Motion Creation</p>
+              <p className="mt-2 text-sm text-ink-soft">Higgsfield · Kling · Seedance</p>
+            </div>
+            <p className="text-center text-ink-soft">↓</p>
+          </div>
+
+          <div className="space-y-4">
+            <div>
+              <p className="eyebrow text-accent">Creative Refinement</p>
+              <p className="mt-2 text-sm text-ink-soft">Editing · Sound Design · Brand Adaptation</p>
+            </div>
+            <p className="text-center text-ink-soft">↓</p>
+          </div>
+
+          <div>
+            <p className="eyebrow text-accent">Deployment</p>
+            <p className="mt-2 text-sm text-ink-soft">Social · Ads · Websites · Sales Assets</p>
+          </div>
+        </div>
+
+        {/* Benefits */}
+        <div className="mt-16 grid gap-6 sm:grid-cols-3">
+          <div className="rounded-xl border border-line p-6">
+            <p className="font-display text-2xl sm:text-3xl text-accent">3x</p>
+            <p className="mt-2 text-sm font-medium">Faster Production</p>
+          </div>
+          <div className="rounded-xl border border-line p-6">
+            <p className="font-display text-2xl sm:text-3xl text-accent">10x</p>
+            <p className="mt-2 text-sm font-medium">More Creative Variations</p>
+          </div>
+          <div className="rounded-xl border border-line p-6">
+            <p className="font-display text-2xl sm:text-3xl text-accent">↓ Cost</p>
+            <p className="mt-2 text-sm font-medium">Lower Production Costs</p>
+          </div>
+        </div>
+      </section>
+
       {/* CTA — "Vaelo the competition" */}
       <section className="works-cta relative overflow-hidden py-24 sm:py-36">
         <div className="container-vaelo">
