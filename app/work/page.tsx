@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import fs from "fs";
-import path from "path";
 import { listPublishedWorks, type Work } from "@/lib/works";
+import { readMedia } from "@/lib/works-media";
 import { caseStudies } from "@/lib/content";
 import { WorksPageClient } from "@/components/site/works-page";
 
@@ -41,30 +40,15 @@ function fallbackWorks(): Work[] {
   }));
   return studies;
 }
-
-/** Read /public/images/work/<slug>/ and return sorted video URLs. */
-function readVideos(slug: string): string[] {
-  try {
-    const dir = path.join(process.cwd(), "public", "images", "work", slug);
-    return fs
-      .readdirSync(dir)
-      .filter((f) => f.endsWith(".mp4"))
-      .sort((a, b) => parseInt(a) - parseInt(b))
-      .map((f) => `/images/work/${slug}/${f}`);
-  } catch {
-    return [];
-  }
-}
-
 export default async function WorkPage() {
   const works = await listPublishedWorks().catch(() => []);
   const items = works.length > 0 ? works : fallbackWorks();
 
-  // Attach local videos to each work.
-  const withVideos: Work[] = items.map((w) => ({
+  // Attach local media (videos + images) to each work.
+  const withMedia: Work[] = items.map((w) => ({
     ...w,
-    videos: readVideos(w.slug),
+    media: readMedia(w.slug),
   }));
 
-  return <WorksPageClient works={withVideos} />;
+  return <WorksPageClient works={withMedia} />;
 }

@@ -25,52 +25,66 @@ function WorkCard({ work, delay }: { work: Work; delay: number }) {
     ? "border-black/25 text-black hover:bg-black/10"
     : "border-white/35 text-white hover:bg-white/15";
 
-  const videos = work.videos ?? [];
-  const hasVideos = videos.length > 0;
+  // All media for this work: prefer the local folder, else fall back to image_url.
+  const media = work.media && work.media.length > 0
+    ? work.media
+    : work.image_url
+      ? [{ type: "image" as const, src: work.image_url }]
+      : [];
   const [active, setActive] = useState(0);
+  const current = media[active];
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Auto-advance to next video when current one ends.
+  // Auto-advance to next item when the current video ends.
   const handleEnded = () => {
-    if (videos.length > 1) setActive((i) => (i + 1) % videos.length);
+    if (media.length > 1) setActive((i) => (i + 1) % media.length);
   };
 
-  // When active index changes, reload & play the new video.
+  // When active index changes to a video, reload & play it.
+  // For images, advance on a timer (images don't fire onEnded).
   useEffect(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    v.load();
-    v.play().catch(() => {});
-  }, [active]);
+    if (current?.type === "video") {
+      const v = videoRef.current;
+      if (v) {
+        v.load();
+        v.play().catch(() => {});
+      }
+      return;
+    }
+    if (current?.type === "image" && media.length > 1) {
+      const t = setTimeout(() => setActive((i) => (i + 1) % media.length), 3500);
+      return () => clearTimeout(t);
+    }
+  }, [active, current, media.length]);
 
   return (
     <Reveal delay={delay} className="mb-5 break-inside-avoid">
     <div className="group cursor-pointer" onClick={() => window.location.href = `/work/${work.slug}`}>
       <div className="relative overflow-hidden rounded-[1.25rem] bg-paper-2">
-        {hasVideos ? (
+        {current?.type === "video" ? (
           <video
             ref={videoRef}
-            src={videos[active]}
+            src={current.src}
             autoPlay
             muted
             playsInline
             onEnded={handleEnded}
             className="w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
           />
-        ) : work.image_url ? (
+        ) : current ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={work.image_url}
+            src={current.src}
             alt={work.title}
             loading="lazy"
             className="w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
           />
         ) : null}
 
-        {/* Dot indicators — only show when there are multiple videos */}
-        {videos.length > 1 && (
+        {/* Dot indicators — only show when there are multiple items */}
+        {media.length > 1 && (
           <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5">
-            {videos.map((_, i) => (
+            {media.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setActive(i)}

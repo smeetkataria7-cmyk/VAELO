@@ -1,21 +1,7 @@
 import { notFound } from "next/navigation";
-import fs from "fs";
-import path from "path";
 import Link from "next/link";
 import { caseStudies } from "@/lib/content";
-
-function readVideos(slug: string): string[] {
-  try {
-    const dir = path.join(process.cwd(), "public", "images", "work", slug);
-    return fs
-      .readdirSync(dir)
-      .filter((f) => f.endsWith(".mp4"))
-      .sort((a, b) => parseInt(a) - parseInt(b))
-      .map((f) => `/images/work/${slug}/${f}`);
-  } catch {
-    return [];
-  }
-}
+import { readMedia } from "@/lib/works-media";
 
 export async function generateStaticParams() {
   return caseStudies.map((c) => ({ slug: c.slug }));
@@ -30,7 +16,7 @@ export default async function WorkDetailPage({
   const brand = caseStudies.find((c) => c.slug === slug);
   if (!brand) notFound();
 
-  const videos = readVideos(slug);
+  const media = readMedia(slug);
 
   return (
     <>
@@ -61,21 +47,26 @@ export default async function WorkDetailPage({
       </section>
 
       <section className="container-vaelo pb-24">
-        {videos.length === 0 ? (
-          <p className="text-muted">No reels yet — drop MP4s in <code>/public/images/work/{slug}/</code></p>
+        {media.length === 0 ? (
+          <p className="text-muted">No media yet — drop videos or images in <code>/public/images/work/{slug}/</code></p>
         ) : (
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-5">
-            {videos.map((src, i) => (
-              <div key={src} className="overflow-hidden rounded-2xl bg-paper-2 mb-5 break-inside-avoid">
-                <video
-                  src={src}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  controls
-                  className="w-full object-cover"
-                />
+            {media.map((m) => (
+              <div key={m.src} className="overflow-hidden rounded-2xl bg-paper-2 mb-5 break-inside-avoid">
+                {m.type === "video" ? (
+                  <video
+                    src={m.src}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    controls
+                    className="w-full object-cover"
+                  />
+                ) : (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={m.src} alt={brand.brand} loading="lazy" className="w-full object-cover" />
+                )}
               </div>
             ))}
           </div>

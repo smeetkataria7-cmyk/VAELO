@@ -59,6 +59,17 @@ const caseStudiesData: CaseStudy[] = [
     industry: "Real Estate",
     accent: "#c9871a",
   },
+  {
+    slug: "tribalzone",
+    brand: "Tribalzone",
+    problem: "Offline streetwear brand with loyal community but zero e-commerce and no online sales",
+    solution: "Built Shopify store, social media, Meta ads, and e-commerce system to drive online revenue",
+    metric1: { label: "Revenue Generated", value: "₹1L" },
+    metric2: { label: "Orders", value: "150+" },
+    metric3: { label: "ROAS", value: "4X" },
+    industry: "Streetwear",
+    accent: "#1a1a2e",
+  },
 ];
 
 function CaseStudyCard({ study }: { study: CaseStudy }) {
