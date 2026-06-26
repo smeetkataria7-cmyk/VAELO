@@ -119,19 +119,19 @@ export default async function WorkDetailPage({
               {caseStudy.results.map((result: any, i: number) => (
                 <div
                   key={i}
-                  className="rounded-xl border border-line p-8"
+                  className="rounded-2xl border-2 p-10 sm:p-12"
                   style={{
-                    borderColor: `${brand.accent}30`,
-                    backgroundColor: `${brand.accent}08`,
+                    borderColor: `${brand.accent}`,
+                    backgroundColor: `${brand.accent}15`,
                   }}
                 >
                   <p
-                    className="font-display text-4xl sm:text-5xl"
+                    className="font-display text-6xl sm:text-7xl font-bold leading-tight"
                     style={{ color: brand.accent }}
                   >
                     {result.value}
                   </p>
-                  <p className="text-sm font-medium mt-4">{result.metric}</p>
+                  <p className="text-base font-semibold mt-6 text-ink">{result.metric}</p>
                 </div>
               ))}
             </div>
