@@ -6,14 +6,11 @@ import { listClientOptions } from "@/lib/clients";
 import { listProposals } from "@/lib/proposals";
 import { listProjects } from "@/lib/projects";
 import { listInvoices } from "@/lib/invoices";
-import { AdminTabs } from "@/components/site/admin-tabs";
 import { inviteUserAction, removeAdminAction, removeClientAction } from "./actions";
+import { PageHeader, SectionLabel } from "@/components/os/ui";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "People · Admin", robots: { index: false } };
-
-const field =
-  "border-b border-line bg-transparent pb-2 outline-none focus:border-accent";
+export const metadata = { title: "Team" };
 
 export default async function PeoplePage() {
   const viewer = await getViewer();
@@ -27,11 +24,10 @@ export default async function PeoplePage() {
     listInvoices().catch(() => []),
   ]);
 
-  // Merge env-configured admins (not removable) with UI-added ones (removable).
   const envSupers = new Set(superAdminEmails());
   const rows = new Map<string, { role: string; removable: boolean }>();
   adminEmails().forEach((e) =>
-    rows.set(e, { role: envSupers.has(e) ? "Master admin" : "Admin", removable: false })
+    rows.set(e, { role: envSupers.has(e) ? "Master admin" : "Admin", removable: false }),
   );
   team.forEach((m) => {
     if (!rows.has(m.email)) {
@@ -44,107 +40,113 @@ export default async function PeoplePage() {
     arr.filter((x) => (x.client_email || "").toLowerCase() === email).length;
 
   return (
-    <section className="container-vaelo py-12">
-      <AdminTabs />
-      <h1 className="text-2xl font-semibold tracking-tight">People</h1>
+    <div>
+      <PageHeader title="Team & People" subtitle="Manage admin access and client logins" />
 
-      {/* Admins */}
-      <h2 className="mt-8 text-sm uppercase tracking-wider text-muted">
-        Admins ({adminList.length})
-      </h2>
-
-      <form action={inviteUserAction} className="mt-3 flex flex-wrap items-end gap-3 rounded-2xl border border-line p-5">
+      {/* Invite */}
+      <form action={inviteUserAction} className="os-card mb-3 flex flex-wrap items-end gap-3 p-5">
         <div>
-          <label className="eyebrow block">Invite email</label>
-          <input name="email" type="email" required placeholder="person@email.com" className={`mt-2 w-72 ${field}`} />
+          <label className="os-label">Invite email</label>
+          <input name="email" type="email" required placeholder="person@email.com" className="os-field w-72" />
         </div>
         <div>
-          <label className="eyebrow block">Role</label>
-          <select name="role" defaultValue="client" className={`mt-2 ${field}`}>
+          <label className="os-label">Role</label>
+          <select name="role" defaultValue="client" className="os-field">
             <option value="client">Client (portal)</option>
             <option value="admin">Admin</option>
             <option value="super">Master admin</option>
           </select>
         </div>
-        <button className="rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-paper hover:bg-ink-soft">
-          Send invite
-        </button>
+        <button className="os-btn-primary">Send invite</button>
       </form>
-      <p className="mt-2 text-xs text-muted">
+      <p className="mb-6 text-[12px] text-muted">
         They get an email with a link to set a password and log in. Admin/Master roles also get admin access.
       </p>
 
-      <div className="mt-4 overflow-x-auto rounded-2xl border border-line">
-        <table className="w-full text-left text-sm">
-          <thead className="bg-paper-2 text-xs uppercase tracking-wider text-muted">
-            <tr>
-              <th className="px-4 py-3 font-medium">Email</th>
-              <th className="px-4 py-3 font-medium">Role</th>
-              <th className="px-4 py-3 font-medium"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {adminList.map(([email, info]) => (
-              <tr key={email} className="border-t border-line">
-                <td className="px-4 py-3 font-medium">{email}</td>
-                <td className="px-4 py-3">
-                  <span className={info.role === "Master admin" ? "text-accent" : "text-ink-soft"}>{info.role}</span>
-                </td>
-                <td className="px-4 py-3">
-                  {info.removable ? (
-                    <form action={removeAdminAction.bind(null, email)}>
-                      <button className="text-red-400 hover:underline">Remove</button>
-                    </form>
-                  ) : (
-                    <span className="text-xs text-muted">owner</span>
-                  )}
-                </td>
+      {/* Admins */}
+      <SectionLabel className="mb-3">Admins ({adminList.length})</SectionLabel>
+      <div className="os-card mb-8 overflow-hidden p-0">
+        <div className="os-scroll overflow-x-auto">
+          <table className="os-table min-w-[480px]">
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Role</th>
+                <th></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {adminList.map(([email, info]) => (
+                <tr key={email}>
+                  <td className="font-medium text-ink">{email}</td>
+                  <td>
+                    <span className={info.role === "Master admin" ? "text-[#d4af37]" : "text-ink-soft"}>
+                      {info.role}
+                    </span>
+                  </td>
+                  <td>
+                    {info.removable ? (
+                      <form action={removeAdminAction.bind(null, email)}>
+                        <button className="text-[#ef4444] hover:underline">Remove</button>
+                      </form>
+                    ) : (
+                      <span className="text-[11px] text-muted">owner</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Clients */}
-      <h2 className="mt-10 text-sm uppercase tracking-wider text-muted">
-        Clients ({clients.length})
-      </h2>
-      <div className="mt-3 overflow-x-auto rounded-2xl border border-line">
-        <table className="w-full text-left text-sm">
-          <thead className="bg-paper-2 text-xs uppercase tracking-wider text-muted">
-            <tr>
-              <th className="px-4 py-3 font-medium">Name</th>
-              <th className="px-4 py-3 font-medium">Email</th>
-              <th className="px-4 py-3 font-medium">Proposals</th>
-              <th className="px-4 py-3 font-medium">Projects</th>
-              <th className="px-4 py-3 font-medium">Invoices</th>
-              <th className="px-4 py-3 font-medium"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {clients.length === 0 ? (
-              <tr><td colSpan={6} className="px-4 py-3 text-muted">No clients yet.</td></tr>
-            ) : (
-              clients.map((c) => (
-                <tr key={c.email} className="border-t border-line">
-                  <td className="px-4 py-3 font-medium">{c.name || "—"}</td>
-                  <td className="px-4 py-3 text-muted">{c.email}</td>
-                  <td className="px-4 py-3">{countBy(proposals, c.email)}</td>
-                  <td className="px-4 py-3">{countBy(projects, c.email)}</td>
-                  <td className="px-4 py-3">{countBy(invoices, c.email)}</td>
-                  <td className="px-4 py-3">
-                    <form action={removeClientAction.bind(null, c.email)}>
-                      <button className="text-red-400 hover:underline" title="Deletes their login (records are kept)">
-                        Remove login
-                      </button>
-                    </form>
+      <SectionLabel className="mb-3">Clients ({clients.length})</SectionLabel>
+      <div className="os-card overflow-hidden p-0">
+        <div className="os-scroll overflow-x-auto">
+          <table className="os-table min-w-[680px]">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Proposals</th>
+                <th>Projects</th>
+                <th>Invoices</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {clients.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="text-muted">
+                    No clients yet.
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                clients.map((c) => (
+                  <tr key={c.email}>
+                    <td className="font-medium text-ink">{c.name || "—"}</td>
+                    <td className="text-muted">{c.email}</td>
+                    <td className="text-ink-soft">{countBy(proposals, c.email)}</td>
+                    <td className="text-ink-soft">{countBy(projects, c.email)}</td>
+                    <td className="text-ink-soft">{countBy(invoices, c.email)}</td>
+                    <td>
+                      <form action={removeClientAction.bind(null, c.email)}>
+                        <button
+                          className="text-[#ef4444] hover:underline"
+                          title="Deletes their login (records are kept)"
+                        >
+                          Remove login
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </section>
+    </div>
   );
 }

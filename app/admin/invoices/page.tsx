@@ -1,86 +1,140 @@
-import Link from "next/link";
-import { listInvoices, inr, isOverdue } from "@/lib/invoices";
+import { Plus, ExternalLink } from "lucide-react";
+import { listInvoices, inr, isOverdue, type Invoice } from "@/lib/invoices";
 import { markPaidAction, voidInvoiceAction } from "./actions";
-import { AdminTabs } from "@/components/site/admin-tabs";
+import { LinkButton, MetricCard, PageHeader, StatusBadge } from "@/components/os/ui";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Invoices · Admin", robots: { index: false } };
+export const metadata = { title: "Invoicing" };
 
-const statusColor: Record<string, string> = {
-  draft: "text-muted",
-  sent: "text-ink-soft",
-  paid: "text-green-400",
-  overdue: "text-red-400",
-  void: "text-muted line-through",
-};
+function effectiveStatus(inv: Invoice): string {
+  return isOverdue(inv) ? "overdue" : inv.status;
+}
 
 export default async function AdminInvoicesPage() {
-  const invoices = await listInvoices();
+  let invoices: Invoice[] = [];
+  try {
+    invoices = await listInvoices();
+  } catch {
+    invoices = [];
+  }
+
+  const now = new Date();
+  const outstanding = invoices
+    .filter((i) => effectiveStatus(i) === "sent" || effectiveStatus(i) === "overdue")
+    .reduce((s, i) => s + i.total, 0);
+  const overdue = invoices.filter((i) => effectiveStatus(i) === "overdue").reduce((s, i) => s + i.total, 0);
+  const paidThisMonth = invoices
+    .filter((i) => {
+      if (i.status !== "paid" || !i.paid_at) return false;
+      const d = new Date(i.paid_at);
+      return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+    })
+    .reduce((s, i) => s + i.total, 0);
 
   return (
-    <section className="container-vaelo py-12">
-      <AdminTabs />
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold tracking-tight">Invoices</h1>
-        <Link
-          href="/admin/invoices/new"
-          className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-paper hover:bg-ink-soft"
-        >
-          New invoice
-        </Link>
+    <div>
+      <PageHeader
+        title="Invoicing"
+        subtitle="INR · 18% GST · Razorpay"
+        actions={
+          <LinkButton href="/admin/invoices/new" variant="primary" icon={Plus}>
+            New invoice
+          </LinkButton>
+        }
+      />
+
+      {/* Overview cards */}
+      <div className="mb-5 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <MetricCard label="Outstanding" value={inr(outstanding)} trend={`${invoices.length} invoices`} trendTone="info" />
+        <MetricCard
+          label="Overdue"
+          value={inr(overdue)}
+          trend={`${invoices.filter((i) => effectiveStatus(i) === "overdue").length} late`}
+          trendTone="error"
+        />
+        <MetricCard
+          label="Paid This Month"
+          value={inr(paidThisMonth)}
+          trend={`${invoices.filter((i) => i.status === "paid").length} paid total`}
+          trendTone="success"
+        />
+        <MetricCard
+          label="Drafts"
+          value={invoices.filter((i) => i.status === "draft").length}
+          trend="awaiting send"
+          trendTone="warning"
+        />
       </div>
 
       {invoices.length === 0 ? (
-        <p className="mt-8 text-muted">No invoices yet.</p>
+        <div className="os-card px-6 py-16 text-center">
+          <p className="font-display text-lg text-ink">No invoices yet</p>
+          <p className="mt-1 text-[13px] text-muted">Create one — or accept a proposal to auto-draft an invoice.</p>
+        </div>
       ) : (
-        <div className="mt-8 overflow-x-auto rounded-2xl border border-line">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-paper-2 text-xs uppercase tracking-wider text-muted">
-              <tr>
-                <th className="px-4 py-3 font-medium">Number</th>
-                <th className="px-4 py-3 font-medium">Client</th>
-                <th className="px-4 py-3 font-medium">Total</th>
-                <th className="px-4 py-3 font-medium">Due</th>
-                <th className="px-4 py-3 font-medium">Status</th>
-                <th className="px-4 py-3 font-medium">By</th>
-                <th className="px-4 py-3 font-medium">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {invoices.map((inv) => {
-                const status = isOverdue(inv) ? "overdue" : inv.status;
-                return (
-                  <tr key={inv.id} className="border-t border-line">
-                    <td className="px-4 py-3 font-medium">{inv.number}</td>
-                    <td className="px-4 py-3">{inv.client_name}</td>
-                    <td className="px-4 py-3">{inr(inv.total)}</td>
-                    <td className="whitespace-nowrap px-4 py-3 text-muted">
-                      {inv.due_date ? new Date(inv.due_date).toLocaleDateString() : "—"}
-                    </td>
-                    <td className={`px-4 py-3 capitalize ${statusColor[status] ?? ""}`}>{status}</td>
-                    <td className="px-4 py-3 text-muted">{inv.created_by || "—"}</td>
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-3">
-                        <a href={`/i/${inv.public_token}`} target="_blank" className="text-accent hover:underline">View</a>
-                        {inv.status !== "paid" && inv.status !== "void" && (
-                          <>
-                            <form action={markPaidAction.bind(null, inv.id)}>
-                              <button className="text-green-400 hover:underline">Mark paid</button>
-                            </form>
-                            <form action={voidInvoiceAction.bind(null, inv.id)}>
-                              <button className="text-muted hover:text-ink">Void</button>
-                            </form>
-                          </>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+        <div className="os-card overflow-hidden p-0">
+          <div className="os-scroll overflow-x-auto">
+            <table className="w-full min-w-[760px] text-left text-[13px]">
+              <thead className="border-b border-line-strong text-[10px] uppercase tracking-[0.08em] text-muted">
+                <tr>
+                  <th className="px-5 py-3 font-semibold">Invoice #</th>
+                  <th className="px-5 py-3 font-semibold">Client</th>
+                  <th className="px-5 py-3 font-semibold">Amount (incl. GST)</th>
+                  <th className="px-5 py-3 font-semibold">Due</th>
+                  <th className="px-5 py-3 font-semibold">Status</th>
+                  <th className="px-5 py-3 text-right font-semibold">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {invoices.map((inv) => {
+                  const status = effectiveStatus(inv);
+                  return (
+                    <tr key={inv.id} className="border-b border-line-2 last:border-0 hover:bg-[#ffffff05]">
+                      <td className="px-5 py-3.5 font-medium text-ink">{inv.number}</td>
+                      <td className="px-5 py-3.5 text-ink-soft">{inv.client_name}</td>
+                      <td className="px-5 py-3.5 font-medium text-ink">{inr(inv.total)}</td>
+                      <td className="px-5 py-3.5 text-muted">
+                        {inv.due_date
+                          ? new Date(inv.due_date).toLocaleDateString("en-IN", { day: "numeric", month: "short" })
+                          : "—"}
+                      </td>
+                      <td className="px-5 py-3.5">
+                        <StatusBadge status={status} />
+                      </td>
+                      <td className="px-5 py-3.5">
+                        <div className="flex items-center justify-end gap-3 text-[12px]">
+                          <a
+                            href={`/i/${inv.public_token}`}
+                            target="_blank"
+                            className="inline-flex items-center gap-1 text-[#d4af37] hover:underline"
+                          >
+                            View <ExternalLink size={12} />
+                          </a>
+                          {inv.status !== "paid" && inv.status !== "void" ? (
+                            <>
+                              <form action={markPaidAction.bind(null, inv.id)}>
+                                <button className="text-[#10b981] hover:underline">Mark paid</button>
+                              </form>
+                              <form action={voidInvoiceAction.bind(null, inv.id)}>
+                                <button className="text-muted hover:text-ink">Void</button>
+                              </form>
+                            </>
+                          ) : null}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
-    </section>
+
+      <p className="mt-4 flex items-center gap-2 text-[12px] text-muted">
+        <span className="h-1.5 w-1.5 rounded-full bg-[#10b981]" />
+        Razorpay · UPI · Cards · Subscriptions · Auto-reminders
+      </p>
+    </div>
   );
 }

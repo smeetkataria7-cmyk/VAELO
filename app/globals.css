@@ -15,6 +15,13 @@
   --line: #262522;         /* hairline dividers */
   --accent: #ffffff;       /* white accent (monochrome, matches the brand site) */
   --accent-ink: #0a0a0a;   /* dark text on white */
+
+  /* Agency OS surface scale (used inside .os; defined here so utilities resolve) */
+  --card: #111111;         /* cards, panels */
+  --card-2: #0f0f0f;       /* frame background */
+  --input: #141414;        /* inputs, search, secondary buttons */
+  --surface-3: #1a1a1a;    /* hover / segmented active */
+  --line-strong: #2d2d2d;  /* primary borders inside the OS */
 }
 
 @theme inline {
@@ -26,6 +33,19 @@
   --color-line: var(--line);
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
+
+  /* Agency OS tokens */
+  --color-card: var(--card);
+  --color-card-2: var(--card-2);
+  --color-input: var(--input);
+  --color-surface-3: var(--surface-3);
+  --color-line-strong: var(--line-strong);
+  --color-gold: #d4af37;
+  --color-success: #10b981;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+  --color-info: #3b82f6;
+
   --font-sans: var(--font-work-sans);
   --font-mono: var(--font-geist-mono);
   --font-display: var(--font-work-sans);
@@ -344,4 +364,148 @@ html.lenis body {
 }
 .works-lights-btn:hover {
   background: rgba(255,255,255,0.08);
+}
+
+/* ================================================================
+   VAELO Agency OS — internal app theme
+   Scoped to .os so the public marketing site is untouched.
+   Dark + gold (#d4af37), Playfair Display (display) + DM Sans (UI).
+================================================================ */
+.os {
+  /* Gold accent + editorial type, scoped to the internal app */
+  --accent: #d4af37;
+  --accent-ink: #0a0a0a;
+  --paper: #0a0a0a;
+  --paper-2: #0f0f0f;
+  --ink: #f4f3ee;
+  --ink-soft: #d1d5db;
+  --muted: #9ca3af;
+  --muted-2: #6b7280;
+  --muted-3: #4b5563;
+  --muted-4: #374151;
+  --line: #2d2d2d;
+  --line-2: #222222;
+  --line-strong: #2d2d2d;
+
+  --font-display: var(--font-playfair);
+
+  color: var(--ink);
+  font-family: var(--font-dm-sans), system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Playfair for the .font-display headings inside the OS */
+.os .font-display {
+  font-family: var(--font-playfair), Georgia, "Times New Roman", serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Eyebrow / uppercase labels inside the OS */
+.os .eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+/* Card hover lift */
+.os-card {
+  background: var(--card);
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+.os-card-hover:hover {
+  border-color: rgba(212, 175, 55, 0.5);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Gold-gradient avatar / logo chip */
+.os-gold-grad {
+  background: linear-gradient(135deg, #b8960c, #9a7b0a);
+}
+
+/* Skeleton shimmer */
+@keyframes os-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.os-skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.08) 37%,
+    rgba(255, 255, 255, 0.04) 63%
+  );
+  background-size: 200% 100%;
+  animation: os-shimmer 1.4s ease infinite;
+  border-radius: 6px;
+}
+
+/* Form controls inside the OS */
+.os-field {
+  width: 100%;
+  min-height: 2.25rem;
+  border-radius: 8px;
+  border: 1px solid var(--line-strong);
+  background: var(--input);
+  padding: 0.5rem 0.75rem;
+  font-size: 13px;
+  color: var(--ink);
+  transition: border-color 0.15s ease;
+}
+.os-field::placeholder { color: var(--muted-2); }
+.os-field:focus { outline: none; border-color: #d4af37; }
+
+.os-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.os-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2.25rem;
+  border-radius: 8px;
+  background: #d4af37;
+  padding: 0 1rem;
+  font-size: 13px;
+  font-weight: 500;
+  color: #0a0a0a;
+  transition: background 0.15s ease;
+}
+.os-btn-primary:hover { background: #e0bd4a; }
+
+/* Generic OS data table */
+.os-table { width: 100%; text-align: left; font-size: 13px; border-collapse: collapse; }
+.os-table thead th {
+  padding: 0.7rem 1.25rem;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line-strong);
+}
+.os-table tbody td { padding: 0.85rem 1.25rem; }
+.os-table tbody tr { border-bottom: 1px solid var(--line-2); }
+.os-table tbody tr:last-child { border-bottom: 0; }
+.os-table tbody tr:hover { background: rgba(255, 255, 255, 0.03); }
+
+/* Thin gold scrollbar inside scrollable OS panels (Kanban etc.) */
+.os-scroll::-webkit-scrollbar { height: 8px; width: 8px; }
+.os-scroll::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 8px;
+}
+.os-scroll::-webkit-scrollbar-track { background: transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  .os-skeleton { animation: none; }
 }

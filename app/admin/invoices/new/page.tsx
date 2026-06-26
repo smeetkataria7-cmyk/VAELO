@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
 import { createInvoiceAction } from "../actions";
 import { ClientEmailInput } from "@/components/site/client-email-input";
 
@@ -13,26 +14,44 @@ export default function NewInvoicePage() {
   const total = Math.round(subtotal * (1 + (Number(gst) || 0) / 100));
 
   return (
-    <section className="container-vaelo max-w-2xl py-12">
-      <Link href="/admin/invoices" className="text-sm text-muted hover:text-ink">← Invoices</Link>
-      <h1 className="mt-4 text-2xl font-semibold tracking-tight">New invoice</h1>
+    <div className="mx-auto max-w-2xl">
+      <Link href="/admin/invoices" className="inline-flex items-center gap-1 text-[12px] text-muted hover:text-ink">
+        <ChevronLeft size={14} /> Invoices
+      </Link>
+      <h1 className="mt-4 font-display text-[28px] text-ink">New invoice</h1>
 
-      <form action={createInvoiceAction} className="mt-8 space-y-6">
-        <div className="grid gap-6 sm:grid-cols-2">
-          <Field label="Client name" name="client_name" placeholder="Brand name" required />
+      <form action={createInvoiceAction} className="os-card mt-6 space-y-5 p-6">
+        <div className="grid gap-5 sm:grid-cols-2">
           <div>
-            <label className="eyebrow block">Client email</label>
-            <ClientEmailInput className="mt-3 w-full border-b border-line bg-transparent pb-2 outline-none focus:border-accent" />
+            <label className="os-label">Client name *</label>
+            <input name="client_name" required placeholder="Brand name" className="os-field" />
+          </div>
+          <div>
+            <label className="os-label">Client email</label>
+            <ClientEmailInput required className="os-field" />
           </div>
         </div>
-        <div className="grid gap-6 sm:grid-cols-2">
-          <Field label="Due date" name="due_date" type="date" />
-          <Field label="GST %" name="gst_percent" type="number" placeholder="18" value={gst} onChange={setGst} />
+        <div className="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label className="os-label">Due date</label>
+            <input name="due_date" type="date" className="os-field" />
+          </div>
+          <div>
+            <label className="os-label">GST %</label>
+            <input
+              name="gst_percent"
+              type="number"
+              placeholder="18"
+              value={gst}
+              onChange={(e) => setGst(e.target.value)}
+              className="os-field"
+            />
+          </div>
         </div>
 
         <div>
-          <label className="eyebrow block">Line items</label>
-          <div className="mt-3 space-y-3">
+          <label className="os-label">Line items</label>
+          <div className="mt-2 space-y-2">
             {rows.map((r, i) => (
               <div key={i} className="flex gap-3">
                 <input
@@ -40,10 +59,10 @@ export default function NewInvoicePage() {
                   value={r.desc}
                   onChange={(e) => setRows(rows.map((x, j) => (j === i ? { ...x, desc: e.target.value } : x)))}
                   placeholder="Description"
-                  className="flex-1 border-b border-line bg-transparent pb-2 outline-none focus:border-accent"
+                  className="os-field flex-1"
                 />
-                <div className="flex w-40 items-center gap-1 border-b border-line pb-2 focus-within:border-accent">
-                  <span className="text-muted">₹</span>
+                <div className="relative w-36">
+                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[13px] text-muted">₹</span>
                   <input
                     name="itemAmount"
                     type="text"
@@ -53,7 +72,7 @@ export default function NewInvoicePage() {
                       setRows(rows.map((x, j) => (j === i ? { ...x, amount: e.target.value.replace(/[^\d.]/g, "") } : x)))
                     }
                     placeholder="0"
-                    className="w-full bg-transparent text-right outline-none"
+                    className="os-field w-full pl-7 text-right"
                   />
                 </div>
               </div>
@@ -62,68 +81,29 @@ export default function NewInvoicePage() {
           <button
             type="button"
             onClick={() => setRows([...rows, { desc: "", amount: "" }])}
-            className="mt-3 text-sm text-accent hover:underline"
+            className="mt-3 text-[13px] text-[#d4af37] hover:underline"
           >
             + Add item
           </button>
-          <div className="mt-4 space-y-1 text-right text-sm">
+          <div className="mt-4 space-y-1 text-right text-[13px]">
             <p className="text-muted">Subtotal: ₹{subtotal.toLocaleString("en-IN")}</p>
-            <p className="text-lg font-medium">Total: ₹{total.toLocaleString("en-IN")}</p>
+            {gst && <p className="text-muted">GST ({gst}%): ₹{(total - subtotal).toLocaleString("en-IN")}</p>}
+            <p className="text-[15px] font-semibold text-ink">Total: ₹{total.toLocaleString("en-IN")}</p>
           </div>
         </div>
 
         <div>
-          <label htmlFor="notes" className="eyebrow block">Notes (optional)</label>
+          <label className="os-label">Notes (optional)</label>
           <textarea
-            id="notes"
             name="notes"
             rows={3}
             placeholder="Payment terms, UPI / bank details…"
-            className="mt-3 w-full border-b border-line bg-transparent pb-2 outline-none focus:border-accent"
+            className="os-field"
           />
         </div>
 
-        <button
-          type="submit"
-          className="inline-flex h-12 items-center justify-center rounded-full bg-ink px-6 text-sm font-medium text-paper hover:bg-ink-soft"
-        >
-          Create invoice
-        </button>
+        <button type="submit" className="os-btn-primary">Create invoice</button>
       </form>
-    </section>
-  );
-}
-
-function Field({
-  label,
-  name,
-  type = "text",
-  placeholder,
-  required,
-  value,
-  onChange,
-}: {
-  label: string;
-  name: string;
-  type?: string;
-  placeholder?: string;
-  required?: boolean;
-  value?: string;
-  onChange?: (v: string) => void;
-}) {
-  return (
-    <div>
-      <label htmlFor={name} className="eyebrow block">{label}{required && <span className="text-accent"> *</span>}</label>
-      <input
-        id={name}
-        name={name}
-        type={type}
-        placeholder={placeholder}
-        required={required}
-        value={value}
-        onChange={onChange ? (e) => onChange(e.target.value) : undefined}
-        className="mt-3 w-full border-b border-line bg-transparent pb-2 outline-none focus:border-accent"
-      />
     </div>
   );
 }

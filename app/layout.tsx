@@ -1,9 +1,16 @@
 import type { Metadata } from "next";
-import { Azeret_Mono, Geist_Mono, Work_Sans } from "next/font/google";
+import {
+  Azeret_Mono,
+  DM_Sans,
+  Geist_Mono,
+  Playfair_Display,
+  Work_Sans,
+} from "next/font/google";
 import "./globals.css";
 import { SiteNav } from "@/components/site/nav";
 import { SiteFooter } from "@/components/site/footer";
 import { SmoothScroll } from "@/components/site/smooth-scroll";
+import { MarketingOnly } from "@/components/site/marketing-only";
 
 const workSans = Work_Sans({
   variable: "--font-work-sans",
@@ -20,6 +27,20 @@ const azeretMono = Azeret_Mono({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+// Agency OS (internal app) type pairing — applied via the .os theme class.
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -39,14 +60,18 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${workSans.variable} ${geistMono.variable} ${azeretMono.variable} h-full antialiased`}
+      className={`${workSans.variable} ${geistMono.variable} ${azeretMono.variable} ${playfair.variable} ${dmSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-paper text-ink">
         <SmoothScroll />
         <div className="bg-ambient" aria-hidden />
-        <SiteNav />
+        <MarketingOnly>
+          <SiteNav />
+        </MarketingOnly>
         <main className="flex-1">{children}</main>
-        <SiteFooter />
+        <MarketingOnly>
+          <SiteFooter />
+        </MarketingOnly>
       </body>
     </html>
   );
