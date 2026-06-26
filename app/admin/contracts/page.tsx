@@ -1,86 +1,91 @@
 import { listContracts } from "@/lib/contracts";
-import { AdminTabs } from "@/components/site/admin-tabs";
 import { ClientEmailInput } from "@/components/site/client-email-input";
 import { createContractAction, deleteContractAction } from "./actions";
+import { PageHeader, SectionLabel, StatusBadge } from "@/components/os/ui";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Contracts · Admin", robots: { index: false } };
-
-const statusColor: Record<string, string> = {
-  sent: "text-accent",
-  signed: "text-green-400",
-};
+export const metadata = { title: "Contracts" };
 
 export default async function AdminContractsPage() {
   const contracts = await listContracts();
 
   return (
-    <section className="container-vaelo py-12">
-      <AdminTabs />
-      <h1 className="text-2xl font-semibold tracking-tight">Contracts</h1>
+    <div>
+      <PageHeader title="Contracts" subtitle="Send agreements clients can sign by typing their name" />
 
-      <form action={createContractAction} className="mt-6 space-y-4 rounded-2xl border border-line p-6">
+      <form action={createContractAction} className="os-card mb-5 space-y-4 p-6">
+        <SectionLabel>New contract</SectionLabel>
         <div className="grid gap-4 sm:grid-cols-3">
-          <input name="title" required placeholder="Contract title *" className="border-b border-line bg-transparent pb-2 outline-none focus:border-accent" />
-          <input name="client_name" required placeholder="Client name *" className="border-b border-line bg-transparent pb-2 outline-none focus:border-accent" />
-          <ClientEmailInput placeholder="Client email" className="border-b border-line bg-transparent pb-2 outline-none focus:border-accent" />
+          <input name="title" required placeholder="Contract title *" className="os-field" />
+          <input name="client_name" required placeholder="Client name *" className="os-field" />
+          <ClientEmailInput placeholder="Client email" className="os-field" />
         </div>
         <div className="grid gap-6 sm:grid-cols-2">
           <div>
-            <label className="eyebrow block">Upload contract PDF</label>
-            <input name="file" type="file" accept="application/pdf" className="mt-2 block text-sm text-ink-soft" />
+            <label className="os-label">Upload contract PDF</label>
+            <input name="file" type="file" accept="application/pdf" className="block w-full text-[13px] text-ink-soft" />
           </div>
           <div>
-            <label className="eyebrow block">…or paste a link (Drive, etc.)</label>
-            <input name="file_link" type="url" placeholder="https://drive.google.com/…" className="mt-2 w-full border-b border-line bg-transparent pb-2 outline-none focus:border-accent" />
+            <label className="os-label">…or paste a link (Drive, etc.)</label>
+            <input name="file_link" type="url" placeholder="https://drive.google.com/…" className="os-field" />
           </div>
         </div>
-        <textarea name="body" rows={3} placeholder="Optional terms / note shown above the PDF…" className="w-full border-b border-line bg-transparent pb-2 outline-none focus:border-accent" />
-        <button className="rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-paper hover:bg-ink-soft">
-          Create &amp; get sign link
-        </button>
-        <p className="text-xs text-muted">Upload your PDF (or a link). The client opens it and signs by typing their name.</p>
+        <textarea name="body" rows={3} placeholder="Optional terms / note shown above the PDF…" className="os-field" />
+        <button className="os-btn-primary">Create &amp; get sign link</button>
+        <p className="text-[12px] text-muted">
+          Upload your PDF (or a link). The client opens it and signs by typing their name.
+        </p>
       </form>
 
       {contracts.length === 0 ? (
-        <p className="mt-8 text-muted">No contracts yet.</p>
+        <div className="os-card px-6 py-16 text-center">
+          <p className="font-display text-lg text-ink">No contracts yet</p>
+          <p className="mt-1 text-[13px] text-muted">Create one to get a shareable sign link.</p>
+        </div>
       ) : (
-        <div className="mt-8 overflow-x-auto rounded-2xl border border-line">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-paper-2 text-xs uppercase tracking-wider text-muted">
-              <tr>
-                <th className="px-4 py-3 font-medium">Date</th>
-                <th className="px-4 py-3 font-medium">Title</th>
-                <th className="px-4 py-3 font-medium">Client</th>
-                <th className="px-4 py-3 font-medium">Status</th>
-                <th className="px-4 py-3 font-medium">By</th>
-                <th className="px-4 py-3 font-medium">Link</th>
-              </tr>
-            </thead>
-            <tbody>
-              {contracts.map((c) => (
-                <tr key={c.id} className="border-t border-line">
-                  <td className="whitespace-nowrap px-4 py-3 text-muted">{new Date(c.created_at).toLocaleDateString()}</td>
-                  <td className="px-4 py-3 font-medium">{c.title}</td>
-                  <td className="px-4 py-3">{c.client_name}</td>
-                  <td className={`px-4 py-3 capitalize ${statusColor[c.status] ?? ""}`}>
-                    {c.status === "signed" ? `Signed by ${c.signer_name}` : "Waiting to sign"}
-                  </td>
-                  <td className="px-4 py-3 text-muted">{c.created_by || "—"}</td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-4">
-                      <a href={`/c/${c.public_token}`} target="_blank" className="text-accent hover:underline">View</a>
-                      <form action={deleteContractAction.bind(null, c.id)}>
-                        <button className="text-red-400 hover:underline">Delete</button>
-                      </form>
-                    </div>
-                  </td>
+        <div className="os-card overflow-hidden p-0">
+          <div className="os-scroll overflow-x-auto">
+            <table className="os-table min-w-[720px]">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Title</th>
+                  <th>Client</th>
+                  <th>Status</th>
+                  <th>By</th>
+                  <th></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {contracts.map((c) => (
+                  <tr key={c.id}>
+                    <td className="whitespace-nowrap text-muted">{new Date(c.created_at).toLocaleDateString()}</td>
+                    <td className="font-medium text-ink">{c.title}</td>
+                    <td className="text-ink-soft">{c.client_name}</td>
+                    <td>
+                      <StatusBadge
+                        status={c.status === "signed" ? "signed" : "sent"}
+                        label={c.status === "signed" ? `Signed · ${c.signer_name}` : "Awaiting sign"}
+                      />
+                    </td>
+                    <td className="text-muted">{c.created_by || "—"}</td>
+                    <td>
+                      <div className="flex items-center gap-4">
+                        <a href={`/c/${c.public_token}`} target="_blank" className="text-[#d4af37] hover:underline">
+                          View
+                        </a>
+                        <form action={deleteContractAction.bind(null, c.id)}>
+                          <button className="text-[#ef4444] hover:underline">Delete</button>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
-    </section>
+    </div>
   );
 }

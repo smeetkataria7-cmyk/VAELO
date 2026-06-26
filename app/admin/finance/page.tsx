@@ -2,14 +2,12 @@ import { redirect } from "next/navigation";
 import { getViewer } from "@/lib/client-access";
 import { listFinanceEntries, computeMonthly } from "@/lib/finance";
 import { listInvoices, inr } from "@/lib/invoices";
-import { AdminTabs } from "@/components/site/admin-tabs";
 import { LineChart } from "@/components/site/line-chart";
 import { addFinanceAction, deleteFinanceAction } from "./actions";
+import { Card, MetricCard, PageHeader, SectionLabel } from "@/components/os/ui";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Finance · Admin", robots: { index: false } };
-
-const field = "border-b border-line bg-transparent pb-2 outline-none focus:border-accent";
+export const metadata = { title: "Finance" };
 
 export default async function FinancePage() {
   const viewer = await getViewer();
@@ -20,108 +18,106 @@ export default async function FinancePage() {
     listInvoices().catch(() => []),
   ]);
 
-  // Paid invoices count as income, on the date they were paid.
   const invoiceIncomes = invoices
     .filter((i) => i.status === "paid")
     .map((i) => ({ amount: i.total, date: i.paid_at || i.created_at }));
 
   const { points, totals } = computeMonthly(entries, invoiceIncomes, 12);
 
-  const cards = [
-    { label: "Income (12 mo)", value: inr(totals.income), tone: "text-green-400" },
-    { label: "Expenses (12 mo)", value: inr(totals.expense), tone: "text-red-400" },
-    { label: "Net profit / loss", value: inr(totals.net), tone: totals.net >= 0 ? "text-green-400" : "text-red-400" },
-  ];
-
   return (
-    <section className="container-vaelo py-12">
-      <AdminTabs />
-      <h1 className="text-2xl font-semibold tracking-tight">Finance — profit &amp; loss</h1>
-      <p className="mt-2 text-sm text-muted">
-        Paid invoices count as income automatically. Add your subscriptions, APIs, and
-        retainers below — tick <em>recurring</em> for monthly items.
-      </p>
+    <div>
+      <PageHeader
+        title="Finance"
+        subtitle="Profit & loss · paid invoices count as income automatically"
+      />
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-3">
-        {cards.map((c) => (
-          <div key={c.label} className="glass rounded-xl p-7">
-            <p className={`font-display text-4xl ${c.tone}`}>{c.value}</p>
-            <p className="mt-2 text-xs uppercase tracking-wider text-muted">{c.label}</p>
-          </div>
-        ))}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <MetricCard label="Income (12 mo)" value={inr(totals.income)} trend="paid + recorded" trendTone="success" />
+        <MetricCard label="Expenses (12 mo)" value={inr(totals.expense)} trend="recurring + one-off" trendTone="error" />
+        <MetricCard
+          label="Net P / L"
+          value={inr(totals.net)}
+          trend={totals.net >= 0 ? "in profit" : "in loss"}
+          trendTone={totals.net >= 0 ? "success" : "error"}
+        />
       </div>
 
-      <div className="glass mt-4 rounded-2xl p-6">
-        <p className="eyebrow mb-4">Monthly net (last 12 months)</p>
+      <Card className="mt-5">
+        <SectionLabel className="mb-4">Monthly net (last 12 months)</SectionLabel>
         <LineChart points={points.map((p) => ({ label: p.label, net: p.net }))} />
-      </div>
+      </Card>
 
       {/* Add entry */}
-      <form action={addFinanceAction} className="mt-8 space-y-4 rounded-2xl border border-line p-6">
+      <form action={addFinanceAction} className="os-card mt-5 space-y-4 p-6">
+        <SectionLabel>Add an entry</SectionLabel>
         <div className="grid gap-4 sm:grid-cols-4">
-          <input name="label" required placeholder="Label * (e.g. OpenAI API)" className={`sm:col-span-2 ${field}`} />
-          <input name="amount" required placeholder="Amount ₹ *" className={field} />
-          <select name="kind" defaultValue="expense" className={field}>
+          <input name="label" required placeholder="Label * (e.g. OpenAI API)" className="os-field sm:col-span-2" />
+          <input name="amount" required placeholder="Amount ₹ *" className="os-field" />
+          <select name="kind" defaultValue="expense" className="os-field">
             <option value="expense">Expense</option>
             <option value="income">Income</option>
           </select>
         </div>
-        <div className="grid items-center gap-4 sm:grid-cols-4">
-          <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" name="recurring" className="accent-[var(--accent)]" />
+        <div className="grid items-end gap-4 sm:grid-cols-4">
+          <label className="flex h-9 items-center gap-2 text-[13px] text-ink-soft">
+            <input type="checkbox" name="recurring" className="accent-[#d4af37]" />
             Recurring (monthly)
           </label>
-          <input name="months" type="number" min={1} defaultValue={6} placeholder="Months" className={field} />
+          <input name="months" type="number" min={1} defaultValue={6} placeholder="Months" className="os-field" />
           <div>
-            <label className="eyebrow block">Start month</label>
-            <input name="start_date" type="date" className={`mt-1 w-full ${field}`} />
+            <label className="os-label">Start month</label>
+            <input name="start_date" type="date" className="os-field" />
           </div>
-          <input name="notes" placeholder="Notes" className={field} />
+          <input name="notes" placeholder="Notes" className="os-field" />
         </div>
-        <button className="rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-paper hover:bg-ink-soft">
-          Add entry
-        </button>
-        <p className="text-xs text-muted">
-          Recurring example: a client on retainer paying ₹50,000/mo for 6 months — add once as
-          income, recurring, 6 months. It counts every month automatically.
+        <button className="os-btn-primary">Add entry</button>
+        <p className="text-[12px] text-muted">
+          Recurring example: a client on retainer paying ₹50,000/mo for 6 months — add once as income, recurring,
+          6 months. It counts every month automatically.
         </p>
       </form>
 
       {/* Entries */}
-      <div className="mt-8 overflow-x-auto rounded-2xl border border-line">
-        <table className="w-full text-left text-sm">
-          <thead className="bg-paper-2 text-xs uppercase tracking-wider text-muted">
-            <tr>
-              <th className="px-4 py-3 font-medium">Label</th>
-              <th className="px-4 py-3 font-medium">Type</th>
-              <th className="px-4 py-3 font-medium">Amount</th>
-              <th className="px-4 py-3 font-medium">Recurring</th>
-              <th className="px-4 py-3 font-medium">Start</th>
-              <th className="px-4 py-3 font-medium"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {entries.length === 0 ? (
-              <tr><td colSpan={6} className="px-4 py-3 text-muted">No entries yet. Paid invoices still count as income above.</td></tr>
-            ) : (
-              entries.map((e) => (
-                <tr key={e.id} className="border-t border-line">
-                  <td className="px-4 py-3 font-medium">{e.label}</td>
-                  <td className={`px-4 py-3 capitalize ${e.kind === "income" ? "text-green-400" : "text-red-400"}`}>{e.kind}</td>
-                  <td className="px-4 py-3">{inr(e.amount)}</td>
-                  <td className="px-4 py-3 text-muted">{e.recurring ? `${e.months} mo` : "one-off"}</td>
-                  <td className="whitespace-nowrap px-4 py-3 text-muted">{new Date(e.start_date).toLocaleDateString()}</td>
-                  <td className="px-4 py-3">
-                    <form action={deleteFinanceAction.bind(null, e.id)}>
-                      <button className="text-red-400 hover:underline">Delete</button>
-                    </form>
+      <div className="os-card mt-5 overflow-hidden p-0">
+        <div className="os-scroll overflow-x-auto">
+          <table className="os-table min-w-[680px]">
+            <thead>
+              <tr>
+                <th>Label</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Recurring</th>
+                <th>Start</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {entries.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="text-muted">
+                    No entries yet. Paid invoices still count as income above.
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                entries.map((e) => (
+                  <tr key={e.id}>
+                    <td className="font-medium text-ink">{e.label}</td>
+                    <td className={e.kind === "income" ? "text-[#10b981]" : "text-[#ef4444]"}>{e.kind}</td>
+                    <td className="text-ink-soft">{inr(e.amount)}</td>
+                    <td className="text-muted">{e.recurring ? `${e.months} mo` : "one-off"}</td>
+                    <td className="whitespace-nowrap text-muted">{new Date(e.start_date).toLocaleDateString()}</td>
+                    <td>
+                      <form action={deleteFinanceAction.bind(null, e.id)}>
+                        <button className="text-[#ef4444] hover:underline">Delete</button>
+                      </form>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </section>
+    </div>
   );
 }

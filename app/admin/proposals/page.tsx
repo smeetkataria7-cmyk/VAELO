@@ -1,86 +1,138 @@
 import Link from "next/link";
-import { listProposals, inr } from "@/lib/proposals";
+import { ExternalLink, FolderPlus, Plus, ReceiptText, Sparkles } from "lucide-react";
+import { listProposals, inr, type Proposal } from "@/lib/proposals";
 import { convertToProjectAction } from "./actions";
 import { createInvoiceFromProposalAction } from "../invoices/actions";
-import { AdminTabs } from "@/components/site/admin-tabs";
+import { LinkButton, PageHeader, StatusBadge } from "@/components/os/ui";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Proposals · Admin", robots: { index: false } };
+export const metadata = { title: "Proposals" };
 
-const statusColor: Record<string, string> = {
-  draft: "text-muted",
-  sent: "text-ink-soft",
-  viewed: "text-accent",
-  accepted: "text-green-400",
-  declined: "text-red-400",
-};
+const PIPELINE: { key: Proposal["status"]; label: string }[] = [
+  { key: "draft", label: "Draft" },
+  { key: "sent", label: "Sent" },
+  { key: "viewed", label: "Viewed" },
+  { key: "accepted", label: "Accepted" },
+  { key: "declined", label: "Declined" },
+];
 
 export default async function AdminProposalsPage() {
-  const proposals = await listProposals();
+  let proposals: Proposal[] = [];
+  try {
+    proposals = await listProposals();
+  } catch {
+    proposals = [];
+  }
+
+  const count = (s: Proposal["status"]) => proposals.filter((p) => p.status === s).length;
 
   return (
-    <section className="container-vaelo py-12">
-      <AdminTabs />
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold tracking-tight">Proposals</h1>
-        <Link
-          href="/admin/proposals/new"
-          className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-paper hover:bg-ink-soft"
-        >
-          New proposal
-        </Link>
+    <div>
+      <PageHeader
+        title="Proposals"
+        subtitle={`${proposals.length} total · ${count("accepted")} accepted`}
+        actions={
+          <LinkButton href="/admin/proposals/new" variant="primary" icon={Plus}>
+            New proposal
+          </LinkButton>
+        }
+      />
+
+      {/* Pipeline strip */}
+      <div className="mb-5 grid grid-cols-2 gap-3 sm:grid-cols-5">
+        {PIPELINE.map((stage) => (
+          <div key={stage.key} className="os-card p-4">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-muted">{stage.label}</p>
+            <p className="mt-1.5 font-display text-[24px] text-ink">{count(stage.key)}</p>
+          </div>
+        ))}
       </div>
 
       {proposals.length === 0 ? (
-        <p className="mt-8 text-muted">No proposals yet.</p>
+        <div className="os-card px-6 py-16 text-center">
+          <p className="font-display text-lg text-ink">No proposals yet</p>
+          <p className="mt-1 text-[13px] text-muted">Create one to send a hosted, trackable proposal.</p>
+        </div>
       ) : (
-        <div className="mt-8 overflow-x-auto rounded-2xl border border-line">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-paper-2 text-xs uppercase tracking-wider text-muted">
-              <tr>
-                <th className="px-4 py-3 font-medium">Date</th>
-                <th className="px-4 py-3 font-medium">Title</th>
-                <th className="px-4 py-3 font-medium">Client</th>
-                <th className="px-4 py-3 font-medium">Total</th>
-                <th className="px-4 py-3 font-medium">Status</th>
-                <th className="px-4 py-3 font-medium">By</th>
-                <th className="px-4 py-3 font-medium">Link</th>
-              </tr>
-            </thead>
-            <tbody>
-              {proposals.map((p) => (
-                <tr key={p.id} className="border-t border-line">
-                  <td className="whitespace-nowrap px-4 py-3 text-muted">
-                    {new Date(p.created_at).toLocaleDateString()}
-                  </td>
-                  <td className="px-4 py-3 font-medium">{p.title}</td>
-                  <td className="px-4 py-3">{p.client_name}</td>
-                  <td className="px-4 py-3">{inr(p.total)}</td>
-                  <td className={`px-4 py-3 capitalize ${statusColor[p.status] ?? ""}`}>{p.status}</td>
-                  <td className="px-4 py-3 text-muted">{p.created_by || "—"}</td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-3">
-                      <a href={`/p/${p.public_token}`} target="_blank" className="text-accent hover:underline">
-                        View →
-                      </a>
-                      {p.status === "accepted" && (
-                        <>
-                          <form action={convertToProjectAction.bind(null, p.id)}>
-                            <button className="text-ink-soft hover:text-ink">+ Project</button>
-                          </form>
-                          <form action={createInvoiceFromProposalAction.bind(null, p.id)}>
-                            <button className="text-ink-soft hover:text-ink">+ Invoice</button>
-                          </form>
-                        </>
-                      )}
-                    </div>
-                  </td>
+        <div className="os-card overflow-hidden p-0">
+          <div className="os-scroll overflow-x-auto">
+            <table className="w-full min-w-[760px] text-left text-[13px]">
+              <thead className="border-b border-line-strong text-[10px] uppercase tracking-[0.08em] text-muted">
+                <tr>
+                  <th className="px-5 py-3 font-semibold">Client / Title</th>
+                  <th className="px-5 py-3 font-semibold">Amount</th>
+                  <th className="px-5 py-3 font-semibold">Status</th>
+                  <th className="px-5 py-3 font-semibold">Sent</th>
+                  <th className="px-5 py-3 font-semibold">Viewed</th>
+                  <th className="px-5 py-3 text-right font-semibold">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {proposals.map((p) => (
+                  <tr key={p.id} className="border-b border-line-2 last:border-0 hover:bg-[#ffffff05]">
+                    <td className="px-5 py-3.5">
+                      <div className="font-medium text-ink">{p.client_name}</div>
+                      <div className="text-[12px] text-muted">{p.title}</div>
+                    </td>
+                    <td className="px-5 py-3.5 font-medium text-ink">{inr(p.total)}</td>
+                    <td className="px-5 py-3.5">
+                      <StatusBadge status={p.status} />
+                    </td>
+                    <td className="px-5 py-3.5 text-muted">
+                      {new Date(p.created_at).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
+                    </td>
+                    <td className="px-5 py-3.5 text-muted">
+                      {p.viewed_at
+                        ? new Date(p.viewed_at).toLocaleDateString("en-IN", { day: "numeric", month: "short" })
+                        : "—"}
+                    </td>
+                    <td className="px-5 py-3.5">
+                      <div className="flex items-center justify-end gap-3 text-[12px]">
+                        <a
+                          href={`/p/${p.public_token}`}
+                          target="_blank"
+                          className="inline-flex items-center gap-1 text-[#d4af37] hover:underline"
+                        >
+                          View <ExternalLink size={12} />
+                        </a>
+                        {p.status === "accepted" ? (
+                          <>
+                            <form action={convertToProjectAction.bind(null, p.id)}>
+                              <button className="inline-flex items-center gap-1 text-muted hover:text-ink">
+                                <FolderPlus size={13} /> Project
+                              </button>
+                            </form>
+                            <form action={createInvoiceFromProposalAction.bind(null, p.id)}>
+                              <button className="inline-flex items-center gap-1 text-muted hover:text-ink">
+                                <ReceiptText size={13} /> Invoice
+                              </button>
+                            </form>
+                          </>
+                        ) : null}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
-    </section>
+
+      {/* AI draft callout */}
+      <Link
+        href="/admin/proposals/new"
+        className="mt-5 flex items-center gap-3 rounded-[12px] border border-[#d4af3740] bg-[#d4af370d] p-4 transition-colors hover:bg-[#d4af3714]"
+      >
+        <div className="flex h-9 w-9 items-center justify-center rounded-[8px] bg-[#d4af371f] text-[#d4af37]">
+          <Sparkles size={17} />
+        </div>
+        <div className="min-w-0">
+          <p className="text-[13px] font-medium text-ink">AI Proposal Draft</p>
+          <p className="text-[12px] text-muted">Generated from Brand Brain · scope + pricing pre-filled</p>
+        </div>
+        <span className="ml-auto text-[12px] font-medium text-[#d4af37]">Review draft →</span>
+      </Link>
+    </div>
   );
 }

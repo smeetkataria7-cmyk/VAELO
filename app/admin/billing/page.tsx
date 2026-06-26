@@ -2,10 +2,10 @@ import { redirect } from "next/navigation";
 import { getViewer } from "@/lib/client-access";
 import { clientBilling } from "@/lib/billing";
 import { inr } from "@/lib/invoices";
-import { AdminTabs } from "@/components/site/admin-tabs";
+import { MetricCard, PageHeader } from "@/components/os/ui";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Billing · Admin", robots: { index: false } };
+export const metadata = { title: "Billing" };
 
 export default async function BillingPage() {
   const viewer = await getViewer();
@@ -13,57 +13,57 @@ export default async function BillingPage() {
 
   const { rows, totals } = await clientBilling();
 
-  const cards = [
-    { label: "Total billed", value: inr(totals.billed) },
-    { label: "Collected", value: inr(totals.paid), tone: "text-green-400" },
-    { label: "Outstanding", value: inr(totals.outstanding), tone: "text-red-400" },
-  ];
-
   return (
-    <section className="container-vaelo py-12">
-      <AdminTabs />
-      <h1 className="text-2xl font-semibold tracking-tight">Billing analytics</h1>
+    <div>
+      <PageHeader title="Billing Analytics" subtitle="Revenue collected across all clients" />
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-3">
-        {cards.map((c) => (
-          <div key={c.label} className="glass rounded-xl p-7">
-            <p className={`font-display text-4xl ${c.tone ?? ""}`}>{c.value}</p>
-            <p className="mt-2 text-xs uppercase tracking-wider text-muted">{c.label}</p>
-          </div>
-        ))}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <MetricCard label="Total billed" value={inr(totals.billed)} trend="all invoices" trendTone="neutral" />
+        <MetricCard label="Collected" value={inr(totals.paid)} trend="paid invoices" trendTone="success" />
+        <MetricCard
+          label="Outstanding"
+          value={inr(totals.outstanding)}
+          trend={totals.outstanding > 0 ? "unpaid" : "all clear"}
+          trendTone={totals.outstanding > 0 ? "error" : "success"}
+        />
       </div>
 
-      <h2 className="mt-10 text-sm uppercase tracking-wider text-muted">By client</h2>
-      <div className="mt-3 overflow-x-auto rounded-2xl border border-line">
-        <table className="w-full text-left text-sm">
-          <thead className="bg-paper-2 text-xs uppercase tracking-wider text-muted">
-            <tr>
-              <th className="px-4 py-3 font-medium">Client</th>
-              <th className="px-4 py-3 font-medium">Email</th>
-              <th className="px-4 py-3 font-medium">Invoices</th>
-              <th className="px-4 py-3 font-medium">Billed</th>
-              <th className="px-4 py-3 font-medium">Collected</th>
-              <th className="px-4 py-3 font-medium">Outstanding</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.length === 0 ? (
-              <tr><td colSpan={6} className="px-4 py-3 text-muted">No invoices yet.</td></tr>
-            ) : (
-              rows.map((r) => (
-                <tr key={r.email} className="border-t border-line">
-                  <td className="px-4 py-3 font-medium">{r.name || "—"}</td>
-                  <td className="px-4 py-3 text-muted">{r.email}</td>
-                  <td className="px-4 py-3">{r.count}</td>
-                  <td className="px-4 py-3">{inr(r.billed)}</td>
-                  <td className="px-4 py-3 text-green-400">{inr(r.paid)}</td>
-                  <td className="px-4 py-3 text-red-400">{r.outstanding > 0 ? inr(r.outstanding) : "—"}</td>
+      <div className="os-card mt-6 overflow-hidden p-0">
+        <div className="os-scroll overflow-x-auto">
+          <table className="os-table min-w-[680px]">
+            <thead>
+              <tr>
+                <th>Client</th>
+                <th>Email</th>
+                <th>Invoices</th>
+                <th>Billed</th>
+                <th>Collected</th>
+                <th>Outstanding</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="text-muted">No invoices yet.</td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                rows.map((r) => (
+                  <tr key={r.email}>
+                    <td className="font-medium text-ink">{r.name || "—"}</td>
+                    <td className="text-muted">{r.email}</td>
+                    <td className="text-ink-soft">{r.count}</td>
+                    <td className="text-ink-soft">{inr(r.billed)}</td>
+                    <td className="text-[#10b981]">{inr(r.paid)}</td>
+                    <td className={r.outstanding > 0 ? "text-[#ef4444]" : "text-muted"}>
+                      {r.outstanding > 0 ? inr(r.outstanding) : "—"}
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </section>
+    </div>
   );
 }

@@ -65,6 +65,24 @@ export async function saveLead(input: NewLead): Promise<Lead> {
   return lead;
 }
 
+/** Valid lead pipeline statuses (mirrors the CRM Kanban columns). */
+export const LEAD_STATUSES = [
+  "new",
+  "contacted",
+  "proposal_sent",
+  "won",
+  "lost",
+] as const;
+export type LeadStatus = (typeof LEAD_STATUSES)[number];
+
+/** Update a lead's pipeline status. No-op without Supabase configured. */
+export async function setLeadStatus(id: string, status: LeadStatus): Promise<void> {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return;
+  const { error } = await supabase.from("leads").update({ status }).eq("id", id);
+  if (error) throw new Error(`Supabase update failed: ${error.message}`);
+}
+
 /** Fetch all leads (newest first) for the admin view. */
 export async function getLeads(): Promise<Lead[]> {
   const supabase = getSupabaseAdmin();
